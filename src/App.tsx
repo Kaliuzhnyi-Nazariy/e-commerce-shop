@@ -1,21 +1,30 @@
-import { useEffect } from "react";
+import React, { HtmlHTMLAttributes, useEffect } from "react";
 import "./App.css";
 import { useAppDispatch } from "./hooks/useDispatch";
 import {
   addProduct,
+  deleteProduct,
   getAllProducts,
   getCategories,
   getExactCategory,
 } from "./axios/operations";
 import { useSelector } from "react-redux";
-import { selectCategories } from "./axios/selectors";
+import { selectAllProducts, selectCategories } from "./axios/selectors";
 
 import { useParams } from "react-router-dom";
+
+export interface IGoodProduct {
+  title: string;
+  price: number;
+}
 
 function App() {
   const dispatch = useAppDispatch();
 
   const categories = useSelector(selectCategories);
+  const products = useSelector(selectAllProducts);
+
+  console.log(products);
   useEffect(() => {
     dispatch(getCategories());
     dispatch(
@@ -38,8 +47,17 @@ function App() {
     dispatch(getExactCategory(e.currentTarget.textContent));
   };
 
+  const handleAllProduct = () => {
+    dispatch(getAllProducts());
+  };
+
+  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+    dispatch(deleteProduct(e.currentTarget.closest("div").id));
+  };
+
   return (
     <>
+      <button onClick={handleAllProduct}>All products</button>
       {categories.map((i) => (
         <button
           key={i}
@@ -55,6 +73,13 @@ function App() {
           {i}
         </button>
       ))}
+      {products.map((i) => {
+        return (
+          <div id={i.id}>
+            <p>{i.title}</p>;<button onClick={handleDelete}>Delete</button>
+          </div>
+        );
+      })}
     </>
   );
 }

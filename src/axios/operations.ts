@@ -95,3 +95,18 @@ export const getExactCategory = createAsyncThunk<
     return <ICategory>[];
   }
 });
+
+export const deleteProduct = createAsyncThunk<
+  void,
+  { id: number },
+  { rejectValue: string }
+>("product/deleteProduct", async (id): Promise<void> => {
+  try {
+    const res = await axios.delete(`${productBaseURL}/${id}`);
+    console.log(`${productBaseURL}/${id}`);
+    console.log(res.data);
+    return res.data;
+  } catch (error) {
+    console.log("Error in axios/deleteProduct: ", error);
+  }
+});

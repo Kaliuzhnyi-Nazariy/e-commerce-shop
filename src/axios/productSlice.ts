@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addProduct, getAllProducts, getExactCategory } from "./operations";
+import {
+  addProduct,
+  deleteProduct,
+  getAllProducts,
+  getExactCategory,
+} from "./operations";
 
 interface IProductInitialState {
   product: Array<object>;
@@ -41,6 +46,10 @@ const productSlice = createSlice({
       })
       .addCase(getExactCategory.fulfilled, (state, action) => {
         state.product = action.payload;
+      })
+      .addCase(deleteProduct.fulfilled, (state, action) => {
+        console.log(action);
+        state.product.filter((product) => product.id !== action.payload.id);
       });
   },
 });
