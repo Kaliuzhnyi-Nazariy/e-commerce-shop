@@ -1,4 +1,4 @@
-import React, { HtmlHTMLAttributes, useEffect } from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { useAppDispatch } from "./hooks/useDispatch";
 import {
@@ -11,12 +11,10 @@ import {
 import { useSelector } from "react-redux";
 import { selectAllProducts, selectCategories } from "./axios/selectors";
 
-import { useParams } from "react-router-dom";
-
-export interface IGoodProduct {
-  title: string;
-  price: number;
-}
+// export interface IGoodProduct {
+//   title: string;
+//   price: number;
+// }
 
 function App() {
   const dispatch = useAppDispatch();
@@ -24,27 +22,27 @@ function App() {
   const categories = useSelector(selectCategories);
   const products = useSelector(selectAllProducts);
 
-  console.log(products);
+  // console.log(products);
   useEffect(() => {
     dispatch(getCategories());
-    dispatch(
-      addProduct({
-        title: "nameProduct",
-        price: 15,
-        description: "lorem ipsum lalalal",
-        image:
-          "https://cdn.pixabay.com/photo/2017/06/15/13/06/retro-2405404_1280.jpg",
-        category: "jewelry",
-      })
-    );
+    // dispatch(
+    //   addProduct({
+    //     title: "nameProduct",
+    //     price: 15,
+    //     description: "lorem ipsum lalalal",
+    //     image:
+    //       "https://cdn.pixabay.com/photo/2017/06/15/13/06/retro-2405404_1280.jpg",
+    //     category: "jewelry",
+    //   })
+    // );
     dispatch(getAllProducts());
   }, [dispatch]);
 
-  console.log(categories);
+  // console.log(categories);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(e.currentTarget.textContent);
-    dispatch(getExactCategory(e.currentTarget.textContent));
+    // console.log(e.currentTarget.textContent);
+    dispatch(getExactCategory(e.target.textContent));
   };
 
   const handleAllProduct = () => {
@@ -52,7 +50,7 @@ function App() {
   };
 
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
-    dispatch(deleteProduct(e.currentTarget.closest("div").id));
+    dispatch(deleteProduct(Number(e.currentTarget.closest("div")?.id)));
   };
 
   return (
@@ -75,7 +73,7 @@ function App() {
       ))}
       {products.map((i) => {
         return (
-          <div id={i.id}>
+          <div key={i.id} id={i.id}>
             <p>{i.title}</p>;<button onClick={handleDelete}>Delete</button>
           </div>
         );

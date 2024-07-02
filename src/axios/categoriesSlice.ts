@@ -26,7 +26,6 @@ const categoriesSlice = createSlice({
     builder
       .addCase(getCategories.pending, handlePending)
       .addCase(getCategories.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.categories = action.payload;
         state.isLoading = false;
       })

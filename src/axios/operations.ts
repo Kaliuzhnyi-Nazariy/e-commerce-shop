@@ -3,11 +3,13 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const productBaseURL = "https://fakestoreapi.com/products";
 
-export type AllProducts = object[];
+export interface IProduct extends INewProduct {
+  id: number;
+}
+
+export type AllProducts = IProduct[];
 
 export type Categories = string[];
-
-export type ICategory = Array<object>;
 
 export interface INewProduct {
   title: string;
@@ -47,66 +49,43 @@ export const getCategories = createAsyncThunk<
 });
 
 export const addProduct = createAsyncThunk<
+  IProduct,
   INewProduct,
-  {
-    title: string;
-    price: number;
-    description: string;
-    image: string;
-    category: string;
-  },
   { rejectValue: string }
->(
-  "product/createProduct",
-  async ({
-    title,
-    price,
-    description,
-    image,
-    category,
-  }): Promise<INewProduct> => {
-    try {
-      const res = await axios.post(`${productBaseURL}`, {
-        title,
-        price,
-        description,
-        image,
-        category,
-      });
-      return res.data;
-    } catch (error) {
-      console.log("Error in axios/addProduct: ", error);
-      return <INewProduct>{};
-    }
+>("product/createProduct", async (newProduct): Promise<IProduct> => {
+  try {
+    const res = await axios.post(`${productBaseURL}`, newProduct);
+    return res.data;
+  } catch (error) {
+    console.log("Error in axios/addProduct: ", error);
+    return <IProduct>{};
   }
-);
+});
 
 export const getExactCategory = createAsyncThunk<
-  ICategory,
+  AllProducts,
   { category: string },
   { rejectValue: string }
->("category/getExactCategory", async (category): Promise<ICategory> => {
+>("category/getExactCategory", async (category): Promise<AllProducts> => {
   try {
     const res = await axios.get(`${productBaseURL}/category/${category}`);
-    console.log(res.data);
     return res.data;
   } catch (error) {
     console.log("Error in axios/getExactCategory: ", error);
-    return <ICategory>[];
+    return <AllProducts>[];
   }
 });
 
 export const deleteProduct = createAsyncThunk<
-  void,
-  { id: number },
+  IProduct,
+  number,
   { rejectValue: string }
->("product/deleteProduct", async (id): Promise<void> => {
+>("product/deleteProduct", async (id): Promise<IProduct> => {
   try {
     const res = await axios.delete(`${productBaseURL}/${id}`);
-    console.log(`${productBaseURL}/${id}`);
-    console.log(res.data);
     return res.data;
   } catch (error) {
     console.log("Error in axios/deleteProduct: ", error);
+    throw error;
   }
 });
