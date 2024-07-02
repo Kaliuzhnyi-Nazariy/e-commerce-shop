@@ -10,6 +10,7 @@ import {
 } from "./axios/operations";
 import { useSelector } from "react-redux";
 import { selectAllProducts, selectCategories } from "./axios/selectors";
+import { createUser } from "./axios/authOperations";
 
 // export interface IGoodProduct {
 //   title: string;
@@ -41,8 +42,7 @@ function App() {
   // console.log(categories);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    // console.log(e.currentTarget.textContent);
-    dispatch(getExactCategory(e.target.textContent));
+    dispatch(getExactCategory(e.currentTarget.textContent));
   };
 
   const handleAllProduct = () => {
@@ -53,8 +53,31 @@ function App() {
     dispatch(deleteProduct(Number(e.currentTarget.closest("div")?.id)));
   };
 
+  const regUser = () => [
+    dispatch(
+      createUser({
+        email: "lala@mail.com",
+        username: "lalashka",
+        password: "123123po",
+        name: { firstname: "andrey", lastname: "Kinkov" },
+        address: {
+          city: "zabrze",
+          street: "sw.Wawrzynca",
+          number: 47,
+          zipcode: "48-807",
+          geolocation: {
+            lat: "-3077.25741",
+            long: "456",
+          },
+        },
+        phone: "047-596-78-15",
+      })
+    ),
+  ];
+
   return (
     <>
+      <button onClick={regUser}>register</button>
       <button onClick={handleAllProduct}>All products</button>
       {categories.map((i) => (
         <button

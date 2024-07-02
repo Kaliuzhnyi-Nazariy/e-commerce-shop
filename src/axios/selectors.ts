@@ -5,3 +5,5 @@ export const selectCategories = (state: { categories: { categories: [] } }) =>
 export const selectAllProducts = (state: {
   products: { product: Array<IProduct> };
 }) => state.products.product;
+export const selectUser = (state: { user: { user: object } }) =>
+  state.user.user;

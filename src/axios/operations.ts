@@ -64,7 +64,7 @@ export const addProduct = createAsyncThunk<
 
 export const getExactCategory = createAsyncThunk<
   AllProducts,
-  { category: string },
+  string,
   { rejectValue: string }
 >("category/getExactCategory", async (category): Promise<AllProducts> => {
   try {
