@@ -3,6 +3,7 @@ import {
   INewProduct,
   addProduct,
   deleteProduct,
+  deleteProductFromCart,
   getAllProducts,
   getExactCategory,
   getOneProduct,
@@ -65,6 +66,9 @@ const productSlice = createSlice({
         state.isLoading = false;
         state.error = "";
       })
+      .addCase("cleanCartProducts", (state) => {
+        state.cartProduct = [];
+      })
       .addCase(addProduct.pending, handlePending)
       .addCase(
         addProduct.fulfilled,
@@ -87,7 +91,14 @@ const productSlice = createSlice({
         (state, action: PayloadAction<IProduct[]>) => {
           state.product = action.payload;
         }
-      );
+      )
+      .addCase(deleteProductFromCart.fulfilled, (state, action) => {
+        const deleteIndex = state.cartProduct.filter(
+          (product) => product.id === action.payload.id
+        );
+        console.log(deleteIndex);
+        state.cartProduct.slice(deleteIndex, 1);
+      });
   },
 });
 

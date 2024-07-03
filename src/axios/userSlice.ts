@@ -22,6 +22,10 @@ const userSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.token = action.payload;
+      })
+      .addCase("user/logOut", (state) => {
+        state.user = initialState.user;
+        state.token = initialState.token;
       });
   },
 });

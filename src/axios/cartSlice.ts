@@ -1,12 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ICart, getUserCart } from "./cartOperations";
+import { ICart, deleteUserCart, getUserCart } from "./cartOperations";
 
 interface IProductCartState {
   cartProducts: ICart[];
+  isLoading: boolean;
+  error: string;
 }
 
 const initialState: IProductCartState = {
   cartProducts: [],
+  isLoading: false,
+  error: "",
 };
 
 const cartSlice = createSlice({
@@ -14,12 +18,23 @@ const cartSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers(builder) {
-    builder.addCase(getUserCart.fulfilled, (state, action) => {
-      console.log(action.payload);
-      const [userCart] = action.payload;
-      state.cartProducts = userCart.products;
-      //   state.cartProducts = action.payload;
-    });
+    builder
+      .addCase(getUserCart.fulfilled, (state, action) => {
+        console.log(action);
+        const [userCart] = action.payload;
+        state.cartProducts = userCart.products;
+        //   state.cartProducts = action.payload;
+      })
+      .addCase(getUserCart.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = `${action.error.message}`;
+      })
+      .addCase(deleteUserCart.fulfilled, (state, action) => {
+        const deleteIndex = state.cartProducts.filter(
+          (product) => product.id !== action.payload.id
+        );
+        state.cartProducts.splice(deleteIndex, 1);
+      });
   },
 });
 

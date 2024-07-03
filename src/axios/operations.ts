@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { baseCartURL } from "./cartOperations";
 
 const productBaseURL = "https://fakestoreapi.com/products";
 
@@ -30,7 +31,7 @@ export const getAllProducts = createAsyncThunk<
     return res.data;
   } catch (error) {
     console.log("Error in axios/getAllProducts: ", error);
-    return <AllProducts>[];
+    throw error;
   }
 });
 
@@ -44,7 +45,7 @@ export const getCategories = createAsyncThunk<
     return res.data;
   } catch (error) {
     console.log("Error in axios/getCategories: ", error);
-    return [];
+    throw error;
   }
 });
 
@@ -58,7 +59,7 @@ export const addProduct = createAsyncThunk<
     return res.data;
   } catch (error) {
     console.log("Error in axios/addProduct: ", error);
-    return <IProduct>{};
+    throw error;
   }
 });
 
@@ -69,9 +70,25 @@ export const getOneProduct = createAsyncThunk<
 >("products/getOne", async (id): Promise<IProduct> => {
   try {
     const res = await axios.get(`${productBaseURL}/${id}`);
+    console.log(res.data);
     return res.data;
   } catch (error) {
     console.log("Error in axios/getOneProduct: ", error);
+    throw error;
+  }
+});
+
+export const deleteProductFromCart = createAsyncThunk<
+  IProduct,
+  number,
+  { rejectValue: string }
+>("products/deleteCartProduct", async (id): Promise<IProduct> => {
+  try {
+    const res = await axios.delete(`${baseCartURL}/${id}`);
+    return res.data;
+  } catch (error) {
+    console.log("Error in axios/deleteProductFromCart: ", error);
+    throw error;
   }
 });
 

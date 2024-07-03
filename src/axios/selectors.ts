@@ -1,4 +1,4 @@
-import { ICart } from "./cartOperations";
+// import { ICart } from "./cartOperations";
 import { IProduct } from "./productSlice";
 
 export const selectCategories = (state: { categories: { categories: [] } }) =>
@@ -11,6 +11,5 @@ export const selectCartProducts = (state: {
 }) => state.products.cartProduct;
 export const selectUser = (state: { user: { user: object } }) =>
   state.user.user;
-export const selectProducts = (state: {
-  cart: { cartProducts: Array<ICart> };
-}) => state.cart.cartProducts;
+export const selectProducts = (state: { cart: { cartProducts: [] } }) =>
+  state.cart.cartProducts;
