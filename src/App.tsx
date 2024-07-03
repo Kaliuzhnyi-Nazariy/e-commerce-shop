@@ -7,10 +7,18 @@ import {
   getAllProducts,
   getCategories,
   getExactCategory,
+  getOneProduct,
 } from "./axios/operations";
 import { useSelector } from "react-redux";
-import { selectAllProducts, selectCategories } from "./axios/selectors";
-import { createUser } from "./axios/authOperations";
+import {
+  selectAllProducts,
+  selectCartProducts,
+  selectCategories,
+  selectProducts,
+  selectUser,
+} from "./axios/selectors";
+import { createUser, loginUser } from "./axios/authOperations";
+import { getUserCart } from "./axios/cartOperations";
 
 // export interface IGoodProduct {
 //   title: string;
@@ -22,6 +30,7 @@ function App() {
 
   const categories = useSelector(selectCategories);
   const products = useSelector(selectAllProducts);
+  const user = useSelector(selectUser);
 
   // console.log(products);
   useEffect(() => {
@@ -75,10 +84,48 @@ function App() {
     ),
   ];
 
+  const logUser = () => {
+    dispatch(loginUser({ username: "mor_2314", password: "83r5^_" }));
+    // dispatch(loginUser({ username: "lalashka", password: "123123po" }));
+  };
+
+  const cardSelects = useSelector(selectProducts);
+  // const handleUserCart = () => {
+  //   dispatch(getUserCart(user.id));
+  //   console.log(cardSelects.map((i) => i.productId));
+  //   cardSelects.map((i) => dispatch(getOneProduct(i.productId)));
+
+  //   // for (let i = 0; i < cardSelects.length; i++) {
+  //   //   console.log(i + 1);
+  //   // cardSelects.map((i) => {
+  //   //   let arrayOfProductId = [];
+  //   //   for (let i = 0; cardSelects.length; i++) {
+  //   //     console.log("i inside sec for cycle: ", i);
+  //   //   }
+  //   //   dispatch(getOneProduct(i.productId));
+  //   // });
+  //   // }
+  //   // console.log(products);
+  // };
+  const handleUserCart = () => {
+    dispatch(getUserCart(user.id));
+    cardSelects.forEach((i) => dispatch(getOneProduct(i.productId)));
+  };
+
+  // console.log(cardSelects.map((cardItem) => cardItem.productId));
+
+  const handleCardProducts = () => {};
+
+  const cartProducts = useSelector(selectCartProducts);
+  // console.log(cartProducts);
+
   return (
     <>
       <button onClick={regUser}>register</button>
+      <button onClick={logUser}>login</button>
       <button onClick={handleAllProduct}>All products</button>
+      <button onClick={handleUserCart}>Get Cart</button>
+      <button onClick={handleCardProducts}>Get One card product</button>
       {categories.map((i) => (
         <button
           key={i}
@@ -94,13 +141,22 @@ function App() {
           {i}
         </button>
       ))}
-      {products.map((i) => {
-        return (
-          <div key={i.id} id={i.id}>
-            <p>{i.title}</p>;<button onClick={handleDelete}>Delete</button>
+      {products.length > 1 ? (
+        products.map((i) => {
+          return (
+            <div key={i.id} id={i.id}>
+              <p>{i.title}</p>;<button onClick={handleDelete}>Delete</button>
+            </div>
+          );
+        })
+      ) : (
+        <>
+          <div key={products.id} id={products.id}>
+            <p>{products.title}</p>;
+            <button onClick={handleDelete}>Delete</button>
           </div>
-        );
-      })}
+        </>
+      )}
     </>
   );
 }

@@ -22,6 +22,11 @@ export interface IUser extends INewUser {
   id: number;
 }
 
+export interface ILoginUser {
+  username: string;
+  password: string;
+}
+
 export const createUser = createAsyncThunk<
   IUser,
   INewUser,
@@ -31,7 +36,25 @@ export const createUser = createAsyncThunk<
     const res = await axios.post(`${baseUserURL}`, newUser);
     return res.data;
   } catch (error) {
-    console.log("Error in axios/deleteProduct: ", error);
+    console.log("Error in axios/autOperations/crateUser: ", error);
+    throw error;
+  }
+});
+
+export const loginUser = createAsyncThunk<
+  string,
+  ILoginUser,
+  { rejectValue: string }
+>("user/loginUser", async (userInfo): Promise<string> => {
+  try {
+    const res = await axios.post(
+      `https://fakestoreapi.com/auth/login`,
+      userInfo
+    );
+    console.log(res.data);
+    return res.data.token;
+  } catch (error) {
+    console.log("Error in axios/autOperations/loginUser: ", error);
     throw error;
   }
 });

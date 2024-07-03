@@ -62,6 +62,19 @@ export const addProduct = createAsyncThunk<
   }
 });
 
+export const getOneProduct = createAsyncThunk<
+  IProduct,
+  number,
+  { rejectValue: string }
+>("products/getOne", async (id): Promise<IProduct> => {
+  try {
+    const res = await axios.get(`${productBaseURL}/${id}`);
+    return res.data;
+  } catch (error) {
+    console.log("Error in axios/getOneProduct: ", error);
+  }
+});
+
 export const getExactCategory = createAsyncThunk<
   AllProducts,
   string,

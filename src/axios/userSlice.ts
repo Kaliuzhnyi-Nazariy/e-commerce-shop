@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createUser } from "./authOperations";
+import { createUser, loginUser } from "./authOperations";
 
 export interface IInitialState {
   user: object;
@@ -16,9 +16,13 @@ const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers(builder) {
-    builder.addCase(createUser.fulfilled, (state, action) => {
-      state.user = { ...action.payload, ...action.meta.arg };
-    });
+    builder
+      .addCase(createUser.fulfilled, (state, action) => {
+        state.user = { ...action.payload, ...action.meta.arg };
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.token = action.payload;
+      });
   },
 });
 

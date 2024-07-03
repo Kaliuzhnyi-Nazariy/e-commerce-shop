@@ -5,6 +5,7 @@ import {
   deleteProduct,
   getAllProducts,
   getExactCategory,
+  getOneProduct,
 } from "./operations";
 
 export interface IProduct extends INewProduct {
@@ -15,12 +16,14 @@ interface IProductInitialState {
   product: Array<IProduct>;
   isLoading: boolean;
   error: string;
+  cartProduct: Array<IProduct>;
 }
 
 const initialState: IProductInitialState = {
   product: [],
   isLoading: false,
   error: "",
+  cartProduct: [],
 };
 
 const handlePending = (state: { isLoading: boolean; error: string }) => {
@@ -55,6 +58,12 @@ const productSlice = createSlice({
       .addCase(getAllProducts.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload || "Error";
+      })
+      .addCase(getOneProduct.fulfilled, (state, action) => {
+        console.log(action.payload);
+        state.cartProduct.push(action.payload);
+        state.isLoading = false;
+        state.error = "";
       })
       .addCase(addProduct.pending, handlePending)
       .addCase(
