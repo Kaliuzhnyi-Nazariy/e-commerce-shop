@@ -95,7 +95,7 @@ const productSlice = createSlice({
       .addCase(deleteProductFromCart.fulfilled, (state, action) => {
         console.log(action);
         const deleteIndex = state.cartProduct.findIndex(
-          (product) => product.id === action.payload.id || action.meta.arg
+          (product) => product.id === action.payload.id
         );
         state.cartProduct.splice(deleteIndex, 1);
       });

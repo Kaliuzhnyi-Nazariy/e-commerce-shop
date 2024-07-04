@@ -15,6 +15,17 @@ export interface ICart {
   products: ICartProduct[];
 }
 
+export interface IProductsInCart {
+  productId: number;
+  quantity: number;
+}
+
+export interface INewCartProduct {
+  userId: number;
+  date: Date;
+  products: Array<IProductsInCart>;
+}
+
 export const getUserCart = createAsyncThunk<
   ICart,
   number,
@@ -30,11 +41,23 @@ export const getUserCart = createAsyncThunk<
   }
 });
 
+export const addUserCart = createAsyncThunk<void>(
+  "cart/addCart",
+  async (): Promise<void> => {
+    try {
+      return;
+    } catch (error) {
+      console.log("Error in axios/cartOperations/addUserCart: ", error);
+      throw error;
+    }
+  }
+);
+
 export const deleteUserCart = createAsyncThunk<
-  object,
+  { id: number },
   number,
   { rejectValue: string }
->("cart/deleteCart", async (id): Promise<object> => {
+>("cart/deleteCart", async (id): Promise<{ id: number }> => {
   try {
     const res = await axios.delete(`${baseCartURL}/${id}`);
     // const res = await axios.delete(`${baseCartURL}/6`);

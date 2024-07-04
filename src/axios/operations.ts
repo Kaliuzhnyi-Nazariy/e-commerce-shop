@@ -79,10 +79,10 @@ export const getOneProduct = createAsyncThunk<
 });
 
 export const deleteProductFromCart = createAsyncThunk<
-  object,
+  { id: number },
   number,
   { rejectValue: string }
->("products/deleteCartProduct", async (id): Promise<object> => {
+>("products/deleteCartProduct", async (id): Promise<{ id: number }> => {
   try {
     const res = await axios.delete(`${baseCartURL}/${id}`);
     if (res.data !== null) {
