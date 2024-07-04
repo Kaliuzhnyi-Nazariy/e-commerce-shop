@@ -58,3 +58,27 @@ export const loginUser = createAsyncThunk<
     throw error;
   }
 });
+
+export const extraLoginUser = createAsyncThunk<
+  IUser,
+  ILoginUser,
+  { rejectValue: string }
+>("user/extraLoginUser", async (userInfo): Promise<IUser> => {
+  try {
+    const res = await axios.get(`${baseUserURL}`);
+    const userLogInfo = res.data.find(
+      (user: { username: string }) => user.username === userInfo.username
+    );
+    console.log(userLogInfo);
+    return userLogInfo;
+    // console.log(
+    //   res.data.map((user) => {
+    //     if (user.username !== userInfo.username) return res.data[user];
+    //   })
+    // );
+    // return res.data.token;
+  } catch (error) {
+    console.log("Error in axios/autOperations/loginUser: ", error);
+    throw error;
+  }
+});

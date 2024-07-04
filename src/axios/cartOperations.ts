@@ -22,6 +22,7 @@ export const getUserCart = createAsyncThunk<
 >("cart/getAll", async (id): Promise<ICart> => {
   try {
     const res = await axios.get(`${baseCartURL}/user/${id}`);
+    console.log(res.data);
     return res.data;
   } catch (error) {
     console.log("Error in axios/cartOperations/getUserCart: ", error);
@@ -30,14 +31,19 @@ export const getUserCart = createAsyncThunk<
 });
 
 export const deleteUserCart = createAsyncThunk<
-  void,
+  object,
   number,
   { rejectValue: string }
->("cart/deleteCart", async (id): Promise<void> => {
+>("cart/deleteCart", async (id): Promise<object> => {
   try {
     const res = await axios.delete(`${baseCartURL}/${id}`);
-    console.log(res.data);
-    return res.data;
+    // const res = await axios.delete(`${baseCartURL}/6`);
+    console.log(res);
+    if (res.data !== null) {
+      return res.data;
+    } else {
+      return { id };
+    }
   } catch (error) {
     console.log("Error in axios/cartOperations/deleteUserCart: ", error);
     throw error;

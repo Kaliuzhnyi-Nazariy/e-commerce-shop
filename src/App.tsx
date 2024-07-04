@@ -4,6 +4,7 @@ import { useAppDispatch } from "./hooks/useDispatch";
 import {
   addProduct,
   deleteProduct,
+  deleteProductFromCart,
   getAllProducts,
   getCategories,
   getExactCategory,
@@ -17,7 +18,7 @@ import {
   selectProducts,
   selectUser,
 } from "./axios/selectors";
-import { createUser, loginUser } from "./axios/authOperations";
+import { createUser, extraLoginUser, loginUser } from "./axios/authOperations";
 import { deleteUserCart, getUserCart } from "./axios/cartOperations";
 
 // export interface IGoodProduct {
@@ -48,8 +49,7 @@ function App() {
     //   })
     // );
     dispatch(getAllProducts());
-    console.log(cartProducts);
-  }, [dispatch, cartProducts]);
+  }, [dispatch]);
 
   // console.log(categories);
 
@@ -58,8 +58,8 @@ function App() {
   };
 
   const handleAllProduct = () => {
+    dispatch({ type: "cleanCartProducts" });
     dispatch(getAllProducts());
-    dispatch({ type: "cleanCartProducs" });
   };
 
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -69,21 +69,21 @@ function App() {
   const regUser = () => [
     dispatch(
       createUser({
-        email: "lala@mail.com",
-        username: "lalashka",
-        password: "123123po",
-        name: { firstname: "andrey", lastname: "Kinkov" },
+        email: "don@gmail.com",
+        username: "donero",
+        password: "ewedon",
+        name: { firstname: "don", lastname: "romer" },
         address: {
-          city: "zabrze",
-          street: "sw.Wawrzynca",
-          number: 47,
-          zipcode: "48-807",
+          city: "San Antonio",
+          street: "Hunters Creek Dr",
+          number: 6454,
+          zipcode: "34-1734",
           geolocation: {
-            lat: "-3077.25741",
-            long: "456",
+            lat: "50.3467",
+            long: "-20.1310",
           },
         },
-        phone: "047-596-78-15",
+        phone: "1-765-789-6734",
       })
     ),
   ];
@@ -91,7 +91,11 @@ function App() {
   const logUser = () => {
     // dispatch(loginUser({ username: "mor_2314", password: "83r5^_" }));
     // dispatch(loginUser({ username: "johnd", password: "m38rmF$" }));
-    dispatch(loginUser({ username: "snyder", password: "f238&@*$" }));
+    dispatch(loginUser({ username: "donero", password: "ewedon" }));
+    dispatch(extraLoginUser({ username: "donero", password: "ewedon" }));
+    const userId = user.id;
+    // console.log(userId);
+    dispatch(getUserCart(userId));
     // dispatch(loginUser({ username: "lalashka", password: "123123po" }));
   };
 
@@ -112,19 +116,18 @@ function App() {
   //   // }
   //   // console.log(products);
   // };
-  const handleUserCart = () => {
+  const handleUserCart = async () => {
     if (Object.keys(user).length === 0) return;
+    // if (cardSelects.length === 0) return;
     dispatch(getUserCart(user.id));
-    console.log(cardSelects);
-    console.log(cardSelects.forEach((i) => i));
     cardSelects.forEach((i) => dispatch(getOneProduct(i.productId)));
-    console.log(cardSelects);
+    // console.log(cardSelects);
   };
 
   // console.log(cardSelects.map((cardItem) => cardItem.productId));
 
   const handleCardProducts = () => {
-    console.log(cardSelects);
+    // console.log(cardSelects);
     dispatch(getOneProduct(5));
     dispatch(getOneProduct(3));
   };
@@ -148,9 +151,12 @@ function App() {
   //   console.log(cardSelects[i]);
   // }
   const handleDeleteFromCart = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(e.target.closest("div").id);
-    dispatch(deleteUserCart(e.target.closest("div").id));
+    console.log(Number(e.target.closest("div").id));
+    dispatch(deleteUserCart(Number(e.target.closest("div").id)));
+    dispatch(deleteProductFromCart(Number(e.target.closest("div").id)));
   };
+
+  const sortedCartProducts = [...cartProducts].sort((a, b) => a.id - b.id);
 
   return (
     <>
@@ -175,10 +181,10 @@ function App() {
           {i}
         </button>
       ))}
-      {cartProducts.length === 0 ? (
+      {sortedCartProducts.length === 0 ? (
         products.map((i) => {
           return (
-            <div key={i.id} id={i.id}>
+            <div key={i.id} id={i.id.toString()}>
               <p>{i.title}</p>
               <button onClick={handleDelete}>Delete</button>
             </div>
@@ -186,33 +192,44 @@ function App() {
         })
       ) : (
         <>
-          {cartProducts.map((i) => {
-            const selectedProduct = cardSelects.find(
-              (item) => item.productId === i.id
-            );
-            return (
-              <div
-                key={i.id}
-                id={i.id}
-                style={{
-                  border: "2px solid lightgray",
-                  borderRadius: "16px",
-                  margin: "16px 0",
-                  padding: "16px",
-                }}
-              >
-                <img
-                  src={i.image}
-                  style={{ maxWidth: "150px", maxHeight: "150px" }}
-                  alt={i.title}
-                />
-                <p>{i.title}</p>
-                <span>Quantity: {selectedProduct?.quantity ?? "no info"}</span>
-                <span>Price: {i.price}</span>
-                <button onClick={handleDeleteFromCart}>delete</button>
-              </div>
-            );
-          })}
+          {cardSelects ? (
+            <>
+              {sortedCartProducts.map((i) => {
+                const selectedProduct = cardSelects.find(
+                  (item) => item.productId === i.id
+                );
+                // console.log(
+                //   cardSelects.find((item) => item.productId === i.id)
+                // );
+                return (
+                  <div
+                    key={i.id}
+                    id={i.id.toString()}
+                    style={{
+                      border: "2px solid lightgray",
+                      borderRadius: "16px",
+                      margin: "16px 0",
+                      padding: "16px",
+                    }}
+                  >
+                    <img
+                      src={i.image}
+                      style={{ maxWidth: "150px", maxHeight: "150px" }}
+                      alt={i.title}
+                    />
+                    <p>{i.title}</p>
+                    <span>
+                      Quantity: {selectedProduct?.quantity ?? "no info"}
+                    </span>
+                    <span>Price: {i.price}</span>
+                    <button onClick={handleDeleteFromCart}>delete</button>
+                  </div>
+                );
+              })}
+            </>
+          ) : (
+            <></>
+          )}
           <button onClick={handleCleanCart}>Clear</button>
         </>
       )}

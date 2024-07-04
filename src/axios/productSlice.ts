@@ -61,7 +61,7 @@ const productSlice = createSlice({
         state.error = action.payload || "Error";
       })
       .addCase(getOneProduct.fulfilled, (state, action) => {
-        console.log(action.payload);
+        // console.log(action.payload);
         state.cartProduct.push(action.payload);
         state.isLoading = false;
         state.error = "";
@@ -93,11 +93,11 @@ const productSlice = createSlice({
         }
       )
       .addCase(deleteProductFromCart.fulfilled, (state, action) => {
-        const deleteIndex = state.cartProduct.filter(
-          (product) => product.id === action.payload.id
+        console.log(action);
+        const deleteIndex = state.cartProduct.findIndex(
+          (product) => product.id === action.payload.id || action.meta.arg
         );
-        console.log(deleteIndex);
-        state.cartProduct.slice(deleteIndex, 1);
+        state.cartProduct.splice(deleteIndex, 1);
       });
   },
 });

@@ -30,8 +30,8 @@ const cartSlice = createSlice({
         state.error = `${action.error.message}`;
       })
       .addCase(deleteUserCart.fulfilled, (state, action) => {
-        const deleteIndex = state.cartProducts.filter(
-          (product) => product.id !== action.payload.id
+        const deleteIndex = state.cartProducts.findIndex(
+          (product) => product.id !== action?.payload.id || action.meta.arg
         );
         state.cartProducts.splice(deleteIndex, 1);
       });

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createUser, loginUser } from "./authOperations";
+import { createUser, extraLoginUser, loginUser } from "./authOperations";
 
 export interface IInitialState {
   user: object;
@@ -22,6 +22,10 @@ const userSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.token = action.payload;
+      })
+      .addCase(extraLoginUser.fulfilled, (state, action) => {
+        // console.log(state);
+        state.user = action.payload;
       })
       .addCase("user/logOut", (state) => {
         state.user = initialState.user;
