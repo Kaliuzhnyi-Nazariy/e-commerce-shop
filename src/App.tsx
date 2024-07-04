@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import "./App.css";
 import { useAppDispatch } from "./hooks/useDispatch";
+import { format } from "date-fns";
 import {
   addProduct,
   deleteProduct,
@@ -19,7 +20,13 @@ import {
   selectUser,
 } from "./axios/selectors";
 import { createUser, extraLoginUser, loginUser } from "./axios/authOperations";
-import { deleteUserCart, getUserCart } from "./axios/cartOperations";
+import {
+  addUserCart,
+  deleteUserCart,
+  getUserCart,
+  ICart,
+  IProductsInCart,
+} from "./axios/cartOperations";
 
 // export interface IGoodProduct {
 //   title: string;
@@ -151,9 +158,26 @@ function App() {
   //   console.log(cardSelects[i]);
   // }
   const handleDeleteFromCart = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(Number(e.target.closest("div").id));
+    // console.log(Number(e.target.closest("div").id));
     dispatch(deleteUserCart(Number(e.target.closest("div").id)));
     dispatch(deleteProductFromCart(Number(e.target.closest("div").id)));
+  };
+
+  const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
+    // console.log(user.id);
+    // console.log(format(Date(), "yyyy-MM-dd"));
+    // console.log({ productId: Number(e.target.closest("div").id), quantity: 1 });
+    const userId = user.id;
+    const date = format(Date(), "yyyy-MM-dd");
+    const productInfoClick: ICart = {
+      userId,
+      date,
+      products: {
+        productId: Number(e.target.closest("div").id),
+        quantity: 1,
+      },
+    };
+    dispatch(addUserCart(productInfoClick));
   };
 
   const sortedCartProducts = [...cartProducts].sort((a, b) => a.id - b.id);
@@ -186,6 +210,8 @@ function App() {
           return (
             <div key={i.id} id={i.id.toString()}>
               <p>{i.title}</p>
+              <button onClick={handleAddToCart}>Add to cart</button>
+
               <button onClick={handleDelete}>Delete</button>
             </div>
           );
