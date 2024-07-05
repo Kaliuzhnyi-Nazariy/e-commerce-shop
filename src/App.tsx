@@ -55,8 +55,9 @@ function App() {
     //     category: "jewelry",
     //   })
     // );
+    dispatch(getUserCart(user.id));
     dispatch(getAllProducts());
-  }, [dispatch]);
+  }, [user, dispatch]);
 
   // console.log(categories);
 
@@ -95,15 +96,9 @@ function App() {
     ),
   ];
 
-  const logUser = () => {
-    // dispatch(loginUser({ username: "mor_2314", password: "83r5^_" }));
-    // dispatch(loginUser({ username: "johnd", password: "m38rmF$" }));
-    dispatch(loginUser({ username: "donero", password: "ewedon" }));
+  const logUser = async () => {
     dispatch(extraLoginUser({ username: "donero", password: "ewedon" }));
-    const userId = user.id;
-    // console.log(userId);
-    dispatch(getUserCart(userId));
-    // dispatch(loginUser({ username: "lalashka", password: "123123po" }));
+    dispatch(loginUser({ username: "donero", password: "ewedon" }));
   };
 
   // const handleUserCart = () => {
@@ -126,7 +121,6 @@ function App() {
   const handleUserCart = async () => {
     if (Object.keys(user).length === 0) return;
     // if (cardSelects.length === 0) return;
-    dispatch(getUserCart(user.id));
     cardSelects.forEach((i) => dispatch(getOneProduct(i.productId)));
     // console.log(cardSelects);
   };
@@ -148,25 +142,13 @@ function App() {
     dispatch({ type: "cleanCartProducts" });
   };
 
-  // cardSelects.map((i) => {
-  //   console.log(i);
-  //   console.log(cardSelects);
-  // });
-
-  // for (let i = 0; i < cardSelects.length; i++) {
-  //   console.log(i);
-  //   console.log(cardSelects[i]);
-  // }
   const handleDeleteFromCart = (e: React.MouseEvent<HTMLButtonElement>) => {
-    // console.log(Number(e.target.closest("div").id));
+    console.log(e.target.closest("div").id);
     dispatch(deleteUserCart(Number(e.target.closest("div").id)));
     dispatch(deleteProductFromCart(Number(e.target.closest("div").id)));
   };
 
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
-    // console.log(user.id);
-    // console.log(format(Date(), "yyyy-MM-dd"));
-    // console.log({ productId: Number(e.target.closest("div").id), quantity: 1 });
     const userId = user.id;
     const date = format(Date(), "yyyy-MM-dd");
     const productInfoClick: ICart = {
@@ -177,11 +159,14 @@ function App() {
         quantity: 1,
       },
     };
-    // console.log(cardSelects[1].productId);
     dispatch(addUserCart(productInfoClick));
   };
 
   const sortedCartProducts = [...cartProducts].sort((a, b) => a.id - b.id);
+  const sortedCardSelects = [...cardSelects].sort(
+    (a, b) => a.productId - b.productId
+  );
+  // console.log(sortedCardSelects);
 
   return (
     <>
@@ -222,9 +207,10 @@ function App() {
           {cardSelects ? (
             <>
               {sortedCartProducts.map((i) => {
-                const selectedProduct = cardSelects.find(
+                const selectedProduct = sortedCardSelects.find(
                   (item) => item.productId === i.id
                 );
+                // console.log(selectedProduct);
                 // console.log(
                 //   cardSelects.find((item) => item.productId === i.id)
                 // );

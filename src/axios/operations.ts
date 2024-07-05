@@ -70,7 +70,6 @@ export const getOneProduct = createAsyncThunk<
 >("products/getOne", async (id): Promise<IProduct> => {
   try {
     const res = await axios.get(`${productBaseURL}/${id}`);
-    console.log(res.data);
     return res.data;
   } catch (error) {
     console.log("Error in axios/getOneProduct: ", error);

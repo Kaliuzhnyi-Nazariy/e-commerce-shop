@@ -49,8 +49,9 @@ const cartSlice = createSlice({
         }
       })
       .addCase(deleteUserCart.fulfilled, (state, action) => {
+        console.log("action: ", action.payload?.id);
         const deleteIndex = state.cartProducts.findIndex(
-          (product) => product.id !== action.payload.id
+          (product) => product.productId === action.payload || action.payload.id
         );
         state.cartProducts.splice(deleteIndex, 1);
       });
