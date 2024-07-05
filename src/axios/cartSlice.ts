@@ -1,10 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import {
   ICart,
   addUserCart,
   deleteUserCart,
   getUserCart,
 } from "./cartOperations";
+import { act } from "react";
 
 interface IProductCartState {
   cartProducts: ICart[];
@@ -35,15 +36,16 @@ const cartSlice = createSlice({
         state.error = `${action.error.message}`;
       })
       .addCase(addUserCart.fulfilled, (state, action) => {
-        // console.log(action.payload.products.productId);
-        console.log(action.payload.products.quantity);
-        const updateIndex = state.cartProducts.findIndex(
+        let stateBeforeAdding = current(state.cartProducts);
+
+        const condtion = stateBeforeAdding.findIndex(
           (product) => product.productId === action.payload.products.productId
         );
-        if (updateIndex !== -1) {
-          console.log(updateIndex);
-          state.cartProducts[updateIndex].quantity +=
-            action.payload.products.quantity;
+
+        if (condtion !== -1) {
+          state.cartProducts[condtion].quantity += 1;
+        } else {
+          state.cartProducts.push(action.payload.products);
         }
       })
       .addCase(deleteUserCart.fulfilled, (state, action) => {

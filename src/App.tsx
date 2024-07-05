@@ -177,6 +177,7 @@ function App() {
         quantity: 1,
       },
     };
+    // console.log(cardSelects[1].productId);
     dispatch(addUserCart(productInfoClick));
   };
 
