@@ -11,6 +11,7 @@ interface IInitialState {
   token: string;
   isLoading: boolean;
   error: string;
+  isLoggedIn: boolean;
 }
 
 const initialState: IInitialState = {
@@ -18,6 +19,7 @@ const initialState: IInitialState = {
   token: "",
   isLoading: false,
   error: "string",
+  isLoggedIn: false,
 };
 
 const handlePending = (state: { isLoading: boolean; error: string }) => {
@@ -41,27 +43,38 @@ const userSlice = createSlice({
     builder
       .addCase(createUser.pending, handlePending)
       .addCase(createUser.fulfilled, (state, action) => {
+        state.isLoading = false;
         state.user = { ...action.payload, ...action.meta.arg };
       })
       .addCase(createUser.rejected, handleRejected)
       .addCase(loginUser.pending, handlePending)
       .addCase(loginUser.fulfilled, (state, action) => {
+        state.isLoading = false;
         state.token = action.payload;
       })
       .addCase(loginUser.rejected, handleRejected)
       .addCase(extraLoginUser.pending, handlePending)
       .addCase(extraLoginUser.fulfilled, (state, action) => {
+        state.isLoading = false;
         state.user = action.payload;
+        state.isLoggedIn = true;
       })
       .addCase(extraLoginUser.rejected, handleRejected)
       .addCase("user/logOut", (state) => {
         state.user = initialState.user;
         state.token = initialState.token;
+        state.isLoggedIn = false;
       })
       .addCase(refreshUser.pending, handlePending)
       .addCase(refreshUser.fulfilled, (state, action) => {
+        state.isLoading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;
+        if (Object.keys(action.payload.user).length !== 0) {
+          state.isLoggedIn = true;
+        } else {
+          state.isLoggedIn = false;
+        }
       })
       .addCase(refreshUser.rejected, handleRejected);
   },

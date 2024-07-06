@@ -1,10 +1,6 @@
 import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
-import {
-  ICart,
-  addUserCart,
-  deleteUserCart,
-  getUserCart,
-} from "./cartOperations";
+import { addUserCart, deleteUserCart, getUserCart } from "./cartOperations";
+import { ICart } from "../typesOrInterfaces/typesOrInterfaces";
 
 interface IProductCartState {
   cartProducts: ICart[];

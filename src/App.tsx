@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { useAppDispatch } from "./hooks/useDispatch";
 import { format } from "date-fns";
@@ -17,6 +17,7 @@ import {
   selectCartProducts,
   selectCategories,
   selectIsCreatedByUser,
+  selectIsLoggedIn,
   selectProducts,
   selectUser,
 } from "./axios/selectors";
@@ -30,14 +31,8 @@ import {
   addUserCart,
   deleteUserCart,
   getUserCart,
-  ICart,
-  IProductsInCart,
 } from "./axios/cartOperations";
-
-// export interface IGoodProduct {
-//   title: string;
-//   price: number;
-// }
+import { ICart } from "./typesOrInterfaces/typesOrInterfaces";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -45,6 +40,7 @@ function App() {
   const categories = useSelector(selectCategories);
   const products = useSelector(selectAllProducts);
   const user = useSelector(selectUser);
+  const userIsLoggedIn = useSelector(selectIsLoggedIn);
   const cartProducts = useSelector(selectCartProducts);
   const cardSelects = useSelector(selectProducts);
   const createdByUser = useSelector(selectIsCreatedByUser);
@@ -56,8 +52,6 @@ function App() {
     dispatch(refreshUser());
   }, [user, dispatch]);
 
-  // console.log(categories);
-
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     dispatch(getExactCategory(e.currentTarget.textContent));
   };
@@ -67,11 +61,21 @@ function App() {
     dispatch(getAllProducts());
   };
 
+  const isProductCreatedByUser = (productId: number) => {
+    return createdByUser.some((userProduct) => userProduct.id === productId);
+  };
+
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+    console.log(
+      isProductCreatedByUser(Number(e.currentTarget.closest("div")?.id))
+    );
+    if (!userIsLoggedIn) return;
     dispatch(deleteProduct(Number(e.currentTarget.closest("div")?.id)));
   };
 
-  const regUser = () => [
+  const regUser = () => {
+    // will open modal
+
     dispatch(
       createUser({
         email: "don@gmail.com",
@@ -90,44 +94,19 @@ function App() {
         },
         phone: "1-765-789-6734",
       })
-    ),
-  ];
+    );
+  };
 
   const logUser = async () => {
+    // will open modal
     dispatch(extraLoginUser({ username: "donero", password: "ewedon" }));
     dispatch(loginUser({ username: "donero", password: "ewedon" }));
   };
 
-  // const handleUserCart = () => {
-  //   dispatch(getUserCart(user.id));
-  //   console.log(cardSelects.map((i) => i.productId));
-  //   cardSelects.map((i) => dispatch(getOneProduct(i.productId)));
-
-  //   // for (let i = 0; i < cardSelects.length; i++) {
-  //   //   console.log(i + 1);
-  //   // cardSelects.map((i) => {
-  //   //   let arrayOfProductId = [];
-  //   //   for (let i = 0; cardSelects.length; i++) {
-  //   //     console.log("i inside sec for cycle: ", i);
-  //   //   }
-  //   //   dispatch(getOneProduct(i.productId));
-  //   // });
-  //   // }
-  //   // console.log(products);
-  // };
   const handleUserCart = async () => {
-    if (Object.keys(user).length === 0) return;
-    // if (cardSelects.length === 0) return;
+    if (!userIsLoggedIn) return;
+    // will open modal to login
     cardSelects.forEach((i) => dispatch(getOneProduct(i.productId)));
-    // console.log(cardSelects);
-  };
-
-  // console.log(cardSelects.map((cardItem) => cardItem.productId));
-
-  const handleCardProducts = () => {
-    // console.log(cardSelects);
-    dispatch(getOneProduct(5));
-    dispatch(getOneProduct(3));
   };
 
   const handleLogOut = () => {
@@ -140,15 +119,16 @@ function App() {
   };
 
   const handleDeleteFromCart = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(e.target.closest("div").id);
     dispatch(deleteUserCart(Number(e.target.closest("div").id)));
     dispatch(deleteProductFromCart(Number(e.target.closest("div").id)));
   };
 
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!userIsLoggedIn) return;
     const userId = user.id;
     const date = format(Date(), "yyyy-MM-dd");
     const productInfoClick: ICart = {
+      id: Number(e.target.closest("div").id),
       userId,
       date,
       products: {
@@ -164,11 +144,9 @@ function App() {
   const sortedCardSelects = [...cardSelects].sort(
     (a, b) => a.productId - b.productId
   );
-  // console.log(sortedCardSelects);
 
   const handleAddProduct = () => {
-    console.log(user);
-    if (Object.keys(user).length === 0) return;
+    if (!userIsLoggedIn) return;
     dispatch(
       addProduct({
         title: "nameProduct",
@@ -181,33 +159,43 @@ function App() {
     );
   };
 
-  const isProductCreatedByUser = (productId) => {
-    return createdByUser.some((userProduct) => userProduct.id === productId);
-  };
-
   return (
     <>
-      <button onClick={regUser}>register</button>
-      <button onClick={logUser}>login</button>
-      <button onClick={handleLogOut}>log out</button>
+      {userIsLoggedIn ? (
+        <>
+          <button onClick={handleLogOut}>log out</button>
+          <button onClick={handleAddProduct}>Add product</button>
+        </>
+      ) : (
+        <>
+          <button onClick={regUser}>register</button>
+          <button onClick={logUser}>login</button>
+        </>
+      )}
       <button onClick={handleAllProduct}>All products</button>
       <button onClick={handleUserCart}>Get Cart</button>
-      <button onClick={handleAddProduct}>Add product</button>
-      {categories.map((i) => (
-        <button
-          key={i}
-          style={{
-            margin: "8px 16px",
-            padding: "4px 8px",
-            border: "1px solid white",
-            borderRadius: "16px",
-            display: "block",
-          }}
-          onClick={handleClick}
-        >
-          {i}
-        </button>
-      ))}
+      {sortedCartProducts.length === 0 ? (
+        <>
+          {categories.map((i) => (
+            <button
+              key={i}
+              style={{
+                margin: "8px 16px",
+                padding: "4px 8px",
+                border: "1px solid white",
+                borderRadius: "16px",
+                display: "block",
+              }}
+              onClick={handleClick}
+            >
+              {i}
+            </button>
+          ))}
+        </>
+      ) : (
+        <></>
+      )}
+
       {sortedCartProducts.length === 0 ? (
         products.map((i) => {
           return (

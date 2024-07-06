@@ -1,5 +1,4 @@
-// import { ICart } from "./cartOperations";
-import { IProduct } from "./productSlice";
+import { ICart, IProduct, IUser } from "../typesOrInterfaces/typesOrInterfaces";
 
 export const selectCategories = (state: { categories: { categories: [] } }) =>
   state.categories.categories;
@@ -9,10 +8,12 @@ export const selectAllProducts = (state: {
 export const selectCartProducts = (state: {
   products: { cartProduct: Array<IProduct> };
 }) => state.products.cartProduct;
-export const selectUser = (state: { user: { user: object } }) =>
-  state.user.user;
-export const selectProducts = (state: { cart: { cartProducts: [] } }) =>
-  state.cart.cartProducts;
+export const selectUser = (state: { user: { user: IUser } }) => state.user.user;
+export const selectProducts = (state: {
+  cart: { cartProducts: Array<ICart> };
+}) => state.cart.cartProducts;
 export const selectIsCreatedByUser = (state: {
   products: { createdByUser: Array<IProduct> };
 }) => state.products.createdByUser;
+export const selectIsLoggedIn = (state: { user: { isLoggedIn: boolean } }) =>
+  state.user.isLoggedIn;
