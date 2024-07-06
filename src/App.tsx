@@ -20,7 +20,12 @@ import {
   selectProducts,
   selectUser,
 } from "./axios/selectors";
-import { createUser, extraLoginUser, loginUser } from "./axios/authOperations";
+import {
+  createUser,
+  extraLoginUser,
+  loginUser,
+  refreshUser,
+} from "./axios/authOperations";
 import {
   addUserCart,
   deleteUserCart,
@@ -48,6 +53,7 @@ function App() {
     dispatch(getCategories());
     dispatch(getUserCart(user.id));
     dispatch(getAllProducts());
+    dispatch(refreshUser());
   }, [user, dispatch]);
 
   // console.log(categories);
@@ -186,7 +192,6 @@ function App() {
       <button onClick={handleLogOut}>log out</button>
       <button onClick={handleAllProduct}>All products</button>
       <button onClick={handleUserCart}>Get Cart</button>
-      <button onClick={handleCardProducts}>Get One card product</button>
       <button onClick={handleAddProduct}>Add product</button>
       {categories.map((i) => (
         <button

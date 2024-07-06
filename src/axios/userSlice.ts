@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createUser, extraLoginUser, loginUser } from "./authOperations";
+import {
+  createUser,
+  extraLoginUser,
+  loginUser,
+  refreshUser,
+} from "./authOperations";
 
 export interface IInitialState {
   user: object;
@@ -30,6 +35,10 @@ const userSlice = createSlice({
       .addCase("user/logOut", (state) => {
         state.user = initialState.user;
         state.token = initialState.token;
+      })
+      .addCase(refreshUser.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+        state.token = action.payload.token;
       });
   },
 });

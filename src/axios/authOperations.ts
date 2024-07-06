@@ -69,16 +69,23 @@ export const extraLoginUser = createAsyncThunk<
     const userLogInfo = res.data.find(
       (user: { username: string }) => user.username === userInfo.username
     );
-    console.log(userLogInfo);
     return userLogInfo;
-    // console.log(
-    //   res.data.map((user) => {
-    //     if (user.username !== userInfo.username) return res.data[user];
-    //   })
-    // );
-    // return res.data.token;
   } catch (error) {
     console.log("Error in axios/autOperations/loginUser: ", error);
+    throw error;
+  }
+});
+
+export const refreshUser = createAsyncThunk<
+  unknown,
+  void,
+  { rejectValue: string }
+>("user/refreshUser", async (_, thunkAPI): Promise<unknown> => {
+  try {
+    const state = thunkAPI.getState();
+    return state.user;
+  } catch (error) {
+    console.log("Error in axios/autOperations/refreshUser: ", error);
     throw error;
   }
 });
