@@ -18,6 +18,7 @@ interface IProductInitialState {
   isLoading: boolean;
   error: string;
   cartProduct: Array<IProduct>;
+  createdByUser: Array<IProduct>;
 }
 
 const initialState: IProductInitialState = {
@@ -25,6 +26,7 @@ const initialState: IProductInitialState = {
   isLoading: false,
   error: "",
   cartProduct: [],
+  createdByUser: [],
 };
 
 const handlePending = (state: { isLoading: boolean; error: string }) => {
@@ -75,17 +77,22 @@ const productSlice = createSlice({
         (state, action: PayloadAction<IProduct>) => {
           state.isLoading = false;
           state.product = [...state.product, action.payload];
+          state.createdByUser.push(action.payload);
         }
       )
-      .addCase(
-        deleteProduct.fulfilled,
-        (state, action: PayloadAction<IProduct>) => {
+      .addCase(deleteProduct.fulfilled, (state, action) => {
+        if (action.payload !== null) {
           const deleteProductIndex = state.product.findIndex(
             (product) => product.id === action.payload.id
           );
           state.product.splice(deleteProductIndex, 1);
+        } else {
+          const deleteProductIndex = state.product.findIndex(
+            (product) => product.id === action.meta.arg
+          );
+          state.product.splice(deleteProductIndex, 1);
         }
-      )
+      })
       .addCase(
         getExactCategory.fulfilled,
         (state, action: PayloadAction<IProduct[]>) => {

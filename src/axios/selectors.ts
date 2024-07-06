@@ -13,3 +13,6 @@ export const selectUser = (state: { user: { user: object } }) =>
   state.user.user;
 export const selectProducts = (state: { cart: { cartProducts: [] } }) =>
   state.cart.cartProducts;
+export const selectIsCreatedByUser = (state: {
+  products: { createdByUser: Array<IProduct> };
+}) => state.products.createdByUser;

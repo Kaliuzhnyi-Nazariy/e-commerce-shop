@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import { useAppDispatch } from "./hooks/useDispatch";
 import { format } from "date-fns";
@@ -16,6 +16,7 @@ import {
   selectAllProducts,
   selectCartProducts,
   selectCategories,
+  selectIsCreatedByUser,
   selectProducts,
   selectUser,
 } from "./axios/selectors";
@@ -41,20 +42,10 @@ function App() {
   const user = useSelector(selectUser);
   const cartProducts = useSelector(selectCartProducts);
   const cardSelects = useSelector(selectProducts);
+  const createdByUser = useSelector(selectIsCreatedByUser);
 
-  // console.log(products);
   useEffect(() => {
     dispatch(getCategories());
-    // dispatch(
-    //   addProduct({
-    //     title: "nameProduct",
-    //     price: 15,
-    //     description: "lorem ipsum lalalal",
-    //     image:
-    //       "https://cdn.pixabay.com/photo/2017/06/15/13/06/retro-2405404_1280.jpg",
-    //     category: "jewelry",
-    //   })
-    // );
     dispatch(getUserCart(user.id));
     dispatch(getAllProducts());
   }, [user, dispatch]);
@@ -159,6 +150,7 @@ function App() {
         quantity: 1,
       },
     };
+    console.log(productInfoClick);
     dispatch(addUserCart(productInfoClick));
   };
 
@@ -168,6 +160,25 @@ function App() {
   );
   // console.log(sortedCardSelects);
 
+  const handleAddProduct = () => {
+    console.log(user);
+    if (Object.keys(user).length === 0) return;
+    dispatch(
+      addProduct({
+        title: "nameProduct",
+        price: 15,
+        description: "lorem ipsum lalalal",
+        image:
+          "https://cdn.pixabay.com/photo/2017/06/15/13/06/retro-2405404_1280.jpg",
+        category: "jewelry",
+      })
+    );
+  };
+
+  const isProductCreatedByUser = (productId) => {
+    return createdByUser.some((userProduct) => userProduct.id === productId);
+  };
+
   return (
     <>
       <button onClick={regUser}>register</button>
@@ -176,6 +187,7 @@ function App() {
       <button onClick={handleAllProduct}>All products</button>
       <button onClick={handleUserCart}>Get Cart</button>
       <button onClick={handleCardProducts}>Get One card product</button>
+      <button onClick={handleAddProduct}>Add product</button>
       {categories.map((i) => (
         <button
           key={i}
@@ -196,9 +208,13 @@ function App() {
           return (
             <div key={i.id} id={i.id.toString()}>
               <p>{i.title}</p>
-              <button onClick={handleAddToCart}>Add to cart</button>
+              {!isProductCreatedByUser(i.id) && (
+                <button onClick={handleAddToCart}>Add to cart</button>
+              )}
 
-              <button onClick={handleDelete}>Delete</button>
+              {isProductCreatedByUser(i.id) && (
+                <button onClick={handleDelete}>Delete</button>
+              )}
             </div>
           );
         })
@@ -210,10 +226,8 @@ function App() {
                 const selectedProduct = sortedCardSelects.find(
                   (item) => item.productId === i.id
                 );
-                // console.log(selectedProduct);
-                // console.log(
-                //   cardSelects.find((item) => item.productId === i.id)
-                // );
+                console.log(sortedCartProducts);
+                console.log(i);
                 return (
                   <div
                     key={i.id}
