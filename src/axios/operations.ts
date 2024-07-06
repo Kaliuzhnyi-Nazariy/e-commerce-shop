@@ -1,24 +1,14 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { baseCartURL } from "./cartOperations";
+import {
+  AllProducts,
+  Categories,
+  INewProduct,
+  IProduct,
+} from "../typesOrInterfaces/typesOrInterfaces";
 
 const productBaseURL = "https://fakestoreapi.com/products";
-
-export interface IProduct extends INewProduct {
-  id: number;
-}
-
-export type AllProducts = IProduct[];
-
-export type Categories = string[];
-
-export interface INewProduct {
-  title: string;
-  price: number;
-  description: string;
-  image: string;
-  category: string;
-}
 
 export const getAllProducts = createAsyncThunk<
   AllProducts,
@@ -26,7 +16,6 @@ export const getAllProducts = createAsyncThunk<
   { rejectValue: string }
 >("products/allProducts", async (): Promise<AllProducts> => {
   try {
-    // const res = await axios.get(`${productBaseURL}?limit=8`);
     const res = await axios.get(`${productBaseURL}`);
     return res.data;
   } catch (error) {
@@ -105,7 +94,7 @@ export const getExactCategory = createAsyncThunk<
     return res.data;
   } catch (error) {
     console.log("Error in axios/getExactCategory: ", error);
-    return <AllProducts>[];
+    throw error;
   }
 });
 

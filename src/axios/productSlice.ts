@@ -1,6 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import {
-  INewProduct,
   addProduct,
   deleteProduct,
   deleteProductFromCart,
@@ -8,10 +7,7 @@ import {
   getExactCategory,
   getOneProduct,
 } from "./operations";
-
-export interface IProduct extends INewProduct {
-  id: number;
-}
+import { IProduct } from "../typesOrInterfaces/typesOrInterfaces";
 
 interface IProductInitialState {
   product: Array<IProduct>;
@@ -34,18 +30,6 @@ const handlePending = (state: { isLoading: boolean; error: string }) => {
   state.error = "";
 };
 
-// const check: IProduct = {
-//   id: 25,
-//   title: "kim",
-//   price: 15,
-//   description: "lorem ipsum lalalal",
-//   image:
-//     "https://cdn.pixabay.com/photo/2017/06/15/13/06/retro-2405404_1280.jpg",
-//   category: "jewelry",
-// };
-
-// console.log(check);
-
 const productSlice = createSlice({
   name: "products",
   initialState,
@@ -60,13 +44,17 @@ const productSlice = createSlice({
       })
       .addCase(getAllProducts.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload || "Error";
+        state.error = `${action.error}` || "Somesthing went wrong! Try again!";
       })
+      .addCase(getOneProduct.pending, handlePending)
       .addCase(getOneProduct.fulfilled, (state, action) => {
-        // console.log(action.payload);
         state.cartProduct.push(action.payload);
         state.isLoading = false;
         state.error = "";
+      })
+      .addCase(getOneProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = `${action.error}` || "Somesthing went wrong! Try again!";
       })
       .addCase("cleanCartProducts", (state) => {
         state.cartProduct = [];
@@ -80,6 +68,11 @@ const productSlice = createSlice({
           state.createdByUser.push(action.payload);
         }
       )
+      .addCase(addProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = `${action.error}` || "Somesthing went wrong! Try again!";
+      })
+      .addCase(deleteProduct.pending, handlePending)
       .addCase(deleteProduct.fulfilled, (state, action) => {
         if (action.payload !== null) {
           const deleteProductIndex = state.product.findIndex(
@@ -93,18 +86,31 @@ const productSlice = createSlice({
           state.product.splice(deleteProductIndex, 1);
         }
       })
+      .addCase(deleteProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = `${action.error}` || "Somesthing went wrong! Try again!";
+      })
+      .addCase(getExactCategory.pending, handlePending)
       .addCase(
         getExactCategory.fulfilled,
         (state, action: PayloadAction<IProduct[]>) => {
           state.product = action.payload;
         }
       )
+      .addCase(getExactCategory.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = `${action.error}` || "Somesthing went wrong! Try again!";
+      })
+      .addCase(deleteProductFromCart.pending, handlePending)
       .addCase(deleteProductFromCart.fulfilled, (state, action) => {
-        console.log(action);
         const deleteIndex = state.cartProduct.findIndex(
           (product) => product.id === action.payload.id
         );
         state.cartProduct.splice(deleteIndex, 1);
+      })
+      .addCase(deleteProductFromCart.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = `${action.error}` || "Somesthing went wrong! Try again!";
       });
   },
 });

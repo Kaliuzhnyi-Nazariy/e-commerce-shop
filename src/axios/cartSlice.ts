@@ -1,11 +1,10 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
 import {
   ICart,
   addUserCart,
   deleteUserCart,
   getUserCart,
 } from "./cartOperations";
-import { act } from "react";
 
 interface IProductCartState {
   cartProducts: ICart[];
@@ -19,24 +18,38 @@ const initialState: IProductCartState = {
   error: "",
 };
 
+const handlePending = (state: { isLoading: boolean; error: string }) => {
+  state.isLoading = true;
+  state.error = "";
+};
+
+const handleRejected = (
+  state: { isLoading: boolean; error: string },
+  action: PayloadAction<{ error: string }>
+) => {
+  state.isLoading = false;
+  state.error =
+    `${action.payload.error}` || "Somesthing went wrong! Try again!";
+};
+
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {},
   extraReducers(builder) {
     builder
+      .addCase(getUserCart.pending, handlePending)
       .addCase(getUserCart.fulfilled, (state, action) => {
-        console.log(action);
         const [userCart] = action.payload;
         state.cartProducts = userCart.products;
-        //   state.cartProducts = action.payload;
       })
       .addCase(getUserCart.rejected, (state, action) => {
         state.isLoading = false;
         state.error = `${action.error.message}`;
       })
+      .addCase(addUserCart.pending, handlePending)
       .addCase(addUserCart.fulfilled, (state, action) => {
-        let stateBeforeAdding = current(state.cartProducts);
+        const stateBeforeAdding = current(state.cartProducts);
 
         const condtion = stateBeforeAdding.findIndex(
           (product) => product.productId === action.payload.products.productId
@@ -48,12 +61,15 @@ const cartSlice = createSlice({
           state.cartProducts.push(action.payload.products);
         }
       })
+      .addCase(addUserCart.rejected, handleRejected)
+      .addCase(deleteUserCart.pending, handlePending)
       .addCase(deleteUserCart.fulfilled, (state, action) => {
         const deleteIndex = state.cartProducts.findIndex(
           (product) => product.productId === action.payload || action.payload.id
         );
         state.cartProducts.splice(deleteIndex, 1);
-      });
+      })
+      .addCase(deleteUserCart.rejected, handleRejected);
   },
 });
 

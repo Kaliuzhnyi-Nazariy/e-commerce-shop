@@ -1,36 +1,19 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import {
+  ILoginUser,
+  INewUser,
+  IRefreshUser,
+  IUser,
+} from "../typesOrInterfaces/typesOrInterfaces";
 
 const baseUserURL = "https://fakestoreapi.com/users";
-
-export interface INewUser {
-  email: string;
-  username: string;
-  password: string;
-  name: { firstname: string; lastname: string };
-  address: {
-    city: string;
-    street: string;
-    number: number;
-    zipcode: string;
-    geolocation: { lat: string; long: string };
-  };
-  phone: string;
-}
-
-export interface IUser extends INewUser {
-  id: number;
-}
-
-export interface ILoginUser {
-  username: string;
-  password: string;
-}
 
 export const createUser = createAsyncThunk<
   IUser,
   INewUser,
-  { rejectValue: string }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  { rejectValue: any }
 >("user/createUser", async (newUser): Promise<IUser> => {
   try {
     const res = await axios.post(`${baseUserURL}`, newUser);
@@ -44,14 +27,14 @@ export const createUser = createAsyncThunk<
 export const loginUser = createAsyncThunk<
   string,
   ILoginUser,
-  { rejectValue: string }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  { rejectValue: any }
 >("user/loginUser", async (userInfo): Promise<string> => {
   try {
     const res = await axios.post(
       `https://fakestoreapi.com/auth/login`,
       userInfo
     );
-    console.log(res.data);
     return res.data.token;
   } catch (error) {
     console.log("Error in axios/autOperations/loginUser: ", error);
@@ -62,7 +45,8 @@ export const loginUser = createAsyncThunk<
 export const extraLoginUser = createAsyncThunk<
   IUser,
   ILoginUser,
-  { rejectValue: string }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  { rejectValue: any }
 >("user/extraLoginUser", async (userInfo): Promise<IUser> => {
   try {
     const res = await axios.get(`${baseUserURL}`);
@@ -77,10 +61,11 @@ export const extraLoginUser = createAsyncThunk<
 });
 
 export const refreshUser = createAsyncThunk<
-  unknown,
+  IRefreshUser,
   void,
-  { rejectValue: string }
->("user/refreshUser", async (_, thunkAPI): Promise<unknown> => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  { rejectValue: any }
+>("user/refreshUser", async (_, thunkAPI): Promise<IRefreshUser> => {
   try {
     const state = thunkAPI.getState();
     return state.user;

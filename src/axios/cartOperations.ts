@@ -1,34 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { ICart, IProductsInCart } from "../typesOrInterfaces/typesOrInterfaces";
 
 export const baseCartURL = "https://fakestoreapi.com/carts";
-
-export interface ICartProduct {
-  productId: number;
-  quantity: number;
-}
-
-export interface ICart {
-  id: number;
-  userId: number;
-  date: string;
-  products: ICartProduct[];
-}
-
-export interface IProductsAddToCart {
-  productId: number;
-  quantity: number;
-}
-
-export interface INewCartProduct {
-  userId: number;
-  date: string;
-  products: Array<IProductsAddToCart>;
-}
-
-export interface IProductsInCart extends INewCartProduct {
-  id: number;
-}
 
 export const getUserCart = createAsyncThunk<
   ICart,
@@ -37,7 +11,6 @@ export const getUserCart = createAsyncThunk<
 >("cart/getAll", async (id): Promise<ICart> => {
   try {
     const res = await axios.get(`${baseCartURL}/user/${id}`);
-    console.log(res.data);
     return res.data;
   } catch (error) {
     console.log("Error in axios/cartOperations/getUserCart: ", error);
@@ -48,11 +21,11 @@ export const getUserCart = createAsyncThunk<
 export const addUserCart = createAsyncThunk<
   IProductsInCart,
   ICart,
-  { rejectValue: string }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  { rejectValue: any }
 >("cart/addCart", async (productInfo): Promise<IProductsInCart> => {
   try {
     const res = await axios.post(`${baseCartURL}`, productInfo);
-    // console.log(res.data.products);
     return res.data;
   } catch (error) {
     console.log("Error in axios/cartOperations/addUserCart: ", error);
@@ -63,14 +36,12 @@ export const addUserCart = createAsyncThunk<
 export const deleteUserCart = createAsyncThunk<
   { id: number },
   number,
-  { rejectValue: string }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  { rejectValue: any }
 >("cart/deleteCart", async (id): Promise<{ id: number }> => {
   try {
     const res = await axios.delete(`${baseCartURL}/${id}`);
-    // const res = await axios.delete(`${baseCartURL}/6`);
-    console.log(res);
     if (res.data !== null) {
-      console.log(res.data.id);
       return res.data.id;
     } else {
       return { id };
