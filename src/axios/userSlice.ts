@@ -2,6 +2,7 @@ import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
 import {
   createUser,
   extraLoginUser,
+  getAllUsers,
   loginUser,
   refreshUser,
 } from "./authOperations";
@@ -9,6 +10,7 @@ import {
 interface IInitialState {
   user: object;
   token: string;
+  allUsers: Array<object>;
   isLoading: boolean;
   error: string;
   isLoggedIn: boolean;
@@ -17,6 +19,7 @@ interface IInitialState {
 const initialState: IInitialState = {
   user: {},
   token: "",
+  allUsers: [{}],
   isLoading: false,
   error: "string",
   isLoggedIn: false,
@@ -66,6 +69,12 @@ const userSlice = createSlice({
         state.token = initialState.token;
         state.isLoggedIn = false;
       })
+      .addCase(getAllUsers.pending, handlePending)
+      .addCase(getAllUsers.fulfilled, (state, action) => {
+        state.allUsers = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(getAllUsers.rejected, handleRejected)
       .addCase(refreshUser.pending, handlePending)
       .addCase(refreshUser.fulfilled, (state, action) => {
         state.isLoading = false;

@@ -9,6 +9,8 @@ export const selectCartProducts = (state: {
   products: { cartProduct: Array<IProduct> };
 }) => state.products.cartProduct;
 export const selectUser = (state: { user: { user: IUser } }) => state.user.user;
+export const selectAllUsers = (state: { user: { allUsers: IUser[] } }) =>
+  state.user.allUsers;
 export const selectProducts = (state: {
   cart: { cartProducts: Array<ICart> };
 }) => state.cart.cartProducts;

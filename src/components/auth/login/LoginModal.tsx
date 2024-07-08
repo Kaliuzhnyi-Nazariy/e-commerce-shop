@@ -1,12 +1,17 @@
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import { LoginForm } from "./LoginForm";
+import { useAppDispatch } from "../../../hooks/useDispatch";
+import { getAllUsers } from "../../../axios/authOperations";
 
 export const LoginModal = () => {
   const [show, setShow] = useState(false);
 
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
+
+  const dispatch = useAppDispatch();
 
   return (
     <>
@@ -18,7 +23,10 @@ export const LoginModal = () => {
           fontWeight: "bold",
           textTransform: "uppercase",
         }}
-        onClick={handleShow}
+        onClick={() => {
+          dispatch(getAllUsers());
+          handleShow();
+        }}
       >
         Sign in
       </Button>
@@ -30,18 +38,11 @@ export const LoginModal = () => {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Modal title</Modal.Title>
+          <Modal.Title>Sign In</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          I will not close if you click outside me. Do not even try to press
-          escape key.
+          <LoginForm />
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary">Understood</Button>
-        </Modal.Footer>
       </Modal>
     </>
   );

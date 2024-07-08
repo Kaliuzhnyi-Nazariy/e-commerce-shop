@@ -60,6 +60,20 @@ export const extraLoginUser = createAsyncThunk<
   }
 });
 
+export const getAllUsers = createAsyncThunk<
+  IUser[],
+  void, // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  { rejectValue: any }
+>("user/getAll", async (): Promise<IUser[]> => {
+  try {
+    const res = await axios.get(`${baseUserURL}`);
+    return res.data;
+  } catch (error) {
+    console.log("Error in axios/autOperations/getAllUsers: ", error);
+    throw error;
+  }
+});
+
 export const refreshUser = createAsyncThunk<
   IRefreshUser,
   void,
