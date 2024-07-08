@@ -21,11 +21,22 @@ const userPersistConfig = {
   whitelist: ["user", "token"],
 };
 
+const productsPersistConfig = {
+  key: "products",
+  storage,
+  whitelist: ["product"],
+};
+
 const persistedUserReducer = persistReducer(userPersistConfig, userReducer);
+
+const persistedProductsReducer = persistReducer(
+  productsPersistConfig,
+  productReducer
+);
 
 export const store = configureStore({
   reducer: {
-    products: productReducer,
+    products: persistedProductsReducer,
     categories: categoriesReducer,
     user: persistedUserReducer,
     cart: cartReducer,

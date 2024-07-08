@@ -61,7 +61,9 @@ const cartSlice = createSlice({
       .addCase(deleteUserCart.pending, handlePending)
       .addCase(deleteUserCart.fulfilled, (state, action) => {
         const deleteIndex = state.cartProducts.findIndex(
-          (product) => product.productId === action.payload || action.payload.id
+          (product) =>
+            product.productId === action.payload ||
+            product.productId === action.payload.id
         );
         state.cartProducts.splice(deleteIndex, 1);
       })

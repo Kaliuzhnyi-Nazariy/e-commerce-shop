@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
 import {
   createUser,
   extraLoginUser,
@@ -61,6 +61,7 @@ const userSlice = createSlice({
       })
       .addCase(extraLoginUser.rejected, handleRejected)
       .addCase("user/logOut", (state) => {
+        console.log(current(state));
         state.user = initialState.user;
         state.token = initialState.token;
         state.isLoggedIn = false;

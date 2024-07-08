@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice, current } from "@reduxjs/toolkit";
 import {
   addProduct,
   deleteProduct,
@@ -58,6 +58,12 @@ const productSlice = createSlice({
       })
       .addCase("cleanCartProducts", (state) => {
         state.cartProduct = [];
+      })
+      .addCase("cleanCreatedByUser", (state) => {
+        const checkIdea = current(state);
+        console.log("checkIdea: ", checkIdea);
+
+        state.createdByUser = [];
       })
       .addCase(addProduct.pending, handlePending)
       .addCase(

@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, current } from "@reduxjs/toolkit";
 import { baseCartURL } from "./cartOperations";
 import {
   AllProducts,
@@ -14,10 +15,15 @@ export const getAllProducts = createAsyncThunk<
   AllProducts,
   void,
   { rejectValue: string }
->("products/allProducts", async (): Promise<AllProducts> => {
+>("products/allProducts", async (_, thunkAPI): Promise<AllProducts> => {
   try {
+    const state = thunkAPI.getState();
     const res = await axios.get(`${productBaseURL}`);
-    return res.data;
+    if (state.products.product.length > 20) {
+      return state.products.product;
+    } else {
+      return res.data;
+    }
   } catch (error) {
     console.log("Error in axios/getAllProducts: ", error);
     throw error;
@@ -56,10 +62,16 @@ export const getOneProduct = createAsyncThunk<
   IProduct,
   number,
   { rejectValue: string }
->("products/getOne", async (id): Promise<IProduct> => {
+>("products/getOne", async (id, thunkAPI): Promise<IProduct> => {
   try {
     const res = await axios.get(`${productBaseURL}/${id}`);
-    return res.data;
+    if (!res.data) {
+      const state = thunkAPI.getState();
+      const findProduct = state.products.product.find((i) => i.id === id);
+      return findProduct;
+    } else {
+      return res.data;
+    }
   } catch (error) {
     console.log("Error in axios/getOneProduct: ", error);
     throw error;

@@ -33,6 +33,8 @@ import {
   getUserCart,
 } from "./axios/cartOperations";
 import { ICart } from "./typesOrInterfaces/typesOrInterfaces";
+import { SignUpModal } from "./components/auth/registration/SignUpModal";
+import { LoginModal } from "./components/auth/login/LoginModal";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -75,7 +77,6 @@ function App() {
 
   const regUser = () => {
     // will open modal
-
     dispatch(
       createUser({
         email: "don@gmail.com",
@@ -110,6 +111,7 @@ function App() {
   };
 
   const handleLogOut = () => {
+    dispatch({ type: "cleanCreatedByUser" });
     dispatch({ type: "cleanCartProducts" });
     dispatch({ type: "user/logOut" });
   };
@@ -168,7 +170,8 @@ function App() {
         </>
       ) : (
         <>
-          <button onClick={regUser}>register</button>
+          <LoginModal />
+          <SignUpModal />
           <button onClick={logUser}>login</button>
         </>
       )}
@@ -195,15 +198,12 @@ function App() {
       ) : (
         <></>
       )}
-
       {sortedCartProducts.length === 0 ? (
         products.map((i) => {
           return (
             <div key={i.id} id={i.id.toString()}>
               <p>{i.title}</p>
-              {!isProductCreatedByUser(i.id) && (
-                <button onClick={handleAddToCart}>Add to cart</button>
-              )}
+              <button onClick={handleAddToCart}>Add to cart</button>
 
               {isProductCreatedByUser(i.id) && (
                 <button onClick={handleDelete}>Delete</button>
@@ -219,8 +219,8 @@ function App() {
                 const selectedProduct = sortedCardSelects.find(
                   (item) => item.productId === i.id
                 );
-                console.log(sortedCartProducts);
-                console.log(i);
+                // console.log(sortedCartProducts);
+                // console.log(i);
                 return (
                   <div
                     key={i.id}
