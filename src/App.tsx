@@ -27,6 +27,7 @@ import { FaCartShopping } from "react-icons/fa6";
 import { IoIosAddCircle, IoIosLogOut } from "react-icons/io";
 import ProductItem from "./components/productsItems/productItem";
 import { Stack } from "react-bootstrap";
+import AddProductModal from "./components/addProduct/AddProductModal";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -104,11 +105,12 @@ function App() {
       <Stack direction="horizontal" gap={3}>
         <button onClick={handleAllProduct}>All products</button>
         <Stack className="ms-auto" direction="horizontal" gap={3}>
-          <button onClick={handleUserCart}>
-            <FaCartShopping />
-          </button>
           {userIsLoggedIn ? (
             <>
+              <button onClick={handleUserCart}>
+                <FaCartShopping />
+              </button>
+              <AddProductModal />
               <button onClick={handleAddProduct} className="ms-auto">
                 <IoIosAddCircle />
               </button>
@@ -126,7 +128,11 @@ function App() {
         </Stack>
       </Stack>
       {sortedCartProducts.length === 0 ? (
-        <>
+        <div
+          // direction="horizontal"
+          // gap={1}
+          className="d-flex justify-content-around"
+        >
           {categories.map((i) => (
             <button
               key={i}
@@ -142,27 +148,13 @@ function App() {
               {i}
             </button>
           ))}
-        </>
+        </div>
       ) : (
         <></>
       )}
       {sortedCartProducts.length === 0 ? (
         products.map((i) => {
-          return (
-            <ProductItem prop={i} />
-            // <div key={i.id} id={i.id.toString()}>
-            //   <p>{i.title}</p>
-            //   <button onClick={handleAddToCart}>
-            //     <MdAddShoppingCart />
-            //   </button>
-
-            //   {isProductCreatedByUser(i.id) && (
-            //     <button onClick={handleDelete}>
-            //       <MdDeleteForever />
-            //     </button>
-            //   )}
-            // </div>
-          );
+          return <ProductItem prop={i} />;
         })
       ) : (
         <>

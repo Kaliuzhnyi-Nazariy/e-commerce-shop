@@ -16,8 +16,6 @@ type Prop = {
 };
 
 const ProductItem = ({ prop }: Prop) => {
-  console.log(prop);
-
   const dispatch = useAppDispatch();
   const userIsLoggedIn = useSelector(selectIsLoggedIn);
   const user = useSelector(selectUser);

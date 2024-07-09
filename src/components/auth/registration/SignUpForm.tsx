@@ -61,7 +61,6 @@ export const SignUpForm = () => {
   const dispatch = useAppDispatch();
 
   const checkValues = (values: Values) => {
-    console.log(values);
     if (values.email.length === 0) return;
     if (values.username.length === 0) return;
     if (values.password.length === 0) return;
@@ -137,207 +136,256 @@ export const SignUpForm = () => {
           setSubmitting(false);
         }}
       >
-        <Form>
-          <div className="col-auto">
-            <div className="input-group mb-2">
-              <div className="input-group-prepend">
-                <div className="input-group-text h-100">
-                  <MdEmail />
+        {({ errors, touched }) => (
+          <Form>
+            <div className="col-auto">
+              <div className="input-group mb-2">
+                <div className="input-group-prepend">
+                  <div className="input-group-text h-100">
+                    <MdEmail />
+                  </div>
                 </div>
+                <Field
+                  id="email"
+                  name="email"
+                  placeholder="john@acme.com"
+                  type="email"
+                  className="form-control"
+                />
               </div>
-              <Field
-                id="email"
-                name="email"
-                placeholder="john@acme.com"
-                type="email"
-                className="form-control"
-              />
             </div>
-          </div>
+            {errors.email && touched.email ? (
+              <div className="text-danger">{errors.email}</div>
+            ) : null}
 
-          <InputGroup>
-            <div className="input-group mb-2">
-              <div className="input-group-prepend">
-                <div className="input-group-text">@</div>
-              </div>
-              <Field
-                id="username"
-                name="username"
-                className="form-control"
-                placeholder="username"
-              />
-            </div>
-          </InputGroup>
-
-          <InputGroup>
-            <div className="input-group mb-2">
-              <div className="input-group-prepend">
-                <div className="input-group-text h-100">
-                  <RiLockPasswordFill />
+            <InputGroup>
+              <div className="input-group mb-2">
+                <div className="input-group-prepend">
+                  <div className="input-group-text">@</div>
                 </div>
+                <Field
+                  id="username"
+                  name="username"
+                  className="form-control"
+                  placeholder="username"
+                />
               </div>
-              <Field
-                id="password"
-                name="password"
-                placeholder="password"
-                type="password"
-                className="form-control"
-              />
-            </div>
-          </InputGroup>
+            </InputGroup>
 
-          <h3>Name</h3>
+            {errors.username && touched.username ? (
+              <div className="text-danger">{errors.username}</div>
+            ) : null}
 
-          <InputGroup>
-            <div className="input-group mb-2">
-              <div className="input-group-prepend">
-                <div className="input-group-text h-100">First</div>
-              </div>
-              <Field
-                id="firstName"
-                name="firstName"
-                placeholder="John"
-                className="form-control"
-              />
-            </div>
-          </InputGroup>
-
-          <InputGroup>
-            <div className="input-group mb-2">
-              <div className="input-group-prepend">
-                <div className="input-group-text h-100">Last </div>
-              </div>
-              <Field
-                id="lastName"
-                name="lastName"
-                className="form-control"
-                placeholder="Doe"
-              />
-            </div>
-          </InputGroup>
-
-          <h3>Address</h3>
-
-          <InputGroup>
-            <div className="input-group mb-2">
-              <div className="input-group-prepend">
-                <div className="input-group-text h-100">
-                  <FaCity />
+            <InputGroup>
+              <div className="input-group mb-2">
+                <div className="input-group-prepend">
+                  <div className="input-group-text h-100">
+                    <RiLockPasswordFill />
+                  </div>
                 </div>
+                <Field
+                  id="password"
+                  name="password"
+                  placeholder="password"
+                  type="password"
+                  className="form-control"
+                />
               </div>
-              <Field
-                id="city"
-                name="city"
-                placeholder="New York"
-                className="form-control"
-              />
-            </div>
-          </InputGroup>
+            </InputGroup>
 
-          <InputGroup>
-            <div className="input-group mb-2">
-              <div className="input-group-prepend">
-                <div className="input-group-text h-100">
-                  <SiGooglestreetview />
+            {errors.password && touched.password ? (
+              <div className="text-danger">{errors.password}</div>
+            ) : null}
+
+            <h3>Name</h3>
+
+            <InputGroup>
+              <div className="input-group mb-2">
+                <div className="input-group-prepend">
+                  <div className="input-group-text h-100">First</div>
                 </div>
+                <Field
+                  id="firstName"
+                  name="firstName"
+                  placeholder="John"
+                  className="form-control"
+                />
               </div>
-              <Field
-                id="street"
-                name="street"
-                placeholder="Broadway"
-                className="form-control"
-              />
-            </div>
-          </InputGroup>
+            </InputGroup>
 
-          <InputGroup>
-            <div className="input-group mb-2">
-              <div className="input-group-prepend">
-                <div className="input-group-text h-100">
-                  <AiOutlineFieldNumber />
+            {errors.firstName && touched.firstName ? (
+              <div className="text-danger">{errors.firstName} </div>
+            ) : null}
+
+            <InputGroup>
+              <div className="input-group mb-2">
+                <div className="input-group-prepend">
+                  <div className="input-group-text h-100">Last </div>
                 </div>
+                <Field
+                  id="lastName"
+                  name="lastName"
+                  className="form-control"
+                  placeholder="Doe"
+                />
               </div>
-              <Field
-                id="number"
-                name="number"
-                placeholder="111"
-                className="form-control"
-              />
-            </div>
-          </InputGroup>
+            </InputGroup>
 
-          <InputGroup>
-            <div className="input-group mb-2">
-              <div className="input-group-prepend">
-                <div className="input-group-text h-100">
-                  <TbZip />
+            {errors.lastName && touched.lastName ? (
+              <div className="text-danger">{errors.lastName}</div>
+            ) : null}
+
+            <h3>Address</h3>
+
+            <InputGroup>
+              <div className="input-group mb-2">
+                <div className="input-group-prepend">
+                  <div className="input-group-text h-100">
+                    <FaCity />
+                  </div>
                 </div>
+                <Field
+                  id="city"
+                  name="city"
+                  placeholder="New York"
+                  className="form-control"
+                />
               </div>
-              <Field
-                id="zipCode"
-                name="zipCode"
-                placeholder="10006"
-                className="form-control"
-              />
-            </div>
-          </InputGroup>
+            </InputGroup>
 
-          <InputGroup>
-            <div className="input-group mb-2">
-              <div className="input-group-prepend">
-                <div className="input-group-text h-100">
-                  <TbWorldLatitude />
+            {errors.city && touched.city ? (
+              <div className="text-danger">{errors.city}</div>
+            ) : null}
+
+            <InputGroup>
+              <div className="input-group mb-2">
+                <div className="input-group-prepend">
+                  <div className="input-group-text h-100">
+                    <SiGooglestreetview />
+                  </div>
                 </div>
+                <Field
+                  id="street"
+                  name="street"
+                  placeholder="Broadway"
+                  className="form-control"
+                />
               </div>
-              <Field
-                id="lat"
-                name="lat"
-                placeholder="40.709735"
-                className="form-control"
-              />
-            </div>
-          </InputGroup>
+            </InputGroup>
 
-          <InputGroup>
-            <div className="input-group mb-2">
-              <div className="input-group-prepend">
-                <div className="input-group-text h-100">
-                  <TbWorldLongitude />
+            {errors.street && touched.street ? (
+              <div className="text-danger">{errors.street}</div>
+            ) : null}
+
+            <InputGroup>
+              <div className="input-group mb-2">
+                <div className="input-group-prepend">
+                  <div className="input-group-text h-100">
+                    <AiOutlineFieldNumber />
+                  </div>
                 </div>
+                <Field
+                  id="number"
+                  name="number"
+                  placeholder="111"
+                  className="form-control"
+                />
               </div>
-              <Field
-                id="long"
-                name="long"
-                placeholder="-74.012848"
-                className="form-control"
-              />
-            </div>
-          </InputGroup>
+            </InputGroup>
 
-          <h3>Phone</h3>
+            {errors.number && touched.number ? (
+              <div className="text-danger">{errors.number}</div>
+            ) : null}
 
-          <InputGroup>
-            <div className="input-group mb-2">
-              <div className="input-group-prepend">
-                <div className="input-group-text h-100">
-                  <FaPhoneAlt />
+            <InputGroup>
+              <div className="input-group mb-2">
+                <div className="input-group-prepend">
+                  <div className="input-group-text h-100">
+                    <TbZip />
+                  </div>
                 </div>
+                <Field
+                  id="zipCode"
+                  name="zipCode"
+                  placeholder="10006"
+                  className="form-control"
+                />
               </div>
-              <Field
-                id="phone"
-                name="phone"
-                placeholder="1-234-567-8901"
-                className="form-control"
-              />
-            </div>
-          </InputGroup>
+            </InputGroup>
 
-          <div className="d-flex justify-content-center ">
-            <button type="submit" className="border rounded">
-              Submit
-            </button>
-          </div>
-        </Form>
+            {errors.zipCode && touched.zipCode ? (
+              <div className="text-danger">{errors.zipCode}</div>
+            ) : null}
+
+            <InputGroup>
+              <div className="input-group mb-2">
+                <div className="input-group-prepend">
+                  <div className="input-group-text h-100">
+                    <TbWorldLatitude />
+                  </div>
+                </div>
+                <Field
+                  id="lat"
+                  name="lat"
+                  placeholder="40.709735"
+                  className="form-control"
+                />
+              </div>
+            </InputGroup>
+
+            {errors.lat && touched.lat ? (
+              <div className="text-danger">{errors.lat}</div>
+            ) : null}
+
+            <InputGroup>
+              <div className="input-group mb-2">
+                <div className="input-group-prepend">
+                  <div className="input-group-text h-100">
+                    <TbWorldLongitude />
+                  </div>
+                </div>
+                <Field
+                  id="long"
+                  name="long"
+                  placeholder="-74.012848"
+                  className="form-control"
+                />
+              </div>
+            </InputGroup>
+
+            {errors.long && touched.long ? (
+              <div className="text-danger">{errors.long}</div>
+            ) : null}
+
+            <h3>Phone</h3>
+
+            <InputGroup>
+              <div className="input-group mb-2">
+                <div className="input-group-prepend">
+                  <div className="input-group-text h-100">
+                    <FaPhoneAlt />
+                  </div>
+                </div>
+                <Field
+                  id="phone"
+                  name="phone"
+                  placeholder="1 234 567 8901"
+                  className="form-control"
+                />
+              </div>
+            </InputGroup>
+
+            {errors.phone && touched.phone ? (
+              <div className="text-danger">{errors.phone}</div>
+            ) : null}
+
+            <div className="d-flex justify-content-center ">
+              <button type="submit" className="border rounded">
+                Submit
+              </button>
+            </div>
+          </Form>
+        )}
       </Formik>
     </div>
   );
