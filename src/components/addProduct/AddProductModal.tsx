@@ -44,7 +44,7 @@ const AddProductModal = () => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <AddProductForm onCLick={handleClose} />
+          <AddProductForm onClick={() => handleClose()} />
         </Modal.Body>
       </Modal>
     </>
