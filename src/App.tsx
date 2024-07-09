@@ -86,20 +86,6 @@ function App() {
     (a, b) => a.productId - b.productId
   );
 
-  const handleAddProduct = () => {
-    if (!userIsLoggedIn) return;
-    dispatch(
-      addProduct({
-        title: "nameProduct",
-        price: 15,
-        description: "lorem ipsum lalalal",
-        image:
-          "https://cdn.pixabay.com/photo/2017/06/15/13/06/retro-2405404_1280.jpg",
-        category: "jewelry",
-      })
-    );
-  };
-
   return (
     <>
       <Stack direction="horizontal" gap={3}>
@@ -111,9 +97,6 @@ function App() {
                 <FaCartShopping />
               </button>
               <AddProductModal />
-              <button onClick={handleAddProduct} className="ms-auto">
-                <IoIosAddCircle />
-              </button>
               <button onClick={handleLogOut}>
                 <IoIosLogOut />
               </button>

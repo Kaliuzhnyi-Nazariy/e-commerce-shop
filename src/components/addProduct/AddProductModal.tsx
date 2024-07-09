@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import {
+  // Button,
+  Modal,
+} from "react-bootstrap";
 import { IoIosAddCircle } from "react-icons/io";
 import AddProductForm from "./AddProductForm";
 
@@ -37,11 +40,11 @@ const AddProductModal = () => {
           <Modal.Title
             style={{ textTransform: "uppercase", fontWeight: "bold" }}
           >
-            Signup form
+            Add Product form
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <AddProductForm />
+          <AddProductForm onCLick={handleClose} />
         </Modal.Body>
       </Modal>
     </>

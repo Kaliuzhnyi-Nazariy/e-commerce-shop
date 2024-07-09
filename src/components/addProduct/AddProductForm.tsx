@@ -1,7 +1,6 @@
 import { Formik, Field, Form, FormikHelpers } from "formik";
-import { addProduct } from "../../axios/operations";
 import { useSelector } from "react-redux";
-import { selectIsLoggedIn } from "../../axios/selectors";
+import { selectCategories } from "../../axios/selectors";
 import { useAppDispatch } from "../../hooks/useDispatch";
 import { INewProduct } from "../../typesOrInterfaces/typesOrInterfaces";
 import * as Yup from "yup";
@@ -9,12 +8,9 @@ import { MdOutlineTitle } from "react-icons/md";
 import { IoMdPricetag } from "react-icons/io";
 import { FaAudioDescription } from "react-icons/fa";
 import { ImFilePicture } from "react-icons/im";
-
-// interface INewProduct {
-//   firstName: string;
-//   lastName: string;
-//   email: string;
-// }
+import { useState } from "react";
+import { Dropdown, DropdownButton, Stack } from "react-bootstrap";
+import { addProduct } from "../../axios/operations";
 
 const validationSchema = Yup.object({
   title: Yup.string().min(2).required("Title is required!"),
@@ -22,36 +18,53 @@ const validationSchema = Yup.object({
     .positive("Must be greater than 0!")
     .required("Price is required!"),
   description: Yup.string().min(16).required("Description is required!"),
-  // category: Yup
+  category: Yup.string().required("Category is required!"),
 });
 
-export const AddProductForm = () => {
-  const userIsLoggedIn = useSelector(selectIsLoggedIn);
-
+export const AddProductForm = ({ onClick }) => {
+  console.log(onClick);
   const dispatch = useAppDispatch();
 
-  const handleAddProduct = () => {
-    if (!userIsLoggedIn) return;
+  const categories = useSelector(selectCategories);
+
+  const [category, setCategory] = useState("");
+
+  // const handleAddProduct = () => {
+  //   if (!userIsLoggedIn) return;
+  //   dispatch(
+  //     addProduct({
+  //       title: "nameProduct",
+  //       price: 15,
+  //       description: "lorem ipsum lalalal",
+  //       image:
+  //         "https://cdn.pixabay.com/photo/2017/06/15/13/06/retro-2405404_1280.jpg",
+  //       category: "jewelry",
+  //     })
+  //   );
+  // };
+
+  const checkValues = (values: INewProduct) => {
+    if (values.title.length === 0) return;
+    if (values.price === 0) return;
+    if (values.description.length === 0) return;
+    if (values.image.length === 0) return;
+    if (values.category.length === 0) return;
+
     dispatch(
       addProduct({
-        title: "nameProduct",
-        price: 15,
-        description: "lorem ipsum lalalal",
-        image:
-          "https://cdn.pixabay.com/photo/2017/06/15/13/06/retro-2405404_1280.jpg",
-        category: "jewelry",
+        title: values.title,
+        price: values.price,
+        description: values.description,
+        image: values.image,
+        category: values.image,
       })
     );
-  };
-
-  const checValues = (values: INewProduct) => {
-    console.log(values);
   };
 
   return (
     <>
       <div>
-        <h1>Signup</h1>
+        <h1>ADD PRODUCT</h1>
         <Formik
           initialValues={{
             title: "",
@@ -65,11 +78,11 @@ export const AddProductForm = () => {
             values: INewProduct,
             { setSubmitting }: FormikHelpers<INewProduct>
           ) => {
-            checValues(values);
+            checkValues(values);
             setSubmitting(false);
           }}
         >
-          {({ errors, touched }) => (
+          {({ errors, touched, setFieldValue }) => (
             <Form>
               <div className="col-auto">
                 <div className="input-group mb-2">
@@ -141,8 +154,8 @@ export const AddProductForm = () => {
                   <Field
                     id="image"
                     name="image"
-                    placeholder="What it is?"
-                    type="file"
+                    placeholder="Image link"
+                    type="text"
                     className="form-control"
                   />
                 </div>
@@ -152,31 +165,38 @@ export const AddProductForm = () => {
                 <div className="text-danger">{errors.image}</div>
               ) : null}
 
-              <p>
-                <b>here will be dropdown where user will select a category</b>
-              </p>
-
-              {/* <div className="col-auto">
-                <div className="input-group mb-2">
-                  <div className="input-group-prepend">
-                    <div className="input-group-text h-100">
-                      <ImFilePicture />
-                    </div>
-                  </div>
-                  <Field
-                    id="image"
-                    name="image"
-                    placeholder="What it is?"
-                    className="form-control"
-                  />
-                </div>
-              </div>
-
-              {errors.image && touched.image ? (
-                <div className="text-danger">{errors.image}</div>
-              ) : null} */}
-
-              <button type="submit">Submit</button>
+              <Stack direction="horizontal">
+                <DropdownButton
+                  id="dropdown-button"
+                  title="Select category"
+                  className="mb-2 btn-dark"
+                >
+                  <Dropdown.Menu
+                    className="dropdown-menu"
+                    style={{ height: "16vh", overflowY: "scroll" }}
+                  >
+                    {categories.map((categoryItem) => (
+                      <Dropdown.Item
+                        key={categoryItem}
+                        onClick={() => {
+                          setFieldValue("category", categoryItem);
+                          setCategory(categoryItem);
+                        }}
+                      >
+                        {categoryItem}
+                      </Dropdown.Item>
+                    ))}
+                  </Dropdown.Menu>
+                </DropdownButton>
+                <p className="ms-auto">
+                  {touched.category && category.length === 0
+                    ? errors.category
+                    : category}
+                </p>
+              </Stack>
+              <button type="submit" onClick={() => onClick()}>
+                Submit
+              </button>
             </Form>
           )}
         </Formik>
