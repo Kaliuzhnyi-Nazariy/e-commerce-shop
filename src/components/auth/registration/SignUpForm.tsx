@@ -8,7 +8,11 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import { MdEmail } from "react-icons/md";
 import * as Yup from "yup";
 import { useAppDispatch } from "../../../hooks/useDispatch";
-import { createUser, loginUser } from "../../../axios/authOperations";
+import {
+  createUser,
+  getAllUsers,
+  loginUser,
+} from "../../../axios/authOperations";
 
 interface Values {
   email: string;
@@ -71,6 +75,8 @@ export const SignUpForm = () => {
     if (values.long.length === 0) return;
     if (values.phone.length === 0) return;
 
+    dispatch(getAllUsers());
+
     dispatch(
       createUser({
         email: values.email,
@@ -100,7 +106,12 @@ export const SignUpForm = () => {
   };
 
   return (
-    <div style={{ height: "75vh", overflowY: "scroll" }}>
+    <div
+      style={{
+        height: "75vh",
+        overflowY: "scroll",
+      }}
+    >
       <h1>Signup</h1>
       <Formik
         initialValues={{

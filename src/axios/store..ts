@@ -18,7 +18,7 @@ import persistStore from "redux-persist/es/persistStore";
 const userPersistConfig = {
   key: "user",
   storage,
-  whitelist: ["user", "token"],
+  whitelist: ["user", "token", "allUsers"],
 };
 
 const productsPersistConfig = {

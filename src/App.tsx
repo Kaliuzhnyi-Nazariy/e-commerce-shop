@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
 import "./App.css";
 import { useAppDispatch } from "./hooks/useDispatch";
-import { format } from "date-fns";
 import {
   addProduct,
-  deleteProduct,
   deleteProductFromCart,
   getAllProducts,
   getCategories,
@@ -21,20 +19,13 @@ import {
   selectProducts,
   selectUser,
 } from "./axios/selectors";
-import {
-  createUser,
-  extraLoginUser,
-  loginUser,
-  refreshUser,
-} from "./axios/authOperations";
-import {
-  addUserCart,
-  deleteUserCart,
-  getUserCart,
-} from "./axios/cartOperations";
-import { ICart } from "./typesOrInterfaces/typesOrInterfaces";
+import { refreshUser } from "./axios/authOperations";
+import { deleteUserCart, getUserCart } from "./axios/cartOperations";
 import { SignUpModal } from "./components/auth/registration/SignUpModal";
 import { LoginModal } from "./components/auth/login/LoginModal";
+import { FaCartShopping } from "react-icons/fa6";
+import { IoIosAddCircle, IoIosLogOut } from "react-icons/io";
+import ProductItem from "./components/productsItems/productItem";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -67,43 +58,6 @@ function App() {
     return createdByUser.some((userProduct) => userProduct.id === productId);
   };
 
-  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(
-      isProductCreatedByUser(Number(e.currentTarget.closest("div")?.id))
-    );
-    if (!userIsLoggedIn) return;
-    dispatch(deleteProduct(Number(e.currentTarget.closest("div")?.id)));
-  };
-
-  const regUser = () => {
-    // will open modal
-    dispatch(
-      createUser({
-        email: "don@gmail.com",
-        username: "donero",
-        password: "ewedon",
-        name: { firstname: "don", lastname: "romer" },
-        address: {
-          city: "San Antonio",
-          street: "Hunters Creek Dr",
-          number: 6454,
-          zipcode: "34-1734",
-          geolocation: {
-            lat: "50.3467",
-            long: "-20.1310",
-          },
-        },
-        phone: "1-765-789-6734",
-      })
-    );
-  };
-
-  const logUser = async () => {
-    // will open modal
-    dispatch(extraLoginUser({ username: "donero", password: "ewedon" }));
-    dispatch(loginUser({ username: "donero", password: "ewedon" }));
-  };
-
   const handleUserCart = async () => {
     if (!userIsLoggedIn) return;
     // will open modal to login
@@ -123,23 +77,6 @@ function App() {
   const handleDeleteFromCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     dispatch(deleteUserCart(Number(e.target.closest("div").id)));
     dispatch(deleteProductFromCart(Number(e.target.closest("div").id)));
-  };
-
-  const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!userIsLoggedIn) return;
-    const userId = user.id;
-    const date = format(Date(), "yyyy-MM-dd");
-    const productInfoClick: ICart = {
-      id: Number(e.target.closest("div").id),
-      userId,
-      date,
-      products: {
-        productId: Number(e.target.closest("div").id),
-        quantity: 1,
-      },
-    };
-    console.log(productInfoClick);
-    dispatch(addUserCart(productInfoClick));
   };
 
   const sortedCartProducts = [...cartProducts].sort((a, b) => a.id - b.id);
@@ -163,20 +100,26 @@ function App() {
 
   return (
     <>
+      <button onClick={handleAllProduct}>All products</button>
+      <button onClick={handleUserCart}>
+        <FaCartShopping />
+      </button>
+
       {userIsLoggedIn ? (
         <>
-          <button onClick={handleLogOut}>log out</button>
-          <button onClick={handleAddProduct}>Add product</button>
+          <button onClick={handleAddProduct}>
+            <IoIosAddCircle />
+          </button>
+          <button onClick={handleLogOut}>
+            <IoIosLogOut />
+          </button>
         </>
       ) : (
         <>
           <LoginModal />
           <SignUpModal />
-          <button onClick={logUser}>login</button>
         </>
       )}
-      <button onClick={handleAllProduct}>All products</button>
-      <button onClick={handleUserCart}>Get Cart</button>
       {sortedCartProducts.length === 0 ? (
         <>
           {categories.map((i) => (
@@ -201,14 +144,19 @@ function App() {
       {sortedCartProducts.length === 0 ? (
         products.map((i) => {
           return (
-            <div key={i.id} id={i.id.toString()}>
-              <p>{i.title}</p>
-              <button onClick={handleAddToCart}>Add to cart</button>
+            <ProductItem prop={i} />
+            // <div key={i.id} id={i.id.toString()}>
+            //   <p>{i.title}</p>
+            //   <button onClick={handleAddToCart}>
+            //     <MdAddShoppingCart />
+            //   </button>
 
-              {isProductCreatedByUser(i.id) && (
-                <button onClick={handleDelete}>Delete</button>
-              )}
-            </div>
+            //   {isProductCreatedByUser(i.id) && (
+            //     <button onClick={handleDelete}>
+            //       <MdDeleteForever />
+            //     </button>
+            //   )}
+            // </div>
           );
         })
       ) : (

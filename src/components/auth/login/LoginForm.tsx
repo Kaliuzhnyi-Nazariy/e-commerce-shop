@@ -42,7 +42,7 @@ export const LoginForm = () => {
   };
 
   return (
-    <div style={{ height: "34vh", overflowY: "scroll" }}>
+    <div style={{ height: "35vh" }}>
       <h1>Sign In</h1>
 
       <DropdownButton

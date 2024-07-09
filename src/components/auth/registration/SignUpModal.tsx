@@ -38,7 +38,7 @@ export const SignUpModal = () => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <SignUpForm onClickClose={handleClose} />
+          <SignUpForm />
         </Modal.Body>
       </Modal>
     </>

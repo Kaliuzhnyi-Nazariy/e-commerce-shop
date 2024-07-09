@@ -17,6 +17,7 @@ export const createUser = createAsyncThunk<
 >("user/createUser", async (newUser): Promise<IUser> => {
   try {
     const res = await axios.post(`${baseUserURL}`, newUser);
+    res.data.id += 10;
     return res.data;
   } catch (error) {
     console.log("Error in axios/autOperations/crateUser: ", error);
@@ -29,7 +30,7 @@ export const loginUser = createAsyncThunk<
   ILoginUser,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   { rejectValue: any }
->("user/loginUser", async (userInfo): Promise<string> => {
+>("user/loginUser", async (userInfo, thunkAPI): Promise<string> => {
   try {
     const res = await axios.post(
       `https://fakestoreapi.com/auth/login`,

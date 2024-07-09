@@ -19,7 +19,7 @@ interface IInitialState {
 const initialState: IInitialState = {
   user: {},
   token: "",
-  allUsers: [{}],
+  allUsers: [],
   isLoading: false,
   error: "string",
   isLoggedIn: false,
@@ -48,6 +48,7 @@ const userSlice = createSlice({
       .addCase(createUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = { ...action.payload, ...action.meta.arg };
+        state.allUsers.push({ ...action.payload, ...action.meta.arg });
       })
       .addCase(createUser.rejected, handleRejected)
       .addCase(loginUser.pending, handlePending)
