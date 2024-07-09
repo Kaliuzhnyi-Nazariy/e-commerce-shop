@@ -26,6 +26,7 @@ import { LoginModal } from "./components/auth/login/LoginModal";
 import { FaCartShopping } from "react-icons/fa6";
 import { IoIosAddCircle, IoIosLogOut } from "react-icons/io";
 import ProductItem from "./components/productsItems/productItem";
+import { Stack } from "react-bootstrap";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -100,26 +101,30 @@ function App() {
 
   return (
     <>
-      <button onClick={handleAllProduct}>All products</button>
-      <button onClick={handleUserCart}>
-        <FaCartShopping />
-      </button>
-
-      {userIsLoggedIn ? (
-        <>
-          <button onClick={handleAddProduct}>
-            <IoIosAddCircle />
+      <Stack direction="horizontal" gap={3}>
+        <button onClick={handleAllProduct}>All products</button>
+        <Stack className="ms-auto" direction="horizontal" gap={3}>
+          <button onClick={handleUserCart}>
+            <FaCartShopping />
           </button>
-          <button onClick={handleLogOut}>
-            <IoIosLogOut />
-          </button>
-        </>
-      ) : (
-        <>
-          <LoginModal />
-          <SignUpModal />
-        </>
-      )}
+          {userIsLoggedIn ? (
+            <>
+              <button onClick={handleAddProduct} className="ms-auto">
+                <IoIosAddCircle />
+              </button>
+              <button onClick={handleLogOut}>
+                <IoIosLogOut />
+              </button>
+            </>
+          ) : (
+            <>
+              <LoginModal />
+              <div className="vr"></div>
+              <SignUpModal />
+            </>
+          )}
+        </Stack>
+      </Stack>
       {sortedCartProducts.length === 0 ? (
         <>
           {categories.map((i) => (

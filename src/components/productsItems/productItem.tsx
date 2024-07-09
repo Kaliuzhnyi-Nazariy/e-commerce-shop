@@ -67,6 +67,9 @@ const ProductItem = ({ prop }: Prop) => {
       >
         i
       </button> */}
+      {/* <button type="button" className="btn" title={prop.description}>
+        i
+      </button> */}
 
       <img src={prop.image} alt={prop.title} style={{ height: "150px" }} />
       <p>{prop.title}</p>

@@ -35,7 +35,10 @@ const handleRejected = (
   action: PayloadAction<{ error: string }>
 ) => {
   state.isLoading = false;
-  state.error = action.payload.error || "Somesthing went wrong! Try again!";
+  state.error =
+    action.payload?.error ||
+    action?.error ||
+    "Somesthing went wrong! Try again!";
 };
 
 const userSlice = createSlice({
