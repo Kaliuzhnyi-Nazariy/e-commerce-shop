@@ -1,10 +1,7 @@
 import { useState } from "react";
-// import Button from "react-bootstrap/Button";
-// import Modal from "react-bootstrap/Modal";
 import { SignUpForm } from "./SignUpForm";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-// import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 
 const style = {
@@ -20,19 +17,20 @@ const style = {
 };
 
 export const SignUpModal = () => {
-  // const [show, setShow] = useState(false);
-
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  // const handleShow = () => setShow(true);
-  // const handleClose = () => setShow(false);
-
   return (
     <>
       <div>
-        <Button onClick={handleOpen}>Open modal</Button>
+        <Button
+          onClick={handleOpen}
+          type="button"
+          class="btn btn-outline-primary"
+        >
+          sign up
+        </Button>
         <Modal
           open={open}
           onClose={handleClose}
@@ -40,56 +38,31 @@ export const SignUpModal = () => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <div id="modal-modal-description">
+            <div className="d-flex align-items-center">
+              <h1>Signup</h1>
               <button
                 type="button"
-                className="close"
+                className="close ms-auto d-flex justify-content-center align-items-center"
                 aria-label="Close"
+                style={{
+                  background: "transparent",
+                  width: "40px",
+                  height: "40px",
+                  border: "none",
+                }}
                 onClick={() => handleClose()}
               >
-                <span aria-hidden="true">&times;</span>
+                <span aria-hidden="true" style={{ fontSize: "32px" }}>
+                  &times;
+                </span>
               </button>
+            </div>
+            <div id="modal-modal-description">
               <SignUpForm />
             </div>
           </Box>
         </Modal>
       </div>
-      {/* <Button
-        variant="outline-primary"
-        style={{
-          width: "100px",
-          height: "48px",
-          fontWeight: "bold",
-          textTransform: "uppercase",
-        }}
-        onClick={handleShow}
-      >
-        Sign up
-      </Button>
-      <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-        className="custom-modal"
-        style={{ width: "150px" }} // Apply custom CSS class here
-      >
-        <Modal.Dialog>
-          <Modal.Header closeButton>
-            <Modal.Title
-              style={{
-                textTransform: "uppercase",
-                fontWeight: "bold",
-              }}
-            >
-              Signup form
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <SignUpForm />
-          </Modal.Body>
-        </Modal.Dialog>
-      </Modal>{" "} */}
     </>
   );
 };

@@ -109,9 +109,9 @@ export const SignUpForm = () => {
       style={{
         height: "75vh",
         overflowY: "scroll",
+        margin: "8px",
       }}
     >
-      <h1>Signup</h1>
       <Formik
         initialValues={{
           email: "",
