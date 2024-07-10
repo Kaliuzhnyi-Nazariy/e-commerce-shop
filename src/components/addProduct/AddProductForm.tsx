@@ -22,7 +22,6 @@ const validationSchema = Yup.object({
 });
 
 export const AddProductForm = ({ onClick }) => {
-  console.log(onClick);
   const dispatch = useAppDispatch();
 
   const categories = useSelector(selectCategories);
@@ -56,7 +55,7 @@ export const AddProductForm = ({ onClick }) => {
         price: values.price,
         description: values.description,
         image: values.image,
-        category: values.image,
+        category: values.category,
       })
     );
   };

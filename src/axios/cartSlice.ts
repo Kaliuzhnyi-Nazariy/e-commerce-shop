@@ -52,7 +52,8 @@ const cartSlice = createSlice({
         );
 
         if (condtion !== -1) {
-          state.cartProducts[condtion].quantity += 1;
+          state.cartProducts[condtion].quantity +=
+            action.payload.products.quantity;
         } else {
           state.cartProducts.push(action.payload.products);
         }

@@ -93,7 +93,29 @@ function App() {
         <Stack className="ms-auto" direction="horizontal" gap={3}>
           {userIsLoggedIn ? (
             <>
-              <button onClick={handleUserCart}>
+              <button onClick={handleUserCart} style={{ position: "relative" }}>
+                <div
+                  style={{
+                    position: "absolute",
+                    width: "20px",
+                    height: "20px",
+                    backgroundColor: "tomato",
+                    top: -8,
+                    right: -8,
+                    borderRadius: "100%",
+                    fontSize: "12px",
+                    textAlign: "center",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  {cardSelects.length !== 0 ? (
+                    <> {cardSelects.length}</>
+                  ) : (
+                    <>0</>
+                  )}
+                </div>
                 <FaCartShopping />
               </button>
               <AddProductModal />
@@ -135,52 +157,54 @@ function App() {
       ) : (
         <></>
       )}
-      {sortedCartProducts.length === 0 ? (
-        products.map((i) => {
-          return <ProductItem prop={i} />;
-        })
-      ) : (
-        <>
-          {cardSelects ? (
-            <>
-              {sortedCartProducts.map((i) => {
-                const selectedProduct = sortedCardSelects.find(
-                  (item) => item.productId === i.id
-                );
-                // console.log(sortedCartProducts);
-                // console.log(i);
-                return (
-                  <div
-                    key={i.id}
-                    id={i.id.toString()}
-                    style={{
-                      border: "2px solid lightgray",
-                      borderRadius: "16px",
-                      margin: "16px 0",
-                      padding: "16px",
-                    }}
-                  >
-                    <img
-                      src={i.image}
-                      style={{ maxWidth: "150px", maxHeight: "150px" }}
-                      alt={i.title}
-                    />
-                    <p>{i.title}</p>
-                    <span>
-                      Quantity: {selectedProduct?.quantity ?? "no info"}
-                    </span>
-                    <span>Price: {i.price}</span>
-                    <button onClick={handleDeleteFromCart}>delete</button>
-                  </div>
-                );
-              })}
-            </>
-          ) : (
-            <></>
-          )}
-          <button onClick={handleCleanCart}>Clear</button>
-        </>
-      )}
+      <div className="d-flex flex-column align-items-center">
+        {sortedCartProducts.length === 0 ? (
+          products.map((i) => {
+            return <ProductItem prop={i} />;
+          })
+        ) : (
+          <>
+            {cardSelects ? (
+              <>
+                {sortedCartProducts.map((i) => {
+                  const selectedProduct = sortedCardSelects.find(
+                    (item) => item.productId === i.id
+                  );
+                  // console.log(sortedCartProducts);
+                  // console.log(i);
+                  return (
+                    <div
+                      key={i.id}
+                      id={i.id.toString()}
+                      style={{
+                        border: "2px solid lightgray",
+                        borderRadius: "16px",
+                        margin: "16px 0",
+                        padding: "16px",
+                      }}
+                    >
+                      <img
+                        src={i.image}
+                        style={{ maxWidth: "150px", maxHeight: "150px" }}
+                        alt={i.title}
+                      />
+                      <p>{i.title}</p>
+                      <span>
+                        Quantity: {selectedProduct?.quantity ?? "no info"}
+                      </span>
+                      <span>Price: {i.price}</span>
+                      <button onClick={handleDeleteFromCart}>delete</button>
+                    </div>
+                  );
+                })}
+              </>
+            ) : (
+              <></>
+            )}
+            <button onClick={handleCleanCart}>Clear</button>
+          </>
+        )}
+      </div>
     </>
   );
 }

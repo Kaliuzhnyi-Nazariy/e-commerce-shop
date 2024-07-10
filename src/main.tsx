@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { persistor, store } from "./axios/store..ts";
 import { PersistGate } from "redux-persist/integration/react";
 import { BrowserRouter } from "react-router-dom";
+import "./components/productsItems/tooltipStyles.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
