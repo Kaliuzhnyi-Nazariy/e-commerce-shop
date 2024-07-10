@@ -55,20 +55,6 @@ const ProductItem = ({ prop }: Prop) => {
       className="p-3 border rounded w-50 d-flex flex-column align-items-center"
       style={{ position: "relative" }}
     >
-      {/* <p data-tooltip={prop.description}>i</p> */}
-      {/* <button
-        type="button"
-        className="btn btn-secondary w-25"
-        data-toggle="tooltip"
-        data-placement="bottom"
-        title={prop.description}
-      >
-        i
-      </button> */}
-      {/* <button type="button" className="btn" title={prop.description}>
-        i
-      </button> */}
-
       <p
         style={{
           position: "absolute",
@@ -86,7 +72,9 @@ const ProductItem = ({ prop }: Prop) => {
       </p>
 
       <img src={prop.image} alt={prop.title} style={{ height: "150px" }} />
+
       <p>{prop.title}</p>
+
       <p
         style={{
           maxWidth: "300px",
@@ -97,8 +85,11 @@ const ProductItem = ({ prop }: Prop) => {
       >
         {prop.description}
       </p>
+
       <p>{prop.category}</p>
+
       <p>{prop.price}</p>
+
       <span
         className="d-flex justify-content-between"
         style={{ width: "100%" }}
@@ -126,7 +117,6 @@ const ProductItem = ({ prop }: Prop) => {
           <MdAddShoppingCart />
         </button>
       </span>
-
       {isProductCreatedByUser(prop.id) && (
         <button
           onClick={handleDelete}

@@ -28,20 +28,6 @@ export const AddProductForm = ({ onClick }) => {
 
   const [category, setCategory] = useState("");
 
-  // const handleAddProduct = () => {
-  //   if (!userIsLoggedIn) return;
-  //   dispatch(
-  //     addProduct({
-  //       title: "nameProduct",
-  //       price: 15,
-  //       description: "lorem ipsum lalalal",
-  //       image:
-  //         "https://cdn.pixabay.com/photo/2017/06/15/13/06/retro-2405404_1280.jpg",
-  //       category: "jewelry",
-  //     })
-  //   );
-  // };
-
   const checkValues = (values: INewProduct) => {
     if (values.title.length === 0) return;
     if (values.price === 0) return;

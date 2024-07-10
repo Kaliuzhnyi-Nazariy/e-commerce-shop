@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import "./App.css";
 import { useAppDispatch } from "./hooks/useDispatch";
 import {
-  addProduct,
   deleteProductFromCart,
   getAllProducts,
   getCategories,
@@ -24,10 +23,11 @@ import { deleteUserCart, getUserCart } from "./axios/cartOperations";
 import { SignUpModal } from "./components/auth/registration/SignUpModal";
 import { LoginModal } from "./components/auth/login/LoginModal";
 import { FaCartShopping } from "react-icons/fa6";
-import { IoIosAddCircle, IoIosLogOut } from "react-icons/io";
+import { IoIosLogOut } from "react-icons/io";
 import ProductItem from "./components/productsItems/productItem";
-import { Stack } from "react-bootstrap";
+import { Carousel, Stack } from "react-bootstrap";
 import AddProductModal from "./components/addProduct/AddProductModal";
+import CartProductItem from "./components/cartProducts/CartProductItem";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -38,7 +38,6 @@ function App() {
   const userIsLoggedIn = useSelector(selectIsLoggedIn);
   const cartProducts = useSelector(selectCartProducts);
   const cardSelects = useSelector(selectProducts);
-  const createdByUser = useSelector(selectIsCreatedByUser);
 
   useEffect(() => {
     dispatch(getCategories());
@@ -48,16 +47,14 @@ function App() {
   }, [user, dispatch]);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    dispatch(getExactCategory(e.currentTarget.textContent));
+    dispatch(
+      getExactCategory(e.target.textContent || e.target.closest("img").id)
+    );
   };
 
   const handleAllProduct = () => {
     dispatch({ type: "cleanCartProducts" });
     dispatch(getAllProducts());
-  };
-
-  const isProductCreatedByUser = (productId: number) => {
-    return createdByUser.some((userProduct) => userProduct.id === productId);
   };
 
   const handleUserCart = async () => {
@@ -76,18 +73,13 @@ function App() {
     dispatch({ type: "cleanCartProducts" });
   };
 
-  const handleDeleteFromCart = (e: React.MouseEvent<HTMLButtonElement>) => {
-    dispatch(deleteUserCart(Number(e.target.closest("div").id)));
-    dispatch(deleteProductFromCart(Number(e.target.closest("div").id)));
-  };
-
   const sortedCartProducts = [...cartProducts].sort((a, b) => a.id - b.id);
   const sortedCardSelects = [...cardSelects].sort(
     (a, b) => a.productId - b.productId
   );
 
   return (
-    <>
+    <div style={{ minWidth: "320px" }}>
       <Stack direction="horizontal" gap={3}>
         <button onClick={handleAllProduct}>All products</button>
         <Stack className="ms-auto" direction="horizontal" gap={3}>
@@ -133,34 +125,50 @@ function App() {
         </Stack>
       </Stack>
       {sortedCartProducts.length === 0 ? (
-        <div
-          // direction="horizontal"
-          // gap={1}
-          className="d-flex justify-content-around"
-        >
+        // <div
+        //   // direction="horizontal"
+        //   // gap={1}
+        //   className="d-flex justify-content-around flex-column"
+        // >
+        //   {categories.map((i) => (
+        //     <button
+        //       key={i}
+        //       style={{
+        //         margin: "8px 16px",
+        //         padding: "4px 8px",
+        //         border: "1px solid white",
+        //         borderRadius: "16px",
+        //         display: "block",
+        //       }}
+        //       onClick={handleClick}
+        //     >
+        //       {i}
+        //     </button>
+        //   ))}
+        // </div>
+
+        <Carousel>
           {categories.map((i) => (
-            <button
-              key={i}
-              style={{
-                margin: "8px 16px",
-                padding: "4px 8px",
-                border: "1px solid white",
-                borderRadius: "16px",
-                display: "block",
-              }}
-              onClick={handleClick}
-            >
-              {i}
-            </button>
+            <Carousel.Item onClick={handleClick} key={i}>
+              <img
+                className="d-block w-100 darker-image"
+                src="https://images.pexels.com/photos/5624975/pexels-photo-5624975.jpeg?auto=compress&cs=tinysrgb&w=600"
+                alt="First slide"
+                id={i}
+              />
+              <Carousel.Caption>
+                <h3>{i}</h3>
+              </Carousel.Caption>
+            </Carousel.Item>
           ))}
-        </div>
+        </Carousel>
       ) : (
         <></>
       )}
       <div className="d-flex flex-column align-items-center">
         {sortedCartProducts.length === 0 ? (
           products.map((i) => {
-            return <ProductItem prop={i} />;
+            return <ProductItem prop={i} key={i.id} />;
           })
         ) : (
           <>
@@ -173,28 +181,32 @@ function App() {
                   // console.log(sortedCartProducts);
                   // console.log(i);
                   return (
-                    <div
-                      key={i.id}
-                      id={i.id.toString()}
-                      style={{
-                        border: "2px solid lightgray",
-                        borderRadius: "16px",
-                        margin: "16px 0",
-                        padding: "16px",
-                      }}
-                    >
-                      <img
-                        src={i.image}
-                        style={{ maxWidth: "150px", maxHeight: "150px" }}
-                        alt={i.title}
-                      />
-                      <p>{i.title}</p>
-                      <span>
-                        Quantity: {selectedProduct?.quantity ?? "no info"}
-                      </span>
-                      <span>Price: {i.price}</span>
-                      <button onClick={handleDeleteFromCart}>delete</button>
-                    </div>
+                    <CartProductItem
+                      propMainInfo={i}
+                      propSecondaryInfo={selectedProduct}
+                    />
+                    // <div
+                    //   key={i.id}
+                    //   id={i.id.toString()}
+                    //   style={{
+                    //     border: "2px solid lightgray",
+                    //     borderRadius: "16px",
+                    //     margin: "16px 0",
+                    //     padding: "16px",
+                    //   }}
+                    // >
+                    //   <img
+                    //     src={i.image}
+                    //     style={{ maxWidth: "150px", maxHeight: "150px" }}
+                    //     alt={i.title}
+                    //   />
+                    //   <p>{i.title}</p>
+                    //   <span>
+                    //     Quantity: {selectedProduct?.quantity ?? "no info"}
+                    //   </span>
+                    //   <span>Price: {i.price}</span>
+                    //   <button onClick={handleDeleteFromCart}>delete</button>
+                    // </div>
                   );
                 })}
               </>
@@ -205,7 +217,7 @@ function App() {
           </>
         )}
       </div>
-    </>
+    </div>
   );
 }
 
