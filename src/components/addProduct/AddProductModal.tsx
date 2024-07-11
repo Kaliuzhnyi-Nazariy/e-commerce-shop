@@ -34,7 +34,7 @@ const AddProductModal = () => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style} style={{ width: "80%" }}>
-            <AddProductForm onClick={handleClose} />
+            <AddProductForm onClick={handleClose} handleClose={handleClose} />
           </Box>
         </Modal>
       </div>

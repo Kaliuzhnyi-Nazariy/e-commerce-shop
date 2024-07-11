@@ -23,9 +23,10 @@ const validationSchema = Yup.object({
 
 type Prop = {
   onClick: () => void;
+  handleClose: () => void;
 };
 
-export const AddProductForm = ({ onClick }: Prop) => {
+export const AddProductForm = ({ onClick, handleClose }: Prop) => {
   const dispatch = useAppDispatch();
 
   const categories = useSelector(selectCategories);
@@ -34,10 +35,15 @@ export const AddProductForm = ({ onClick }: Prop) => {
 
   const checkValues = (values: INewProduct) => {
     if (values.title.length === 0) return;
+    console.log(`values.title checked`);
     if (values.price === 0) return;
+    console.log(`values.price checked`);
     if (values.description.length === 0) return;
+    console.log(`values.description checked`);
     if (values.image.length === 0) return;
+    console.log(`values.image checked`);
     if (values.category.length === 0) return;
+    console.log(`values.category checked`);
 
     dispatch(
       addProduct({
@@ -53,7 +59,28 @@ export const AddProductForm = ({ onClick }: Prop) => {
   return (
     <>
       <div>
-        <h1>ADD PRODUCT</h1>
+        <span className="d-flex align-items-center justify-content-center">
+          <h1>ADD PRODUCT</h1>
+          <button
+            type="button"
+            className="close ms-auto d-flex justify-content-center align-items-center"
+            aria-label="Close"
+            style={{
+              background: "transparent",
+              width: "40px",
+              height: "40px",
+              border: "none",
+            }}
+            onClick={() => handleClose()}
+          >
+            <span
+              aria-hidden="true"
+              style={{ fontSize: "32px", marginBottom: "32%", lineHeight: "0" }}
+            >
+              &times;
+            </span>
+          </button>
+        </span>
         <Formik
           initialValues={{
             title: "",
@@ -156,26 +183,23 @@ export const AddProductForm = ({ onClick }: Prop) => {
 
               <Stack direction="horizontal">
                 <DropdownButton
-                  id="dropdown-button"
-                  title="Select category"
-                  className="mb-2 btn-dark"
+                  key="secondary"
+                  id={`dropdown-variants-secondary`}
+                  variant="dark"
+                  title="Categories"
                 >
-                  <Dropdown.Menu
-                    className="dropdown-menu"
-                    style={{ height: "16vh", overflowY: "scroll" }}
-                  >
-                    {categories.map((categoryItem) => (
-                      <Dropdown.Item
-                        key={categoryItem}
-                        onClick={() => {
-                          setFieldValue("category", categoryItem);
-                          setCategory(categoryItem);
-                        }}
-                      >
-                        {categoryItem}
-                      </Dropdown.Item>
-                    ))}
-                  </Dropdown.Menu>
+                  {categories.map((categoryItem) => (
+                    <Dropdown.Item
+                      key={categoryItem}
+                      onClick={() => {
+                        setFieldValue("category", categoryItem);
+                        setCategory(categoryItem);
+                      }}
+                    >
+                      {categoryItem}
+                      <Dropdown.Divider />
+                    </Dropdown.Item>
+                  ))}
                 </DropdownButton>
                 <p className="ms-auto">
                   {touched.category && category.length === 0
@@ -183,9 +207,15 @@ export const AddProductForm = ({ onClick }: Prop) => {
                     : category}
                 </p>
               </Stack>
-              <button type="submit" onClick={() => onClick()}>
-                Submit
-              </button>
+              <div className="d-flex justify-content-center">
+                <button
+                  type="submit"
+                  onClick={() => onClick()}
+                  className="btn btn-dark"
+                >
+                  Submit
+                </button>
+              </div>
             </Form>
           )}
         </Formik>

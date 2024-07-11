@@ -81,38 +81,3 @@ export const LoginModal = () => {
     </>
   );
 };
-
-//   return (
-//     <>
-//       <Button
-//         variant="primary"
-//         style={{
-//           width: "100px",
-//           height: "48px",
-//           fontWeight: "bold",
-//           textTransform: "uppercase",
-//         }}
-//         onClick={() => {
-//           dispatch(getAllUsers());
-//           handleShow();
-//         }}
-//       >
-//         Sign in
-//       </Button>
-
-//       <Modal
-//         show={show}
-//         onHide={handleClose}
-//         backdrop="static"
-//         keyboard={false}
-//       >
-//         <Modal.Header closeButton>
-//           <Modal.Title>Sign In</Modal.Title>
-//         </Modal.Header>
-//         <Modal.Body>
-//           <LoginForm />
-//         </Modal.Body>
-//       </Modal>
-//     </>
-//   );
-// };

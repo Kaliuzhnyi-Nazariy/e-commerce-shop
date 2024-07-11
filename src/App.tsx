@@ -163,8 +163,6 @@ function App() {
                   const selectedProduct = sortedCardSelects.find(
                     (item) => item.productId === i.id
                   );
-                  console.log(selectedProduct);
-                  // console.log(i);
                   return (
                     <CartProductItem
                       propMainInfo={i}

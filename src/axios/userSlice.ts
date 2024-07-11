@@ -1,4 +1,4 @@
-import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   createUser,
   extraLoginUser,
@@ -35,10 +35,7 @@ const handleRejected = (
   action: PayloadAction<{ error: string }>
 ) => {
   state.isLoading = false;
-  state.error =
-    action.payload?.error ||
-    action?.error ||
-    "Somesthing went wrong! Try again!";
+  state.error = action.payload?.error || "Somesthing went wrong! Try again!";
 };
 
 const userSlice = createSlice({
@@ -68,7 +65,6 @@ const userSlice = createSlice({
       })
       .addCase(extraLoginUser.rejected, handleRejected)
       .addCase("user/logOut", (state) => {
-        console.log(current(state));
         state.user = initialState.user;
         state.token = initialState.token;
         state.isLoggedIn = false;

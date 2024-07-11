@@ -1,9 +1,9 @@
 import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
 import { addUserCart, deleteUserCart, getUserCart } from "./cartOperations";
-import { ICart } from "../typesOrInterfaces/typesOrInterfaces";
+// import { ICart } from "../typesOrInterfaces/typesOrInterfaces";
 
 interface IProductCartState {
-  cartProducts: ICart[];
+  cartProducts: { productId: number; quantity: number }[];
   isLoading: boolean;
   error: string;
 }
@@ -61,10 +61,11 @@ const cartSlice = createSlice({
       .addCase(addUserCart.rejected, handleRejected)
       .addCase(deleteUserCart.pending, handlePending)
       .addCase(deleteUserCart.fulfilled, (state, action) => {
+        console.log(action.payload);
         const deleteIndex = state.cartProducts.findIndex(
           (product) =>
-            product.productId === action.payload ||
-            product.productId === action.payload.id
+            product.productId === action.payload.id ||
+            product.productId === action.payload
         );
         state.cartProducts.splice(deleteIndex, 1);
       })

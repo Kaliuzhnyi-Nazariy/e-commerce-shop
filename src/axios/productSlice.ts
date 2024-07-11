@@ -60,9 +60,6 @@ const productSlice = createSlice({
         state.cartProduct = [];
       })
       .addCase("cleanCreatedByUser", (state) => {
-        const checkIdea = current(state);
-        console.log("checkIdea: ", checkIdea);
-
         state.createdByUser = [];
       })
       .addCase(addProduct.pending, handlePending)

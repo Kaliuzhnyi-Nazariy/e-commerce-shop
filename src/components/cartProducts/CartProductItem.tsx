@@ -11,17 +11,13 @@ import { DeleteButton, ProductDiv } from "./CartProductItem.style";
 
 type Prop = {
   propMainInfo: IProduct;
-  propSecondaryInfo: { productId: number; quantity: number };
+  propSecondaryInfo: { productId: number; quantity: number } | undefined;
 };
 
 const CartProductItem = ({ propMainInfo, propSecondaryInfo }: Prop) => {
   const dispatch = useAppDispatch();
 
-  console.log(propMainInfo);
-  console.log(propSecondaryInfo);
-
   const handleDeleteFromCart = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log();
     dispatch(deleteUserCart(Number(e.currentTarget.closest("div")?.id)));
     dispatch(deleteProductFromCart(Number(e.currentTarget.closest("div")?.id)));
   };

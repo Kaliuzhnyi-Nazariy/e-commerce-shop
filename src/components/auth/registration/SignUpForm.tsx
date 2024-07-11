@@ -379,8 +379,8 @@ export const SignUpForm = () => {
               <div className="text-danger">{errors.phone}</div>
             ) : null}
 
-            <div className="d-flex justify-content-center ">
-              <button type="submit" className="border rounded">
+            <div className="d-flex justify-content-center">
+              <button type="submit" className="border rounded btn btn-dark">
                 Submit
               </button>
             </div>
