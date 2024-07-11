@@ -2,6 +2,12 @@ import { deleteUserCart } from "../../axios/cartOperations";
 import { deleteProductFromCart } from "../../axios/operations";
 import { useAppDispatch } from "../../hooks/useDispatch";
 import { IProduct } from "../../typesOrInterfaces/typesOrInterfaces";
+import {
+  DescriptionStyled,
+  ImgStyled,
+  TooltipStyle,
+} from "../productsItems/ProductItem.style";
+import { DeleteButton, ProductDiv } from "./CartProductItem.style";
 
 type Prop = {
   propMainInfo: IProduct;
@@ -15,33 +21,31 @@ const CartProductItem = ({ propMainInfo, propSecondaryInfo }: Prop) => {
   console.log(propSecondaryInfo);
 
   const handleDeleteFromCart = (e: React.MouseEvent<HTMLButtonElement>) => {
-    dispatch(deleteUserCart(Number(e.target.closest("div").id)));
-    dispatch(deleteProductFromCart(Number(e.target.closest("div").id)));
+    console.log();
+    dispatch(deleteUserCart(Number(e.currentTarget.closest("div")?.id)));
+    dispatch(deleteProductFromCart(Number(e.currentTarget.closest("div")?.id)));
   };
 
   return (
-    <div
+    <ProductDiv
       key={propMainInfo.id}
       id={propMainInfo.id.toString()}
-      style={{
-        border: "2px solid lightgray",
-        borderRadius: "16px",
-        margin: "16px 0",
-        padding: "16px",
-        width: "240px",
-      }}
-      className="d-flex flex-column align-items-center gap-2"
+      // className="d-flex flex-column align-items-center gap-2"
     >
-      <img
-        src={propMainInfo.image}
-        style={{ maxWidth: "150px", maxHeight: "150px" }}
-        alt={propMainInfo.title}
-      />
+      <TooltipStyle
+        className="border rounded-circle position-absolute"
+        data-tooltip={propMainInfo.description}
+      >
+        i
+      </TooltipStyle>
+      <ImgStyled src={propMainInfo.image} alt={propMainInfo.title} />
       <p>{propMainInfo.title}</p>
+      <DescriptionStyled>{propMainInfo.description}</DescriptionStyled>
+
       <span>Quantity: {propSecondaryInfo?.quantity ?? "no info"}</span>
       <span>Price: {propMainInfo.price}</span>
-      <button onClick={handleDeleteFromCart}>delete</button>
-    </div>
+      <DeleteButton onClick={handleDeleteFromCart}>delete</DeleteButton>
+    </ProductDiv>
   );
 };
 

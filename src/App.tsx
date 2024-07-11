@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import { useAppDispatch } from "./hooks/useDispatch";
 import {
-  deleteProductFromCart,
   getAllProducts,
   getCategories,
   getExactCategory,
@@ -13,21 +12,21 @@ import {
   selectAllProducts,
   selectCartProducts,
   selectCategories,
-  selectIsCreatedByUser,
   selectIsLoggedIn,
   selectProducts,
   selectUser,
 } from "./axios/selectors";
 import { refreshUser } from "./axios/authOperations";
-import { deleteUserCart, getUserCart } from "./axios/cartOperations";
+import { getUserCart } from "./axios/cartOperations";
 import { SignUpModal } from "./components/auth/registration/SignUpModal";
 import { LoginModal } from "./components/auth/login/LoginModal";
 import { FaCartShopping } from "react-icons/fa6";
 import { IoIosLogOut } from "react-icons/io";
 import ProductItem from "./components/productsItems/productItem";
-import { Carousel, Stack } from "react-bootstrap";
+import { Dropdown, DropdownButton, Stack } from "react-bootstrap";
 import AddProductModal from "./components/addProduct/AddProductModal";
 import CartProductItem from "./components/cartProducts/CartProductItem";
+import { ClearButton } from "./components/ClearButton.styleS";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -39,6 +38,8 @@ function App() {
   const cartProducts = useSelector(selectCartProducts);
   const cardSelects = useSelector(selectProducts);
 
+  const [categoryPicked, setCategoryPeckied] = useState(null);
+
   useEffect(() => {
     dispatch(getCategories());
     dispatch(getUserCart(user.id));
@@ -46,20 +47,18 @@ function App() {
     dispatch(refreshUser());
   }, [user, dispatch]);
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    dispatch(
-      getExactCategory(e.target.textContent || e.target.closest("img").id)
-    );
+  const handleClick = (category: string) => {
+    dispatch(getExactCategory(category));
   };
 
   const handleAllProduct = () => {
     dispatch({ type: "cleanCartProducts" });
     dispatch(getAllProducts());
+    setCategoryPeckied(null);
   };
 
   const handleUserCart = async () => {
     if (!userIsLoggedIn) return;
-    // will open modal to login
     cardSelects.forEach((i) => dispatch(getOneProduct(i.productId)));
   };
 
@@ -71,6 +70,7 @@ function App() {
 
   const handleCleanCart = () => {
     dispatch({ type: "cleanCartProducts" });
+    dispatch({ type: "cleanProducts" });
   };
 
   const sortedCartProducts = [...cartProducts].sort((a, b) => a.id - b.id);
@@ -125,47 +125,32 @@ function App() {
         </Stack>
       </Stack>
       {sortedCartProducts.length === 0 ? (
-        // <div
-        //   // direction="horizontal"
-        //   // gap={1}
-        //   className="d-flex justify-content-around flex-column"
-        // >
-        //   {categories.map((i) => (
-        //     <button
-        //       key={i}
-        //       style={{
-        //         margin: "8px 16px",
-        //         padding: "4px 8px",
-        //         border: "1px solid white",
-        //         borderRadius: "16px",
-        //         display: "block",
-        //       }}
-        //       onClick={handleClick}
-        //     >
-        //       {i}
-        //     </button>
-        //   ))}
-        // </div>
-
-        <Carousel>
-          {categories.map((i) => (
-            <Carousel.Item onClick={handleClick} key={i}>
-              <img
-                className="d-block w-100 darker-image"
-                src="https://images.pexels.com/photos/5624975/pexels-photo-5624975.jpeg?auto=compress&cs=tinysrgb&w=600"
-                alt="First slide"
-                id={i}
-              />
-              <Carousel.Caption>
-                <h3>{i}</h3>
-              </Carousel.Caption>
-            </Carousel.Item>
-          ))}
-        </Carousel>
+        <>
+          <DropdownButton
+            key="secondary"
+            id={`dropdown-variants-secondary`}
+            variant="dark"
+            title="Categories"
+          >
+            {categories.map((category) => (
+              <Dropdown.Item
+                key={category}
+                onClick={() => {
+                  handleClick(category);
+                  setCategoryPeckied(category);
+                }}
+              >
+                {category}
+                <Dropdown.Divider />
+              </Dropdown.Item>
+            ))}
+          </DropdownButton>
+          {categoryPicked}
+        </>
       ) : (
         <></>
       )}
-      <div className="d-flex flex-column align-items-center">
+      <div className="d-flex flex-column align-items-center gap-2">
         {sortedCartProducts.length === 0 ? (
           products.map((i) => {
             return <ProductItem prop={i} key={i.id} />;
@@ -178,42 +163,20 @@ function App() {
                   const selectedProduct = sortedCardSelects.find(
                     (item) => item.productId === i.id
                   );
-                  // console.log(sortedCartProducts);
+                  console.log(selectedProduct);
                   // console.log(i);
                   return (
                     <CartProductItem
                       propMainInfo={i}
                       propSecondaryInfo={selectedProduct}
                     />
-                    // <div
-                    //   key={i.id}
-                    //   id={i.id.toString()}
-                    //   style={{
-                    //     border: "2px solid lightgray",
-                    //     borderRadius: "16px",
-                    //     margin: "16px 0",
-                    //     padding: "16px",
-                    //   }}
-                    // >
-                    //   <img
-                    //     src={i.image}
-                    //     style={{ maxWidth: "150px", maxHeight: "150px" }}
-                    //     alt={i.title}
-                    //   />
-                    //   <p>{i.title}</p>
-                    //   <span>
-                    //     Quantity: {selectedProduct?.quantity ?? "no info"}
-                    //   </span>
-                    //   <span>Price: {i.price}</span>
-                    //   <button onClick={handleDeleteFromCart}>delete</button>
-                    // </div>
                   );
                 })}
               </>
             ) : (
               <></>
             )}
-            <button onClick={handleCleanCart}>Clear</button>
+            <ClearButton onClick={handleCleanCart}>Clear</ClearButton>
           </>
         )}
       </div>

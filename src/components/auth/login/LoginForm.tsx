@@ -42,9 +42,7 @@ export const LoginForm = () => {
   };
 
   return (
-    <div style={{ height: "35vh" }}>
-      <h1>Sign In</h1>
-
+    <div>
       <DropdownButton
         id="dropdown-button"
         title="Login accounts"
@@ -58,7 +56,6 @@ export const LoginForm = () => {
             <Dropdown.Item
               key={user.id}
               onClick={() => {
-                console.log(user.username);
                 setUsername(user.username);
                 setPassword(user.password);
               }}

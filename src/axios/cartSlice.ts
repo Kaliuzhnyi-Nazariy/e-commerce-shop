@@ -68,7 +68,10 @@ const cartSlice = createSlice({
         );
         state.cartProducts.splice(deleteIndex, 1);
       })
-      .addCase(deleteUserCart.rejected, handleRejected);
+      .addCase(deleteUserCart.rejected, handleRejected)
+      .addCase("cleanProducts", (state) => {
+        state.cartProducts = [];
+      });
   },
 });
 

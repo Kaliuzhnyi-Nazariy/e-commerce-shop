@@ -1,52 +1,43 @@
 import { useState } from "react";
-import {
-  // Button,
-  Modal,
-} from "react-bootstrap";
+import Modal from "@mui/material/Modal";
 import { IoIosAddCircle } from "react-icons/io";
 import AddProductForm from "./AddProductForm";
+import { Box } from "@mui/material";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
 const AddProductModal = () => {
-  const [show, setShow] = useState(false);
-
-  const handleShow = () => setShow(true);
-  const handleClose = () => setShow(false);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <>
-      {/* <button onClick={handleAddProduct}></button> */}
-
-      <button
-        // variant="outline-primary"
-        style={{
-          //   width: "100px",
-          height: "48px",
-          fontWeight: "bold",
-          textTransform: "uppercase",
-        }}
-        onClick={handleShow}
-        className="ms-auto"
-      >
-        <IoIosAddCircle />
-      </button>
-
-      <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title
-            style={{ textTransform: "uppercase", fontWeight: "bold" }}
-          >
-            Add Product form
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <AddProductForm onClick={() => handleClose()} />
-        </Modal.Body>
-      </Modal>
+      <div>
+        <button onClick={handleOpen}>
+          <IoIosAddCircle />
+        </button>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style} style={{ width: "80%" }}>
+            <AddProductForm onClick={handleClose} />
+          </Box>
+        </Modal>
+      </div>
     </>
   );
 };

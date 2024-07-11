@@ -67,7 +67,9 @@ export const getOneProduct = createAsyncThunk<
     const res = await axios.get(`${productBaseURL}/${id}`);
     if (!res.data) {
       const state = thunkAPI.getState();
-      const findProduct = state.products.product.find((i) => i.id === id);
+      const findProduct = state.products.product.find(
+        (i: { id: number }) => i.id === id
+      );
       return findProduct;
     } else {
       return res.data;

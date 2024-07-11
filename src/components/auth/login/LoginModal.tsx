@@ -6,7 +6,7 @@ import { useAppDispatch } from "../../../hooks/useDispatch";
 import { getAllUsers } from "../../../axios/authOperations";
 
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+// import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 
 const style = {
@@ -31,23 +31,28 @@ export const LoginModal = () => {
   return (
     <>
       <div>
-        <Button
+        <button
           onClick={() => {
             dispatch(getAllUsers());
             handleOpen();
           }}
           type="button"
-          class="btn btn-primary"
+          className="btn btn-primary"
+          style={{
+            textTransform: "uppercase",
+            fontWeight: "bold",
+            fontSize: "14px",
+          }}
         >
-          sign up
-        </Button>
+          sign in
+        </button>
         <Modal
           open={open}
           onClose={handleClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <Box sx={style}>
+          <Box sx={style} style={{ width: "80%" }}>
             <div className="d-flex align-items-center">
               <h1>Sign in</h1>
               <button

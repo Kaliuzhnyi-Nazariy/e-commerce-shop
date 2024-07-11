@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { SignUpForm } from "./SignUpForm";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 
 const style = {
@@ -24,20 +23,25 @@ export const SignUpModal = () => {
   return (
     <>
       <div>
-        <Button
+        <button
           onClick={handleOpen}
           type="button"
-          class="btn btn-outline-primary"
+          className="btn btn-outline-primary"
+          style={{
+            textTransform: "uppercase",
+            fontWeight: "bold",
+            fontSize: "14px",
+          }}
         >
           sign up
-        </Button>
+        </button>
         <Modal
           open={open}
           onClose={handleClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <Box sx={style}>
+          <Box sx={style} style={{ width: "80%" }}>
             <div className="d-flex align-items-center">
               <h1>Signup</h1>
               <button

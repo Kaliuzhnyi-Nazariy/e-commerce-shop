@@ -11,6 +11,15 @@ import { MdAddShoppingCart, MdDeleteForever } from "react-icons/md";
 import { addUserCart } from "../../axios/cartOperations";
 import { deleteProduct } from "../../axios/operations";
 import { useState } from "react";
+import {
+  AddCartButton,
+  DeleteUserProduct,
+  DescriptionStyled,
+  ImgStyled,
+  ProductItemStyled,
+  QuantityButton,
+  TooltipStyle,
+} from "./ProductItem.style";
 
 type Prop = {
   prop: IProduct;
@@ -29,15 +38,16 @@ const ProductItem = ({ prop }: Prop) => {
     const userId = user.id;
     const date = format(Date(), "yyyy-MM-dd");
     const productInfoClick: ICart = {
-      id: Number(e.target.closest("div").id),
+      id: Number(e.currentTarget.closest("div")?.id),
       userId,
       date,
       products: {
-        productId: Number(e.target.closest("div").id),
+        productId: Number(e.currentTarget.closest("div")?.id),
         quantity: count,
       },
     };
     dispatch(addUserCart(productInfoClick));
+    setCount(0);
   };
 
   const isProductCreatedByUser = (productId: number) => {
@@ -49,90 +59,62 @@ const ProductItem = ({ prop }: Prop) => {
     dispatch(deleteProduct(Number(e.currentTarget.closest("div")?.id)));
   };
   return (
-    <div
+    <ProductItemStyled
       key={prop.id}
       id={prop.id.toString()}
-      className="p-3 border rounded w-50 d-flex flex-column align-items-center"
-      style={{ position: "relative" }}
+      // className="p-3 border rounded w-50 d-flex flex-column align-items-center"
+      // style={{ position: "relative" }}
     >
-      <p
-        style={{
-          position: "absolute",
-          left: "20px",
-          width: "25px",
-          height: "25px",
-          background: "rgba(255,255,255, 0.5)",
-          boxShadow:
-            " rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px",
-        }}
-        className="border rounded-circle"
+      <TooltipStyle
+        className="border rounded-circle position-absolute"
         data-tooltip={prop.description}
       >
         i
-      </p>
+      </TooltipStyle>
 
-      <img src={prop.image} alt={prop.title} style={{ height: "150px" }} />
+      <ImgStyled src={prop.image} alt={prop.title} />
 
       <p>{prop.title}</p>
 
-      <p
-        style={{
-          maxWidth: "300px",
-          whiteSpace: "nowrap",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-        }}
-      >
-        {prop.description}
-      </p>
+      <DescriptionStyled>{prop.description}</DescriptionStyled>
 
       <p>{prop.category}</p>
 
-      <p>{prop.price}</p>
+      <p>{prop.price}$</p>
 
       <span
         className="d-flex justify-content-between"
         style={{ width: "100%" }}
       >
         <span className="d-flex align-items-center gap-2">
-          <button
+          <QuantityButton
             onClick={() => setCount((prevState) => (prevState += 1))}
-            style={{ width: "50px", height: "50px" }}
-            className="rounded-circle"
           >
             +
-          </button>
+          </QuantityButton>
           <div>{count}</div>
-          <button
+          <QuantityButton
             onClick={() => {
               if (count !== 0) setCount((prevState) => (prevState -= 1));
             }}
-            style={{ width: "50px", height: "50px" }}
-            className="rounded-circle"
           >
             -
-          </button>
+          </QuantityButton>
         </span>
-        <button onClick={handleAddToCart} className="ms-auto">
+        <AddCartButton onClick={handleAddToCart} className="ms-auto">
           <MdAddShoppingCart />
-        </button>
+        </AddCartButton>
       </span>
       {isProductCreatedByUser(prop.id) && (
-        <button
+        <DeleteUserProduct
           onClick={handleDelete}
           className="position-absolute 
            d-flex justify-content-center align-items-center"
-          style={{
-            right: "20px",
-            padding: "6px",
-            color: "red",
-            background: "transparent",
-          }}
         >
           <MdDeleteForever />
-        </button>
+        </DeleteUserProduct>
       )}
-    </div>
+    </ProductItemStyled>
   );
 };
 

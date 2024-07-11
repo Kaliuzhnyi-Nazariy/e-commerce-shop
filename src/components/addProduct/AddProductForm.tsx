@@ -21,7 +21,11 @@ const validationSchema = Yup.object({
   category: Yup.string().required("Category is required!"),
 });
 
-export const AddProductForm = ({ onClick }) => {
+type Prop = {
+  onClick: () => void;
+};
+
+export const AddProductForm = ({ onClick }: Prop) => {
   const dispatch = useAppDispatch();
 
   const categories = useSelector(selectCategories);

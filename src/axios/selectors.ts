@@ -1,4 +1,4 @@
-import { ICart, IProduct, IUser } from "../typesOrInterfaces/typesOrInterfaces";
+import { IProduct, IUser } from "../typesOrInterfaces/typesOrInterfaces";
 
 export const selectCategories = (state: { categories: { categories: [] } }) =>
   state.categories.categories;
@@ -12,7 +12,7 @@ export const selectUser = (state: { user: { user: IUser } }) => state.user.user;
 export const selectAllUsers = (state: { user: { allUsers: IUser[] } }) =>
   state.user.allUsers;
 export const selectProducts = (state: {
-  cart: { cartProducts: Array<ICart> };
+  cart: { cartProducts: { productId: number; quantity: number }[] };
 }) => state.cart.cartProducts;
 export const selectIsCreatedByUser = (state: {
   products: { createdByUser: Array<IProduct> };
