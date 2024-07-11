@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { productReducer } from "./productSlice";
-import { categoriesReducer } from "./categoriesSlice";
-import { userReducer } from "./userSlice";
-import { cartReducer } from "./cartSlice";
+import { IProductInitialState, productReducer } from "./productSlice";
+import { categoriesReducer, IInitState } from "./categoriesSlice";
+import { IInitialState, userReducer } from "./userSlice";
+import { cartReducer, IProductCartState } from "./cartSlice";
 import storage from "redux-persist/lib/storage";
 import persistReducer from "redux-persist/es/persistReducer";
 import {
@@ -33,6 +33,13 @@ const persistedProductsReducer = persistReducer(
   productsPersistConfig,
   productReducer
 );
+
+export type RootStateForFunctions = {
+  user: IInitialState;
+  products: IProductInitialState;
+  cart: IProductCartState;
+  categories: IInitState;
+};
 
 export const store = configureStore({
   reducer: {

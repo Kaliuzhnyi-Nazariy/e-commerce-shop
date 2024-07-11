@@ -1,7 +1,9 @@
 import { useSelector } from "react-redux";
 import {
+  selectAllProducts,
   selectIsCreatedByUser,
   selectIsLoggedIn,
+  selectProducts,
   selectUser,
 } from "../../axios/selectors";
 import { format } from "date-fns";
@@ -10,7 +12,7 @@ import { useAppDispatch } from "../../hooks/useDispatch";
 import { MdAddShoppingCart, MdDeleteForever } from "react-icons/md";
 import { addUserCart } from "../../axios/cartOperations";
 import { deleteProduct } from "../../axios/operations";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AddCartButton,
   DeleteUserProduct,
@@ -20,6 +22,7 @@ import {
   QuantityButton,
   TooltipStyle,
 } from "./ProductItem.style";
+import { deleteCartItem } from "../../axios/cartSlice";
 
 type Prop = {
   prop: IProduct;
@@ -31,6 +34,29 @@ const ProductItem = ({ prop }: Prop) => {
   const userIsLoggedIn = useSelector(selectIsLoggedIn);
   const user = useSelector(selectUser);
   const createdByUser = useSelector(selectIsCreatedByUser);
+
+  const products = useSelector(selectAllProducts);
+  const cardSelects = useSelector(selectProducts);
+
+  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!userIsLoggedIn) return;
+    dispatch(deleteProduct(Number(e.currentTarget.closest("div")?.id)));
+  };
+
+  const checkIsInProducts = () => {
+    const allProductsIds = products.map((i) => i.id);
+    for (const cartItem of cardSelects) {
+      if (!allProductsIds.includes(cartItem.productId)) {
+        console.log(cartItem.productId);
+        const id = Number(cartItem.productId);
+        return dispatch(deleteCartItem({ id }));
+      }
+    }
+  };
+
+  useEffect(() => {
+    checkIsInProducts();
+  }, [products, cardSelects]);
 
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!userIsLoggedIn) return;
@@ -54,10 +80,6 @@ const ProductItem = ({ prop }: Prop) => {
     return createdByUser.some((userProduct) => userProduct.id === productId);
   };
 
-  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!userIsLoggedIn) return;
-    dispatch(deleteProduct(Number(e.currentTarget.closest("div")?.id)));
-  };
   return (
     <ProductItemStyled
       key={prop.id}

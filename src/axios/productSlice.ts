@@ -9,7 +9,7 @@ import {
 } from "./operations";
 import { IProduct } from "../typesOrInterfaces/typesOrInterfaces";
 
-interface IProductInitialState {
+export interface IProductInitialState {
   product: Array<IProduct>;
   isLoading: boolean;
   error: string;
@@ -67,6 +67,10 @@ const productSlice = createSlice({
         addProduct.fulfilled,
         (state, action: PayloadAction<IProduct>) => {
           state.isLoading = false;
+          const forCheckId = current(state.product);
+          if (forCheckId.some((i) => i.id === action.payload.id)) {
+            action.payload.id = forCheckId.length + 1;
+          }
           state.product = [...state.product, action.payload];
           state.createdByUser.push(action.payload);
         }

@@ -12,6 +12,11 @@ import { useState } from "react";
 import { Dropdown, DropdownButton, Stack } from "react-bootstrap";
 import { addProduct } from "../../axios/operations";
 
+type Prop = {
+  onClick: () => void;
+  handleClose: () => void;
+};
+
 const validationSchema = Yup.object({
   title: Yup.string().min(2).required("Title is required!"),
   price: Yup.number()
@@ -20,11 +25,6 @@ const validationSchema = Yup.object({
   description: Yup.string().min(16).required("Description is required!"),
   category: Yup.string().required("Category is required!"),
 });
-
-type Prop = {
-  onClick: () => void;
-  handleClose: () => void;
-};
 
 export const AddProductForm = ({ onClick, handleClose }: Prop) => {
   const dispatch = useAppDispatch();
@@ -54,6 +54,8 @@ export const AddProductForm = ({ onClick, handleClose }: Prop) => {
         category: values.category,
       })
     );
+
+    onClick();
   };
 
   return (
@@ -181,38 +183,34 @@ export const AddProductForm = ({ onClick, handleClose }: Prop) => {
                 <div className="text-danger">{errors.image}</div>
               ) : null}
 
-              <Stack direction="horizontal">
-                <DropdownButton
-                  key="secondary"
-                  id={`dropdown-variants-secondary`}
-                  variant="dark"
-                  title="Categories"
-                >
-                  {categories.map((categoryItem) => (
-                    <Dropdown.Item
-                      key={categoryItem}
-                      onClick={() => {
-                        setFieldValue("category", categoryItem);
-                        setCategory(categoryItem);
-                      }}
-                    >
-                      {categoryItem}
-                      <Dropdown.Divider />
-                    </Dropdown.Item>
-                  ))}
-                </DropdownButton>
-                <p className="ms-auto">
-                  {touched.category && category.length === 0
-                    ? errors.category
-                    : category}
-                </p>
-              </Stack>
+              {/* <Stack direction="horizontal"> */}
+              <DropdownButton
+                key="secondary"
+                id={`dropdown-variants-secondary`}
+                variant="dark"
+                title="Categories"
+              >
+                {categories.map((categoryItem) => (
+                  <Dropdown.Item
+                    key={categoryItem}
+                    onClick={() => {
+                      setFieldValue("category", categoryItem);
+                      setCategory(categoryItem);
+                    }}
+                  >
+                    {categoryItem}
+                    <Dropdown.Divider />
+                  </Dropdown.Item>
+                ))}
+              </DropdownButton>
+              <p className="ms-auto">
+                {touched.category && category.length === 0
+                  ? errors.category
+                  : category}
+              </p>
+              {/* </Stack> */}
               <div className="d-flex justify-content-center">
-                <button
-                  type="submit"
-                  onClick={() => onClick()}
-                  className="btn btn-dark"
-                >
+                <button type="submit" className="btn btn-dark">
                   Submit
                 </button>
               </div>

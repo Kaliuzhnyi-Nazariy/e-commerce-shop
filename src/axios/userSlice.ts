@@ -7,7 +7,7 @@ import {
   refreshUser,
 } from "./authOperations";
 
-interface IInitialState {
+export interface IInitialState {
   user: object;
   token: string;
   allUsers: Array<object>;

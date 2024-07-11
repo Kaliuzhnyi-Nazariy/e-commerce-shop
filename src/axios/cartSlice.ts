@@ -1,8 +1,13 @@
-import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
+import {
+  createAction,
+  createSlice,
+  current,
+  PayloadAction,
+} from "@reduxjs/toolkit";
 import { addUserCart, deleteUserCart, getUserCart } from "./cartOperations";
 // import { ICart } from "../typesOrInterfaces/typesOrInterfaces";
 
-interface IProductCartState {
+export interface IProductCartState {
   cartProducts: { productId: number; quantity: number }[];
   isLoading: boolean;
   error: string;
@@ -13,6 +18,14 @@ const initialState: IProductCartState = {
   isLoading: false,
   error: "",
 };
+
+export interface ICleanCartItem {
+  id: number;
+}
+
+export const deleteCartItem = createAction<ICleanCartItem>(
+  "cart/deleteCartItem"
+);
 
 const handlePending = (state: { isLoading: boolean; error: string }) => {
   state.isLoading = true;
@@ -61,18 +74,26 @@ const cartSlice = createSlice({
       .addCase(addUserCart.rejected, handleRejected)
       .addCase(deleteUserCart.pending, handlePending)
       .addCase(deleteUserCart.fulfilled, (state, action) => {
-        console.log(action.payload);
         const deleteIndex = state.cartProducts.findIndex(
-          (product) =>
-            product.productId === action.payload.id ||
-            product.productId === action.payload
+          (product) => product.productId === action.payload.id
         );
         state.cartProducts.splice(deleteIndex, 1);
       })
       .addCase(deleteUserCart.rejected, handleRejected)
       .addCase("cleanProducts", (state) => {
         state.cartProducts = [];
-      });
+      })
+      .addCase(
+        deleteCartItem,
+        (state, action: PayloadAction<{ id: number }>) => {
+          // const onlyChecking = current(state);
+          const deleteIndex = state.cartProducts.findIndex(
+            (product) => product.productId === action.payload.id
+          );
+          console.log(deleteIndex);
+          state.cartProducts.splice(deleteIndex, 1);
+        }
+      );
   },
 });
 

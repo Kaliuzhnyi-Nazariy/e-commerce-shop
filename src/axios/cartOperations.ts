@@ -42,7 +42,7 @@ export const deleteUserCart = createAsyncThunk<
   try {
     const res = await axios.delete(`${baseCartURL}/${id}`);
     if (res.data !== null) {
-      return res.data.id;
+      return res.data;
     } else {
       return { id };
     }

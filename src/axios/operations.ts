@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { baseCartURL } from "./cartOperations";
@@ -8,13 +7,14 @@ import {
   INewProduct,
   IProduct,
 } from "../typesOrInterfaces/typesOrInterfaces";
+import { RootStateForFunctions } from "./store.";
 
 const productBaseURL = "https://fakestoreapi.com/products";
 
 export const getAllProducts = createAsyncThunk<
   AllProducts,
   void,
-  { rejectValue: string }
+  { rejectValue: string; state: RootStateForFunctions }
 >("products/allProducts", async (_, thunkAPI): Promise<AllProducts> => {
   try {
     const state = thunkAPI.getState();
@@ -61,7 +61,7 @@ export const addProduct = createAsyncThunk<
 export const getOneProduct = createAsyncThunk<
   IProduct,
   number,
-  { rejectValue: string }
+  { rejectValue: string; state: RootStateForFunctions }
 >("products/getOne", async (id, thunkAPI): Promise<IProduct> => {
   try {
     const res = await axios.get(`${productBaseURL}/${id}`);
@@ -70,7 +70,11 @@ export const getOneProduct = createAsyncThunk<
       const findProduct = state.products.product.find(
         (i: { id: number }) => i.id === id
       );
-      return findProduct;
+      if (!findProduct) {
+        throw new Error();
+      } else {
+        return findProduct;
+      }
     } else {
       return res.data;
     }
