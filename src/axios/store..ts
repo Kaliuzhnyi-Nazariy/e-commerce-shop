@@ -24,7 +24,13 @@ const userPersistConfig = {
 const productsPersistConfig = {
   key: "products",
   storage,
-  whitelist: ["product"],
+  whitelist: ["product", "createdByUser"],
+};
+
+const cartPersistConfig = {
+  key: "cart",
+  storage,
+  whitelist: ["cartProducts"],
 };
 
 const persistedUserReducer = persistReducer(userPersistConfig, userReducer);
@@ -33,6 +39,8 @@ const persistedProductsReducer = persistReducer(
   productsPersistConfig,
   productReducer
 );
+
+const persistedCartReducer = persistReducer(cartPersistConfig, cartReducer);
 
 export type RootStateForFunctions = {
   user: IInitialState;
@@ -46,7 +54,7 @@ export const store = configureStore({
     products: persistedProductsReducer,
     categories: categoriesReducer,
     user: persistedUserReducer,
-    cart: cartReducer,
+    cart: persistedCartReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

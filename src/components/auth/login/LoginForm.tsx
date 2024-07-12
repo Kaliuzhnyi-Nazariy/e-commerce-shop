@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { selectAllUsers } from "../../../axios/selectors";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import { useState } from "react";
+import { getUserCart } from "../../../axios/cartOperations";
 
 interface Values {
   username: string;
@@ -38,6 +39,13 @@ export const LoginForm = () => {
         password: password,
       })
     );
+
+    if (username !== "") {
+      const user = users.find((user) => user.username === username);
+      if (user) {
+        dispatch(getUserCart(user.id));
+      }
+    }
   };
 
   return (

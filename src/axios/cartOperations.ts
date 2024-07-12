@@ -1,13 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { ICart, IProductsInCart } from "../typesOrInterfaces/typesOrInterfaces";
+import { RootStateForFunctions } from "./store.";
 
 export const baseCartURL = "https://fakestoreapi.com/carts";
 
 export const getUserCart = createAsyncThunk<
   ICart,
   number,
-  { rejectValue: string }
+  { rejectValue: string; state: RootStateForFunctions }
 >("cart/getAll", async (id): Promise<ICart> => {
   try {
     const res = await axios.get(`${baseCartURL}/user/${id}`);

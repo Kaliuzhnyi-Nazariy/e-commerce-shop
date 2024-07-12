@@ -14,10 +14,10 @@ import {
   selectCategories,
   selectIsLoggedIn,
   selectProducts,
-  selectUser,
+  // selectUser,
 } from "./axios/selectors";
 import { refreshUser } from "./axios/authOperations";
-import { getUserCart } from "./axios/cartOperations";
+// import { getUserCart, refreshCart } from "./axios/cartOperations";
 import { SignUpModal } from "./components/auth/registration/SignUpModal";
 import { LoginModal } from "./components/auth/login/LoginModal";
 import { FaCartShopping } from "react-icons/fa6";
@@ -33,19 +33,25 @@ function App() {
 
   const categories = useSelector(selectCategories);
   const products = useSelector(selectAllProducts);
-  const user = useSelector(selectUser);
+  // const user = useSelector(selectUser);
   const userIsLoggedIn = useSelector(selectIsLoggedIn);
   const cartProducts = useSelector(selectCartProducts);
   const cardSelects = useSelector(selectProducts);
 
   const [categoryPicked, setCategoryPeckied] = useState(null);
+  // useEffect(() => {
+  //   if (user) {
+  //     dispatch(getUserCart(user.id));
+  //   }
+  // }, [dispatch, user]);
 
   useEffect(() => {
     dispatch(getCategories());
-    dispatch(getUserCart(user.id));
     dispatch(getAllProducts());
     dispatch(refreshUser());
-  }, [user, dispatch]);
+
+    // dispatch(refreshCart());
+  }, [dispatch]);
 
   const handleClick = (category: string) => {
     dispatch(getExactCategory(category));
@@ -59,7 +65,17 @@ function App() {
 
   const handleUserCart = async () => {
     if (!userIsLoggedIn) return;
-    cardSelects.forEach((i) => dispatch(getOneProduct(i.productId)));
+    const forCheckIsProductInCart = cartProducts.map((product) => product.id);
+    const forCheckIsItInCart = cardSelects.map((i) => {
+      if (!forCheckIsProductInCart.includes(i.productId)) {
+        return true;
+      }
+      return false;
+    });
+
+    if (forCheckIsItInCart.includes(true)) {
+      cardSelects.forEach((i) => dispatch(getOneProduct(i.productId)));
+    }
   };
 
   const handleLogOut = () => {
@@ -165,6 +181,7 @@ function App() {
                   );
                   return (
                     <CartProductItem
+                      key={i.id}
                       propMainInfo={i}
                       propSecondaryInfo={selectedProduct}
                     />

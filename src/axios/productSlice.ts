@@ -86,11 +86,27 @@ const productSlice = createSlice({
             (product) => product.id === action.payload.id
           );
           state.product.splice(deleteProductIndex, 1);
+
+          if (state.createdByUser.length > 0) {
+            const deleteIndexByUser = state.createdByUser.findIndex(
+              (product) => product.id === action.payload.id
+            );
+            console.log(deleteIndexByUser);
+            state.createdByUser.splice(deleteIndexByUser, 1);
+          }
         } else {
           const deleteProductIndex = state.product.findIndex(
             (product) => product.id === action.meta.arg
           );
           state.product.splice(deleteProductIndex, 1);
+
+          if (state.createdByUser.length > 0) {
+            const deleteIndexByUser = state.createdByUser.findIndex(
+              (product) => product.id === action.meta.arg
+            );
+            console.log(deleteIndexByUser);
+            state.createdByUser.splice(deleteIndexByUser, 1);
+          }
         }
       })
       .addCase(deleteProduct.rejected, (state, action) => {

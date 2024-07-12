@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import {
-  selectAllProducts,
+  // selectAllProducts,
   selectIsCreatedByUser,
   selectIsLoggedIn,
   selectProducts,
@@ -12,7 +12,10 @@ import { useAppDispatch } from "../../hooks/useDispatch";
 import { MdAddShoppingCart, MdDeleteForever } from "react-icons/md";
 import { addUserCart } from "../../axios/cartOperations";
 import { deleteProduct } from "../../axios/operations";
-import { useEffect, useState } from "react";
+import {
+  // useEffect,
+  useState,
+} from "react";
 import {
   AddCartButton,
   DeleteUserProduct,
@@ -35,28 +38,30 @@ const ProductItem = ({ prop }: Prop) => {
   const user = useSelector(selectUser);
   const createdByUser = useSelector(selectIsCreatedByUser);
 
-  const products = useSelector(selectAllProducts);
+  // const products = useSelector(selectAllProducts);
   const cardSelects = useSelector(selectProducts);
 
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!userIsLoggedIn) return;
     dispatch(deleteProduct(Number(e.currentTarget.closest("div")?.id)));
-  };
-
-  const checkIsInProducts = () => {
-    const allProductsIds = products.map((i) => i.id);
-    for (const cartItem of cardSelects) {
-      if (!allProductsIds.includes(cartItem.productId)) {
-        console.log(cartItem.productId);
-        const id = Number(cartItem.productId);
-        return dispatch(deleteCartItem({ id }));
-      }
+    const cardSelectsIds = cardSelects.map((cart) => cart.productId);
+    if (cardSelectsIds.includes(Number(e.currentTarget.closest("div")?.id))) {
+      dispatch(
+        deleteCartItem({ id: Number(e.currentTarget.closest("div")?.id) })
+      );
     }
   };
 
-  useEffect(() => {
-    checkIsInProducts();
-  }, [products, cardSelects]);
+  // const checkIsInProducts = () => {
+  //   const allProductsIds = products.map((i) => i.id);
+  //   for (const cartItem of cardSelects) {
+  //     if (!allProductsIds.includes(cartItem.productId)) {
+  //       console.log(cartItem.productId);
+  //       const id = Number(cartItem.productId);
+  //       return dispatch(deleteCartItem({ id }));
+  //     }
+  //   }
+  // };
 
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!userIsLoggedIn) return;
@@ -127,6 +132,14 @@ const ProductItem = ({ prop }: Prop) => {
           <MdAddShoppingCart />
         </AddCartButton>
       </span>
+      {/* <DeleteUserProduct
+        onClick={handleDelete}
+        className="position-absolute 
+           d-flex justify-content-center align-items-center"
+      >
+        <MdDeleteForever />
+      </DeleteUserProduct> */}
+
       {isProductCreatedByUser(prop.id) && (
         <DeleteUserProduct
           onClick={handleDelete}

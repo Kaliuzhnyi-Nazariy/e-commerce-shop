@@ -90,8 +90,9 @@ const cartSlice = createSlice({
           const deleteIndex = state.cartProducts.findIndex(
             (product) => product.productId === action.payload.id
           );
-          console.log(deleteIndex);
-          state.cartProducts.splice(deleteIndex, 1);
+          if (deleteIndex) {
+            state.cartProducts.splice(deleteIndex, 1);
+          }
         }
       );
   },

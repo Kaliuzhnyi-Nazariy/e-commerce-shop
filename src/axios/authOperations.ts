@@ -6,6 +6,7 @@ import {
   IRefreshUser,
   IUser,
 } from "../typesOrInterfaces/typesOrInterfaces";
+import { RootStateForFunctions } from "./store.";
 
 const baseUserURL = "https://fakestoreapi.com/users";
 
@@ -30,7 +31,7 @@ export const loginUser = createAsyncThunk<
   ILoginUser,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   { rejectValue: any }
->("user/loginUser", async (userInfo, thunkAPI): Promise<string> => {
+>("user/loginUser", async (userInfo): Promise<string> => {
   try {
     const res = await axios.post(
       `https://fakestoreapi.com/auth/login`,
@@ -79,7 +80,7 @@ export const refreshUser = createAsyncThunk<
   IRefreshUser,
   void,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { rejectValue: any }
+  { rejectValue: any; state: RootStateForFunctions }
 >("user/refreshUser", async (_, thunkAPI): Promise<IRefreshUser> => {
   try {
     const state = thunkAPI.getState();
