@@ -7,7 +7,7 @@ import {
   INewProduct,
   IProduct,
 } from "../typesOrInterfaces/typesOrInterfaces";
-import { RootStateForFunctions } from "./store.";
+import { RootStateForFunctions } from "./store";
 
 const productBaseURL = "https://fakestoreapi.com/products";
 

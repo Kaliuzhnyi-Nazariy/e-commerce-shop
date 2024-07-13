@@ -9,7 +9,7 @@ import { IoMdPricetag } from "react-icons/io";
 import { FaAudioDescription } from "react-icons/fa";
 import { ImFilePicture } from "react-icons/im";
 import { useState } from "react";
-import { Dropdown, DropdownButton, Stack } from "react-bootstrap";
+import { Dropdown, DropdownButton } from "react-bootstrap";
 import { addProduct } from "../../axios/operations";
 
 type Prop = {

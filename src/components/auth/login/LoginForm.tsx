@@ -1,4 +1,4 @@
-import { Formik, Field, Form, FormikHelpers } from "formik";
+import { Formik, Field, Form } from "formik";
 import InputGroup from "react-bootstrap/InputGroup";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { useAppDispatch } from "../../../hooks/useDispatch";
@@ -8,11 +8,6 @@ import { selectAllUsers } from "../../../axios/selectors";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import { useState } from "react";
 import { getUserCart } from "../../../axios/cartOperations";
-
-interface Values {
-  username: string;
-  password: string;
-}
 
 export const LoginForm = () => {
   const dispatch = useAppDispatch();
@@ -75,12 +70,8 @@ export const LoginForm = () => {
           username: "",
           password: "",
         }}
-        onSubmit={(
-          values: Values,
-          { setSubmitting }: FormikHelpers<Values>
-        ) => {
+        onSubmit={() => {
           checkValues();
-          setSubmitting(false);
         }}
         enableReinitialize={true}
       >
