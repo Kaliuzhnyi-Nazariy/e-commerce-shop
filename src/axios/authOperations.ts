@@ -3,10 +3,11 @@ import axios from "axios";
 import {
   ILoginUser,
   INewUser,
-  IRefreshUser,
+  // IRefreshUser,
   IUser,
 } from "../typesOrInterfaces/typesOrInterfaces";
 import { RootStateForFunctions } from "./store.";
+import { IInitialState } from "./userSlice";
 
 const baseUserURL = "https://fakestoreapi.com/users";
 
@@ -77,11 +78,11 @@ export const getAllUsers = createAsyncThunk<
 });
 
 export const refreshUser = createAsyncThunk<
-  IRefreshUser,
+  IInitialState,
   void,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   { rejectValue: any; state: RootStateForFunctions }
->("user/refreshUser", async (_, thunkAPI): Promise<IRefreshUser> => {
+>("user/refreshUser", async (_, thunkAPI): Promise<IInitialState> => {
   try {
     const state = thunkAPI.getState();
     return state.user;

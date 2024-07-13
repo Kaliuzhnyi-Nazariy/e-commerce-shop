@@ -7,8 +7,10 @@ import {
 import { addUserCart, deleteUserCart, getUserCart } from "./cartOperations";
 // import { ICart } from "../typesOrInterfaces/typesOrInterfaces";
 
+type userCartItem = { productId: number; quantity: number };
+
 export interface IProductCartState {
-  cartProducts: { productId: number; quantity: number }[];
+  cartProducts: userCartItem[];
   isLoading: boolean;
   error: string;
 }
@@ -48,10 +50,20 @@ const cartSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(getUserCart.pending, handlePending)
-      .addCase(getUserCart.fulfilled, (state, action) => {
-        const [userCart] = action.payload;
-        state.cartProducts = userCart.products;
-      })
+      .addCase(
+        getUserCart.fulfilled,
+        (
+          state,
+          action: PayloadAction<{
+            products: { productId: number; quantity: number }[];
+          }>
+        ) => {
+          console.log(action.payload.products);
+
+          // state.cartProducts.push(action.payload.products);
+          state.cartProducts = action.payload.products;
+        }
+      )
       .addCase(getUserCart.rejected, (state, action) => {
         state.isLoading = false;
         state.error = `${action.error.message}`;

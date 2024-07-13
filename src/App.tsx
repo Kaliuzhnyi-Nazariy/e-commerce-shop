@@ -23,7 +23,10 @@ import { LoginModal } from "./components/auth/login/LoginModal";
 import { FaCartShopping } from "react-icons/fa6";
 import { IoIosLogOut } from "react-icons/io";
 import ProductItem from "./components/productsItems/productItem";
-import { Dropdown, DropdownButton, Stack } from "react-bootstrap";
+import {
+  // Dropdown, DropdownButton,
+  Stack,
+} from "react-bootstrap";
 import AddProductModal from "./components/addProduct/AddProductModal";
 import CartProductItem from "./components/cartProducts/CartProductItem";
 import { ClearButton } from "./components/ClearButton.styleS";
@@ -157,6 +160,7 @@ function App() {
                   setCategoryPeckied(category);
                 }}
                 className="btn d-flex flex-column align-items-center"
+                key={category}
               >
                 <ImageCategory />
                 <CategoryName>{category}</CategoryName>

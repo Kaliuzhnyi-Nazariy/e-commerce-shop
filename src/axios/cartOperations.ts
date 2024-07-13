@@ -12,7 +12,8 @@ export const getUserCart = createAsyncThunk<
 >("cart/getAll", async (id): Promise<ICart> => {
   try {
     const res = await axios.get(`${baseCartURL}/user/${id}`);
-    return res.data;
+    console.log(res.data);
+    return res.data[0];
   } catch (error) {
     console.log("Error in axios/cartOperations/getUserCart: ", error);
     throw error;
