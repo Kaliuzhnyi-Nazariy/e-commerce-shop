@@ -18,28 +18,14 @@ export const LoginForm = () => {
   const users = useSelector(selectAllUsers);
 
   const checkValues = () => {
-    if (username.length === 0) return;
-    if (password.length === 0) return;
+    if (username.length === 0 || password.length === 0) return;
 
-    dispatch(
-      loginUser({
-        username: username,
-        password: password,
-      })
-    );
+    dispatch(loginUser({ username, password }));
+    dispatch(extraLoginUser({ username, password }));
 
-    dispatch(
-      extraLoginUser({
-        username: username,
-        password: password,
-      })
-    );
-
-    if (username !== "") {
-      const user = users.find((user) => user.username === username);
-      if (user) {
-        dispatch(getUserCart(user.id));
-      }
+    const user = users.find((user) => user.username === username);
+    if (user) {
+      dispatch(getUserCart(user.id));
     }
   };
 
@@ -51,24 +37,25 @@ export const LoginForm = () => {
         variant="primary"
         title="Login user"
       >
-        {users.map((user) => (
-          <Dropdown.Item
-            key={user.id}
-            onClick={() => {
-              setUsername(user.username);
-              setPassword(user.password);
-            }}
-          >
-            {user.username}
-            <Dropdown.Divider />
-          </Dropdown.Item>
-        ))}
+        <Dropdown.Menu style={{ height: "16vh", overflowY: "scroll" }}>
+          {users.map((user) => (
+            <Dropdown.Item
+              key={user.id}
+              onClick={() => {
+                setUsername(user.username);
+                setPassword(user.password);
+              }}
+            >
+              {user.username}
+            </Dropdown.Item>
+          ))}
+        </Dropdown.Menu>
       </DropdownButton>
 
       <Formik
         initialValues={{
-          username: "",
-          password: "",
+          username: username,
+          password: password,
         }}
         onSubmit={() => {
           checkValues();
