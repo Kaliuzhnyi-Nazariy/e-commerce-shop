@@ -50,20 +50,9 @@ const cartSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(getUserCart.pending, handlePending)
-      .addCase(
-        getUserCart.fulfilled,
-        (
-          state,
-          action: PayloadAction<{
-            products: { productId: number; quantity: number }[];
-          }>
-        ) => {
-          console.log(action.payload.products);
-
-          // state.cartProducts.push(action.payload.products);
-          state.cartProducts = action.payload.products;
-        }
-      )
+      .addCase(getUserCart.fulfilled, (state, action) => {
+        state.cartProducts = action.payload;
+      })
       .addCase(getUserCart.rejected, (state, action) => {
         state.isLoading = false;
         state.error = `${action.error.message}`;

@@ -27,7 +27,7 @@ export interface ICart {
   id: number;
   userId: number;
   date: string;
-  products: { productId: number; quantity: number }[];
+  products: { productId: number; quantity: number };
 }
 
 export interface INewCartProduct {

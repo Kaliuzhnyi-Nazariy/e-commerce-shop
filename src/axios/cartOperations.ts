@@ -6,19 +6,21 @@ import { RootStateForFunctions } from "./store.";
 export const baseCartURL = "https://fakestoreapi.com/carts";
 
 export const getUserCart = createAsyncThunk<
-  ICart,
+  { productId: number; quantity: number }[],
   number,
   { rejectValue: string; state: RootStateForFunctions }
->("cart/getAll", async (id): Promise<ICart> => {
-  try {
-    const res = await axios.get(`${baseCartURL}/user/${id}`);
-    console.log(res.data);
-    return res.data[0];
-  } catch (error) {
-    console.log("Error in axios/cartOperations/getUserCart: ", error);
-    throw error;
+>(
+  "cart/getAll",
+  async (id): Promise<{ productId: number; quantity: number }[]> => {
+    try {
+      const res = await axios.get(`${baseCartURL}/user/${id}`);
+      return res.data[0].products;
+    } catch (error) {
+      console.log("Error in axios/cartOperations/getUserCart: ", error);
+      throw error;
+    }
   }
-});
+);
 
 export const addUserCart = createAsyncThunk<
   IProductsInCart,
