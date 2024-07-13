@@ -27,30 +27,32 @@ import { Dropdown, DropdownButton, Stack } from "react-bootstrap";
 import AddProductModal from "./components/addProduct/AddProductModal";
 import CartProductItem from "./components/cartProducts/CartProductItem";
 import { ClearButton } from "./components/ClearButton.styleS";
+import {
+  AuthDiv,
+  CategoryButton,
+  CategoryName,
+  DivIsMobile,
+  DivIsNotMobile,
+  ImageCategory,
+  StyledCartDiv,
+} from "./components/appStyles";
+import { OffCanvas } from "./components/OffCanvas";
 
 function App() {
   const dispatch = useAppDispatch();
 
   const categories = useSelector(selectCategories);
   const products = useSelector(selectAllProducts);
-  // const user = useSelector(selectUser);
   const userIsLoggedIn = useSelector(selectIsLoggedIn);
   const cartProducts = useSelector(selectCartProducts);
   const cardSelects = useSelector(selectProducts);
 
   const [categoryPicked, setCategoryPeckied] = useState(null);
-  // useEffect(() => {
-  //   if (user) {
-  //     dispatch(getUserCart(user.id));
-  //   }
-  // }, [dispatch, user]);
 
   useEffect(() => {
     dispatch(getCategories());
     dispatch(getAllProducts());
     dispatch(refreshUser());
-
-    // dispatch(refreshCart());
   }, [dispatch]);
 
   const handleClick = (category: string) => {
@@ -95,35 +97,30 @@ function App() {
   );
 
   return (
-    <div style={{ minWidth: "320px" }}>
+    <div style={{ width: "320px" }}>
       <Stack direction="horizontal" gap={3}>
-        <button onClick={handleAllProduct}>All products</button>
-        <Stack className="ms-auto" direction="horizontal" gap={3}>
+        <button onClick={handleAllProduct} className="btn">
+          <img
+            src="../public/logo_for_e-comm_8d168fe7-7f71-4d2b-aa61-959ada1ac9f6-removebg-preview.png"
+            alt="SwiftShopper"
+            style={{ height: "50px" }}
+          />
+        </button>
+        <Stack
+          className="ms-auto"
+          direction="horizontal"
+          // gap={3}
+        >
           {userIsLoggedIn ? (
             <>
               <button onClick={handleUserCart} style={{ position: "relative" }}>
-                <div
-                  style={{
-                    position: "absolute",
-                    width: "20px",
-                    height: "20px",
-                    backgroundColor: "tomato",
-                    top: -8,
-                    right: -8,
-                    borderRadius: "100%",
-                    fontSize: "12px",
-                    textAlign: "center",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
+                <StyledCartDiv>
                   {cardSelects.length !== 0 ? (
                     <> {cardSelects.length}</>
                   ) : (
                     <>0</>
                   )}
-                </div>
+                </StyledCartDiv>
                 <FaCartShopping />
               </button>
               <AddProductModal />
@@ -133,16 +130,40 @@ function App() {
             </>
           ) : (
             <>
-              <LoginModal />
-              <div className="vr"></div>
-              <SignUpModal />
+              <DivIsMobile>
+                <OffCanvas />
+              </DivIsMobile>
+              <DivIsNotMobile>
+                <AuthDiv>
+                  <LoginModal />
+                  <div className="vr"></div>
+                  <SignUpModal />
+                </AuthDiv>
+              </DivIsNotMobile>
             </>
           )}
         </Stack>
       </Stack>
       {sortedCartProducts.length === 0 ? (
         <>
-          <DropdownButton
+          <div
+            className="d-flex gap-3 justify-content-evenly"
+            style={{ width: "240px" }}
+          >
+            {categories.map((category) => (
+              <CategoryButton
+                onClick={() => {
+                  handleClick(category);
+                  setCategoryPeckied(category);
+                }}
+                className="btn d-flex flex-column align-items-center"
+              >
+                <ImageCategory />
+                <CategoryName>{category}</CategoryName>
+              </CategoryButton>
+            ))}
+          </div>
+          {/* <DropdownButton
             key="secondary"
             id={`dropdown-variants-secondary`}
             variant="dark"
@@ -160,8 +181,8 @@ function App() {
                 <Dropdown.Divider />
               </Dropdown.Item>
             ))}
-          </DropdownButton>
-          {categoryPicked}
+          </DropdownButton> */}
+          <h2>{categoryPicked ? categoryPicked : "All product"}</h2>
         </>
       ) : (
         <></>

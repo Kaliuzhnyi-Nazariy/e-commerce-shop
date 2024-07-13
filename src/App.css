@@ -4,6 +4,50 @@
   text-align: center;
 }
 
+/* BurgerMenu.css */
+.bm-burger-button {
+  position: fixed;
+  width: 36px;
+  height: 30px;
+  /* Adjust the top position to align correctly */
+  z-index: 1000; /* Ensure the button is on top of other elements */
+}
+
+.bm-burger-bars {
+  background: #373a47;
+}
+
+.bm-menu-wrap {
+  position: fixed;
+  height: 100%;
+}
+
+.bm-menu {
+  background: #373a47;
+  padding: 2.5em 1.5em 0;
+  font-size: 1.15em;
+}
+
+.bm-item-list {
+  color: #b8b7ad;
+}
+
+.bm-item {
+  display: inline-block;
+  color: #fff; /* Make menu items white for better visibility */
+  padding: 0.5em 0;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.bm-item:hover {
+  color: #f8f8f8;
+}
+
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+
 /* Custom Dropdown Styles */
 /* .dropdown-container {
   position: relative;
