@@ -41,6 +41,15 @@ import {
 } from "./components/appStyles";
 import { OffCanvas } from "./components/OffCanvas";
 
+import { Scrollbar, A11y } from "swiper/modules";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+import { BurgerMenu } from "./components/BurgerMenu/BurgerMenu";
+
 function App() {
   const dispatch = useAppDispatch();
 
@@ -116,7 +125,8 @@ function App() {
         >
           {userIsLoggedIn ? (
             <>
-              <button onClick={handleUserCart} style={{ position: "relative" }}>
+              <BurgerMenu />
+              {/* <button onClick={handleUserCart} style={{ position: "relative" }}>
                 <StyledCartDiv>
                   {cardSelects.length !== 0 ? (
                     <> {cardSelects.length}</>
@@ -129,7 +139,7 @@ function App() {
               <AddProductModal />
               <button onClick={handleLogOut}>
                 <IoIosLogOut />
-              </button>
+              </button> */}
             </>
           ) : (
             <>
@@ -149,9 +159,9 @@ function App() {
       </Stack>
       {sortedCartProducts.length === 0 ? (
         <>
-          <div
+          {/* <div
             className="d-flex gap-3 justify-content-evenly"
-            style={{ width: "240px" }}
+            style={{ width: "100%" }}
           >
             {categories.map((category) => (
               <CategoryButton
@@ -166,7 +176,35 @@ function App() {
                 <CategoryName>{category}</CategoryName>
               </CategoryButton>
             ))}
-          </div>
+          </div> */}
+          <Swiper
+            // install Swiper modules
+            modules={[Scrollbar, A11y]}
+            spaceBetween={40}
+            slidesPerView={3}
+            // navigation
+            style={{ width: "240px" }}
+            // pagination={{ clickable: true }}
+            scrollbar={{ draggable: true }}
+            // onSwiper={(swiper) => console.log(swiper)}
+            // onSlideChange={() => console.log("slide change")}
+          >
+            {categories.map((category) => (
+              <SwiperSlide>
+                <CategoryButton
+                  onClick={() => {
+                    handleClick(category);
+                    setCategoryPeckied(category);
+                  }}
+                  className="btn d-flex flex-column align-items-center"
+                  key={category}
+                >
+                  <ImageCategory />
+                  <CategoryName>{category}</CategoryName>
+                </CategoryButton>
+              </SwiperSlide>
+            ))}
+          </Swiper>
           {/* <DropdownButton
             key="secondary"
             id={`dropdown-variants-secondary`}

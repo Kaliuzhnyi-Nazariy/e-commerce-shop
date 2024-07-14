@@ -3,6 +3,7 @@ import Modal from "@mui/material/Modal";
 import { IoIosAddCircle } from "react-icons/io";
 import AddProductForm from "./AddProductForm";
 import { Box } from "@mui/material";
+import { MenuBtn } from "../BurgerMenu/BurgerMenuStyled";
 
 const style = {
   position: "absolute",
@@ -16,7 +17,11 @@ const style = {
   p: 4,
 };
 
-const AddProductModal = () => {
+type Prop = {
+  onClose: () => void;
+};
+
+const AddProductModal = ({ onClose }: Prop) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -24,9 +29,15 @@ const AddProductModal = () => {
   return (
     <>
       <div>
-        <button onClick={handleOpen}>
-          <IoIosAddCircle />
-        </button>
+        <MenuBtn
+          onClick={() => {
+            onClose();
+            handleOpen();
+          }}
+          className=" btn btn-outline-dark"
+        >
+          Add product <IoIosAddCircle />
+        </MenuBtn>
         <Modal
           open={open}
           onClose={handleClose}
