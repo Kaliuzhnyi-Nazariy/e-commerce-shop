@@ -1,5 +1,10 @@
 import styled from "styled-components";
 
+export const AppStyle = styled.div`
+  height: 100%;
+  width: 320px;
+`;
+
 export const StyledCartDiv = styled.div`
   position: absolute;
   width: 20px;
@@ -51,6 +56,11 @@ export const ImageCategory = styled.div`
   border: 2px solid #ccc;
   border-radius: 100%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+`;
+
+export const MenuButtons = styled.div`
+  display: flex;
+  gap: 12px;
 `;
 
 export const CategoryButton = styled.button`

@@ -4,6 +4,7 @@ import { IoIosAddCircle } from "react-icons/io";
 import AddProductForm from "./AddProductForm";
 import { Box } from "@mui/material";
 import { MenuBtn } from "../BurgerMenu/BurgerMenuStyled";
+import { TextButton } from "./AddProductModal.style";
 
 const style = {
   position: "absolute",
@@ -25,8 +26,12 @@ const AddProductModal = () => {
   return (
     <>
       <div>
-        <MenuBtn onClick={handleOpen} className=" btn btn-outline-dark">
-          Add product <IoIosAddCircle />
+        <MenuBtn
+          onClick={handleOpen}
+          style={{ height: "100%" }}
+          className=" btn btn-outline-dark"
+        >
+          <TextButton>Add product</TextButton> <IoIosAddCircle />
         </MenuBtn>
         <Modal
           open={open}

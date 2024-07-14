@@ -13,5 +13,25 @@ export const MenuDiv = styled.div`
 `;
 
 export const MenuBtn = styled.button`
-  width: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  @media screen and (max-width: 767px) {
+    width: 140px;
+  }
+`;
+
+export const IsMobileDiv = styled.div`
+  display: block;
+  @media screen and (min-width: 768px) {
+    display: none;
+  }
+`;
+
+export const IsMoreThanMobileDiv = styled.div`
+  display: none;
+  @media screen and (min-width: 768px) {
+    display: flex;
+  }
 `;

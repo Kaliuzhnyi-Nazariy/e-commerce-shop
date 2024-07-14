@@ -5,7 +5,7 @@ import {
   getAllProducts,
   getCategories,
   getExactCategory,
-  // getOneProduct,
+  getOneProduct,
 } from "./axios/operations";
 import { useSelector } from "react-redux";
 import {
@@ -20,24 +20,26 @@ import { refreshUser } from "./axios/authOperations";
 // import { getUserCart, refreshCart } from "./axios/cartOperations";
 import { SignUpModal } from "./components/auth/registration/SignUpModal";
 import { LoginModal } from "./components/auth/login/LoginModal";
-// import { FaCartShopping } from "react-icons/fa6";
-// import { IoIosLogOut } from "react-icons/io";
+import { FaCartShopping } from "react-icons/fa6";
+import { IoIosLogOut } from "react-icons/io";
 import ProductItem from "./components/productsItems/productItem";
 import {
   // Dropdown, DropdownButton,
   Stack,
 } from "react-bootstrap";
-// import AddProductModal from "./components/addProduct/AddProductModal";
+import AddProductModal from "./components/addProduct/AddProductModal";
 import CartProductItem from "./components/cartProducts/CartProductItem";
 import { ClearButton } from "./components/ClearButton.styleS";
 import {
+  AppStyle,
   AuthDiv,
   CategoryButton,
   CategoryName,
   DivIsMobile,
   DivIsNotMobile,
   ImageCategory,
-  // StyledCartDiv,
+  MenuButtons,
+  StyledCartDiv,
 } from "./components/appStyles";
 import { OffCanvas } from "./components/OffCanvas";
 
@@ -51,6 +53,10 @@ import "swiper/css/scrollbar";
 import { BurgerMenu } from "./components/BurgerMenu/BurgerMenu";
 
 import logoImg from "./assets/logo_for_e-comm_8d168fe7-7f71-4d2b-aa61-959ada1ac9f6-removebg-preview.png";
+import {
+  IsMobileDiv,
+  IsMoreThanMobileDiv,
+} from "./components/BurgerMenu/BurgerMenuStyled";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -79,26 +85,26 @@ function App() {
     setCategoryPeckied(null);
   };
 
-  // const handleUserCart = async () => {
-  //   if (!userIsLoggedIn) return;
-  //   const forCheckIsProductInCart = cartProducts.map((product) => product.id);
-  //   const forCheckIsItInCart = cardSelects.map((i) => {
-  //     if (!forCheckIsProductInCart.includes(i.productId)) {
-  //       return true;
-  //     }
-  //     return false;
-  //   });
+  const handleUserCart = async () => {
+    if (!userIsLoggedIn) return;
+    const forCheckIsProductInCart = cartProducts.map((product) => product.id);
+    const forCheckIsItInCart = cardSelects.map((i) => {
+      if (!forCheckIsProductInCart.includes(i.productId)) {
+        return true;
+      }
+      return false;
+    });
 
-  //   if (forCheckIsItInCart.includes(true)) {
-  //     cardSelects.forEach((i) => dispatch(getOneProduct(i.productId)));
-  //   }
-  // };
+    if (forCheckIsItInCart.includes(true)) {
+      cardSelects.forEach((i) => dispatch(getOneProduct(i.productId)));
+    }
+  };
 
-  // const handleLogOut = () => {
-  //   dispatch({ type: "cleanCreatedByUser" });
-  //   dispatch({ type: "cleanCartProducts" });
-  //   dispatch({ type: "user/logOut" });
-  // };
+  const handleLogOut = () => {
+    dispatch({ type: "cleanCreatedByUser" });
+    dispatch({ type: "cleanCartProducts" });
+    dispatch({ type: "user/logOut" });
+  };
 
   const handleCleanCart = () => {
     dispatch({ type: "cleanCartProducts" });
@@ -111,7 +117,7 @@ function App() {
   );
 
   return (
-    <div style={{ width: "320px" }}>
+    <AppStyle style={{ width: "320px", height: "100%" }}>
       <Stack direction="horizontal" gap={3}>
         <button onClick={handleAllProduct} className="btn">
           <img src={logoImg} alt="SwiftShopper" style={{ height: "50px" }} />
@@ -123,21 +129,34 @@ function App() {
         >
           {userIsLoggedIn ? (
             <>
-              <BurgerMenu />
-              {/* <button onClick={handleUserCart} style={{ position: "relative" }}>
-                <StyledCartDiv>
-                  {cardSelects.length !== 0 ? (
-                    <> {cardSelects.length}</>
-                  ) : (
-                    <>0</>
-                  )}
-                </StyledCartDiv>
-                <FaCartShopping />
-              </button>
-              <AddProductModal />
-              <button onClick={handleLogOut}>
-                <IoIosLogOut />
-              </button> */}
+              <IsMobileDiv>
+                <BurgerMenu />
+              </IsMobileDiv>
+              <IsMoreThanMobileDiv>
+                <MenuButtons>
+                  <button
+                    onClick={handleUserCart}
+                    style={{ position: "relative" }}
+                    className="btn btn-outline-dark"
+                  >
+                    <StyledCartDiv>
+                      {cardSelects.length !== 0 ? (
+                        <> {cardSelects.length}</>
+                      ) : (
+                        <>0</>
+                      )}
+                    </StyledCartDiv>
+                    <FaCartShopping />
+                  </button>
+                  <AddProductModal />
+                  <button
+                    onClick={handleLogOut}
+                    className="btn btn-outline-dark"
+                  >
+                    <IoIosLogOut />
+                  </button>
+                </MenuButtons>
+              </IsMoreThanMobileDiv>
             </>
           ) : (
             <>
@@ -256,7 +275,7 @@ function App() {
           </>
         )}
       </div>
-    </div>
+    </AppStyle>
   );
 }
 
