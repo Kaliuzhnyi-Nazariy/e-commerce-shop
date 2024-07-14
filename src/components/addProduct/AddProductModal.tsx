@@ -17,11 +17,7 @@ const style = {
   p: 4,
 };
 
-type Prop = {
-  onClose: () => void;
-};
-
-const AddProductModal = ({ onClose }: Prop) => {
+const AddProductModal = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -29,13 +25,7 @@ const AddProductModal = ({ onClose }: Prop) => {
   return (
     <>
       <div>
-        <MenuBtn
-          onClick={() => {
-            onClose();
-            handleOpen();
-          }}
-          className=" btn btn-outline-dark"
-        >
+        <MenuBtn onClick={handleOpen} className=" btn btn-outline-dark">
           Add product <IoIosAddCircle />
         </MenuBtn>
         <Modal

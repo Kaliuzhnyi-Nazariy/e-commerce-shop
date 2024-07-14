@@ -73,7 +73,7 @@ export const BurgerMenu = () => {
               </StyledCartDiv>
               Cart <FaCartShopping />
             </MenuBtn>
-            <AddProductModal onClose={handleClose} />
+            <AddProductModal />
             <MenuBtn
               onClick={() => {
                 handleLogOut();
