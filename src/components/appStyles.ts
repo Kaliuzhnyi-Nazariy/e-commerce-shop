@@ -141,7 +141,7 @@ export const ProductsField = styled.div`
   height: 100%;
   gap: 12px;
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;

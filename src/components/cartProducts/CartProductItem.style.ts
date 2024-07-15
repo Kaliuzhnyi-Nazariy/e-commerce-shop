@@ -12,6 +12,10 @@ export const ProductDiv = styled.div`
   align-items: center;
 
   position: relative;
+
+  @media screen and (min-width: 768px) {
+    width: 300px;
+  }
 `;
 
 export const DeleteButton = styled.button`

@@ -106,33 +106,37 @@ const ProductItem = ({ prop }: Prop) => {
 
       <DescriptionStyled>{prop.description}</DescriptionStyled>
 
-      <p>{prop.category}</p>
+      <p style={{ gridArea: "c", alignSelf: "self-end", textAlign: "justify" }}>
+        {prop.category}
+      </p>
 
-      <p>{prop.price}$</p>
+      <p style={{ gridArea: "v" }}>{prop.price}$</p>
 
-      <span
+      {/* <span
         className="d-flex justify-content-between"
         style={{ width: "100%" }}
-      >
-        <span className="d-flex align-items-center gap-2">
-          <QuantityButton
-            onClick={() => setCount((prevState) => (prevState += 1))}
-          >
-            +
-          </QuantityButton>
-          <div>{count}</div>
-          <QuantityButton
-            onClick={() => {
-              if (count !== 0) setCount((prevState) => (prevState -= 1));
-            }}
-          >
-            -
-          </QuantityButton>
-        </span>
-        <AddCartButton onClick={handleAddToCart} className="ms-auto">
-          <MdAddShoppingCart />
-        </AddCartButton>
+      > */}
+      {/* <span className="d-flex align-items-center gap-2"> */}
+      <span style={{ gridArea: "q", display: "flex" }}>
+        <QuantityButton
+          onClick={() => setCount((prevState) => (prevState += 1))}
+        >
+          +
+        </QuantityButton>
+        <div>{count}</div>
+        <QuantityButton
+          onClick={() => {
+            if (count !== 0) setCount((prevState) => (prevState -= 1));
+          }}
+        >
+          -
+        </QuantityButton>
       </span>
+      {/* </span> */}
+      <AddCartButton onClick={handleAddToCart} className="ms-auto">
+        <MdAddShoppingCart />
+      </AddCartButton>
+      {/* </span> */}
       {/* <DeleteUserProduct
         onClick={handleDelete}
         className="position-absolute 

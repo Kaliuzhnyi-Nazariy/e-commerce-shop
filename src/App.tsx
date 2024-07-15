@@ -229,15 +229,17 @@ function App() {
       ) : (
         <></>
       )}
-      <ProductsField className="d-flex">
+      <>
         {sortedCartProducts.length === 0 ? (
-          products.map((i) => {
-            return <ProductItem prop={i} key={i.id} />;
-          })
+          <ProductsField className="d-flex">
+            {products.map((i) => {
+              return <ProductItem prop={i} key={i.id} />;
+            })}
+          </ProductsField>
         ) : (
           <>
             {cardSelects ? (
-              <>
+              <ProductsField className="d-flex">
                 {sortedCartProducts.map((i) => {
                   const selectedProduct = sortedCardSelects.find(
                     (item) => item.productId === i.id
@@ -250,14 +252,14 @@ function App() {
                     />
                   );
                 })}
-              </>
+              </ProductsField>
             ) : (
               <></>
             )}
             <ClearButton onClick={handleCleanCart}>Clear</ClearButton>
           </>
         )}
-      </ProductsField>
+      </>
     </AppStyle>
   );
 }
