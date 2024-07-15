@@ -2,16 +2,13 @@ import { useSelector } from "react-redux";
 import {
   // selectAllProducts,
   selectIsCreatedByUser,
-  selectIsLoggedIn,
-  selectProducts,
-  selectUser,
-} from "../../axios/selectors";
+} from "../../axios/products/productSelectors";
 import { format } from "date-fns";
 import { ICart, IProduct } from "../../typesOrInterfaces/typesOrInterfaces";
 import { useAppDispatch } from "../../hooks/useDispatch";
 import { MdAddShoppingCart, MdDeleteForever } from "react-icons/md";
 import { addUserCart } from "../../axios/cart/cartOperations";
-import { deleteProduct } from "../../axios/operations";
+import { deleteProduct } from "../../axios/products/operations";
 import {
   // useEffect,
   useState,
@@ -30,6 +27,8 @@ import {
   TooltipStyle,
 } from "./ProductItem.style";
 import { deleteCartItem } from "../../axios/cart/cartSlice";
+import { selectIsLoggedIn, selectUser } from "../../axios/auth/authSelectors";
+import { selectProducts } from "../../axios/cart/cartSellectors";
 
 type Prop = {
   prop: IProduct;

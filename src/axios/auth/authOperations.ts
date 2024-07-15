@@ -5,8 +5,8 @@ import {
   INewUser,
   // IRefreshUser,
   IUser,
-} from "../typesOrInterfaces/typesOrInterfaces";
-import { RootStateForFunctions } from "./store";
+} from "../../typesOrInterfaces/typesOrInterfaces";
+import { RootStateForFunctions } from "../store";
 import { IInitialState } from "./userSlice";
 
 const baseUserURL = "https://fakestoreapi.com/users";

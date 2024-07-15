@@ -3,17 +3,15 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { StyledCartDiv } from "../appStyles";
 import { useSelector } from "react-redux";
-import {
-  selectCartProducts,
-  selectIsLoggedIn,
-  selectProducts,
-} from "../../axios/selectors";
+import { selectCartProducts } from "../../axios/products/productSelectors";
 import { useAppDispatch } from "../../hooks/useDispatch";
-import { getOneProduct } from "../../axios/operations";
+import { getOneProduct } from "../../axios/products/operations";
 import { FaCartShopping } from "react-icons/fa6";
 import AddProductModal from "../addProduct/AddProductModal";
 import { IoIosLogOut } from "react-icons/io";
 import { MenuBtn, MenuDiv } from "./BurgerMenuStyled";
+import { selectIsLoggedIn } from "../../axios/auth/authSelectors";
+import { selectProducts } from "../../axios/cart/cartSellectors";
 
 export const BurgerMenu = () => {
   const [show, setShow] = useState(false);

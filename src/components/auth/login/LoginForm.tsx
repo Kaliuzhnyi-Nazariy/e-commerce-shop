@@ -2,12 +2,13 @@ import { Formik, Field, Form } from "formik";
 import InputGroup from "react-bootstrap/InputGroup";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { useAppDispatch } from "../../../hooks/useDispatch";
-import { extraLoginUser, loginUser } from "../../../axios/authOperations";
+import { extraLoginUser, loginUser } from "../../../axios/auth/authOperations";
 import { useSelector } from "react-redux";
-import { selectAllUsers } from "../../../axios/selectors";
+
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import { useState } from "react";
 import { getUserCart } from "../../../axios/cart/cartOperations";
+import { selectAllUsers } from "../../../axios/auth/authSelectors";
 
 type Prop = {
   onClose: () => void;

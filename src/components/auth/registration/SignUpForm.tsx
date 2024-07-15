@@ -12,7 +12,7 @@ import {
   createUser,
   getAllUsers,
   loginUser,
-} from "../../../axios/authOperations";
+} from "../../../axios/auth/authOperations";
 
 interface Values {
   email: string;

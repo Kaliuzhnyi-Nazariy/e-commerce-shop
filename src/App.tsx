@@ -6,14 +6,12 @@ import {
   getCategories,
   getExactCategory,
   getOneProduct,
-} from "./axios/operations";
+} from "./axios/products/operations";
 import { useSelector } from "react-redux";
 import {
   selectAllProducts,
   selectCartProducts,
-  selectCategories,
-  selectProducts,
-} from "./axios/selectors";
+} from "./axios/products/productSelectors";
 import { refreshUser } from "./axios/auth/authOperations";
 import { SignUpModal } from "./components/auth/registration/SignUpModal";
 import { LoginModal } from "./components/auth/login/LoginModal";
@@ -56,6 +54,11 @@ import {
   IsMoreThanMobileDiv,
 } from "./components/BurgerMenu/BurgerMenuStyled";
 import { selectIsLoggedIn } from "./axios/auth/authSelectors";
+import { selectProducts } from "./axios/cart/cartSellectors";
+import {
+  selectCategories,
+  // selectCategoriesIsLoading,
+} from "./axios/categories/categoriesSelectors";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -65,6 +68,7 @@ function App() {
   const userIsLoggedIn = useSelector(selectIsLoggedIn);
   const cartProducts = useSelector(selectCartProducts);
   const cardSelects = useSelector(selectProducts);
+  // const categoriesLoading = useSelector(selectCategoriesIsLoading);
 
   const [categoryPicked, setCategoryPeckied] = useState(null);
 
@@ -196,7 +200,7 @@ function App() {
               scrollbar={{ draggable: true }}
             >
               {categories.map((category) => (
-                <SwiperSlide>
+                <SwiperSlide key={category}>
                   <CategoryButton
                     onClick={() => {
                       handleClick(category);
@@ -206,7 +210,7 @@ function App() {
                     key={category}
                   >
                     <ImageCategory />
-                    <CategoryName>{category}</CategoryName>
+                    <CategoryName key={category}>{category}</CategoryName>
                   </CategoryButton>
                 </SwiperSlide>
               ))}

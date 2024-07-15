@@ -7,22 +7,22 @@ import {
   getExactCategory,
   getOneProduct,
 } from "./operations";
-import { IProduct } from "../typesOrInterfaces/typesOrInterfaces";
+import { IProduct } from "../../typesOrInterfaces/typesOrInterfaces";
 
 export interface IProductInitialState {
   product: Array<IProduct>;
-  isLoading: boolean;
-  error: string;
   cartProduct: Array<IProduct>;
   createdByUser: Array<IProduct>;
+  isLoading: boolean;
+  error: string;
 }
 
 const initialState: IProductInitialState = {
   product: [],
-  isLoading: false,
-  error: "",
   cartProduct: [],
   createdByUser: [],
+  isLoading: false,
+  error: "",
 };
 
 const handlePending = (state: { isLoading: boolean; error: string }) => {

@@ -1,13 +1,13 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { baseCartURL } from "./cart/cartOperations";
+import { baseCartURL } from "../cart/cartOperations";
 import {
   AllProducts,
   Categories,
   INewProduct,
   IProduct,
-} from "../typesOrInterfaces/typesOrInterfaces";
-import { RootStateForFunctions } from "./store";
+} from "../../typesOrInterfaces/typesOrInterfaces";
+import { RootStateForFunctions } from "../store";
 
 const productBaseURL = "https://fakestoreapi.com/products";
 

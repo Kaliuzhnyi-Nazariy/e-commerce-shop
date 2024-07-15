@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCategories } from "./operations";
+import { getCategories } from "../products/operations";
 
 export interface IInitState {
   categories: string[];

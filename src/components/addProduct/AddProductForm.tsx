@@ -1,6 +1,5 @@
 import { Formik, Field, Form, FormikHelpers } from "formik";
 import { useSelector } from "react-redux";
-import { selectCategories } from "../../axios/selectors";
 import { useAppDispatch } from "../../hooks/useDispatch";
 import { INewProduct } from "../../typesOrInterfaces/typesOrInterfaces";
 import * as Yup from "yup";
@@ -10,7 +9,8 @@ import { FaAudioDescription } from "react-icons/fa";
 import { ImFilePicture } from "react-icons/im";
 import { useState } from "react";
 import { Dropdown, DropdownButton } from "react-bootstrap";
-import { addProduct } from "../../axios/operations";
+import { addProduct } from "../../axios/products/operations";
+import { selectCategories } from "../../axios/categories/categoriesSelectors";
 
 type Prop = {
   onClick: () => void;

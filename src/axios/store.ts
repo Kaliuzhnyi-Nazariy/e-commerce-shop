@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { IProductInitialState, productReducer } from "./productSlice";
-import { categoriesReducer, IInitState } from "./categoriesSlice";
+import { IProductInitialState, productReducer } from "./products/productSlice";
+import { categoriesReducer, IInitState } from "./categories/categoriesSlice";
 import { IInitialState, userReducer } from "./auth/userSlice";
 import { cartReducer, IProductCartState } from "./cart/cartSlice";
 import storage from "redux-persist/lib/storage";
