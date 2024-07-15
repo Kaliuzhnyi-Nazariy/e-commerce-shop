@@ -5,6 +5,7 @@ export const ProductItemStyled = styled.div`
   flex-direction: column;
 
   align-items: center;
+  justify-content: space-between;
 
   padding: 16px;
 
@@ -14,6 +15,7 @@ export const ProductItemStyled = styled.div`
   position: relative;
 
   width: 240px;
+  height: 420px;
 `;
 
 export const QuantityButton = styled.button`
@@ -45,6 +47,13 @@ export const TooltipStyle = styled.p`
 export const ImgStyled = styled.img`
   max-height: 150px;
   max-width: 200px;
+`;
+
+export const TitleStyled = styled.p`
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export const DescriptionStyled = styled.p`

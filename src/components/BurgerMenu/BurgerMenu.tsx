@@ -76,8 +76,8 @@ export const BurgerMenu = () => {
             <AddProductModal />
             <MenuBtn
               onClick={() => {
-                handleLogOut();
                 handleClose();
+                handleLogOut();
               }}
               className=" btn btn-outline-dark"
             >

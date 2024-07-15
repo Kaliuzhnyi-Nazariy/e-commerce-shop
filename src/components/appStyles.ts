@@ -2,7 +2,16 @@ import styled from "styled-components";
 
 export const AppStyle = styled.div`
   height: 100%;
-  width: 320px;
+  width: 280px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+
+  max-width: 100vw;
+  overflow-x: hidden;
 `;
 
 export const StyledCartDiv = styled.div`

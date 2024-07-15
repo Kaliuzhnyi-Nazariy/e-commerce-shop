@@ -9,7 +9,11 @@ import { Dropdown, DropdownButton } from "react-bootstrap";
 import { useState } from "react";
 import { getUserCart } from "../../../axios/cartOperations";
 
-export const LoginForm = () => {
+type Prop = {
+  onClose: () => void;
+};
+
+export const LoginForm = ({ onClose }: Prop) => {
   const dispatch = useAppDispatch();
 
   const [username, setUsername] = useState("");
@@ -59,6 +63,7 @@ export const LoginForm = () => {
         }}
         onSubmit={() => {
           checkValues();
+          onClose();
         }}
         enableReinitialize={true}
       >

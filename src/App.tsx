@@ -47,8 +47,6 @@ import { Scrollbar, A11y } from "swiper/modules";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { BurgerMenu } from "./components/BurgerMenu/BurgerMenu";
 
@@ -117,8 +115,8 @@ function App() {
   );
 
   return (
-    <AppStyle style={{ width: "320px", height: "100%" }}>
-      <Stack direction="horizontal" gap={3}>
+    <AppStyle>
+      <Stack direction="horizontal" style={{ maxWidth: "260px" }}>
         <button onClick={handleAllProduct} className="btn">
           <img src={logoImg} alt="SwiftShopper" style={{ height: "50px" }} />
         </button>
@@ -200,8 +198,7 @@ function App() {
             spaceBetween={40}
             slidesPerView={3}
             // navigation
-            style={{ width: "240px" }}
-            // pagination={{ clickable: true }}
+            style={{ width: "240px" }} // pagination={{ clickable: true }}
             scrollbar={{ draggable: true }}
             // onSwiper={(swiper) => console.log(swiper)}
             // onSlideChange={() => console.log("slide change")}
@@ -246,7 +243,7 @@ function App() {
       ) : (
         <></>
       )}
-      <div className="d-flex flex-column align-items-center gap-2">
+      <div className="d-flex flex-column align-items-center gap-2 h-100">
         {sortedCartProducts.length === 0 ? (
           products.map((i) => {
             return <ProductItem prop={i} key={i.id} />;

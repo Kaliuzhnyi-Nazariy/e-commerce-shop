@@ -65,7 +65,7 @@ export const LoginModal = () => {
                   height: "40px",
                   border: "none",
                 }}
-                onClick={() => handleClose()}
+                onClick={handleClose}
               >
                 <span aria-hidden="true" style={{ fontSize: "32px" }}>
                   &times;
@@ -73,7 +73,7 @@ export const LoginModal = () => {
               </button>
             </div>
             <div id="modal-modal-description">
-              <LoginForm />
+              <LoginForm onClose={handleClose} />
             </div>
           </Box>
         </Modal>

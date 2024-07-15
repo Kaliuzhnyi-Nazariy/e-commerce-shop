@@ -4,10 +4,11 @@
 [data-tooltip]::after {
   content: attr(data-tooltip);
   position: absolute;
-  width: 300px;
+  width: 200px;
   left: 0;
   top: 0;
   background: #050607;
+  z-index: 1000;
 
   border-radius: 16px;
 

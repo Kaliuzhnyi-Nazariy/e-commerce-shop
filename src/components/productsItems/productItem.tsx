@@ -23,6 +23,7 @@ import {
   ImgStyled,
   ProductItemStyled,
   QuantityButton,
+  TitleStyled,
   TooltipStyle,
 } from "./ProductItem.style";
 import { deleteCartItem } from "../../axios/cartSlice";
@@ -101,7 +102,7 @@ const ProductItem = ({ prop }: Prop) => {
 
       <ImgStyled src={prop.image} alt={prop.title} />
 
-      <p>{prop.title}</p>
+      <TitleStyled>{prop.title}</TitleStyled>
 
       <DescriptionStyled>{prop.description}</DescriptionStyled>
 
