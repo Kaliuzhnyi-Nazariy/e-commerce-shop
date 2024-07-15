@@ -8,6 +8,7 @@ import { getAllUsers } from "../../../axios/authOperations";
 import Box from "@mui/material/Box";
 // import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
+import { OpenButton } from "./LoginModal.style";
 
 const style = {
   position: "absolute",
@@ -31,21 +32,16 @@ export const LoginModal = () => {
   return (
     <>
       <div>
-        <button
+        <OpenButton
           onClick={() => {
             dispatch(getAllUsers());
             handleOpen();
           }}
           type="button"
           className="btn btn-primary"
-          style={{
-            textTransform: "uppercase",
-            fontWeight: "bold",
-            fontSize: "14px",
-          }}
         >
           sign in
-        </button>
+        </OpenButton>
         <Modal
           open={open}
           onClose={handleClose}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { AuthDiv } from "./appStyles";
+import { AuthNav } from "./appStyles";
 import { LoginModal } from "./auth/login/LoginModal";
 import { SignUpModal } from "./auth/registration/SignUpModal";
 
@@ -22,10 +22,10 @@ export const OffCanvas = () => {
           <Offcanvas.Title>Authentication</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <AuthDiv>
+          <AuthNav>
             <LoginModal />
             <SignUpModal />
-          </AuthDiv>
+          </AuthNav>
         </Offcanvas.Body>
       </Offcanvas>
     </>

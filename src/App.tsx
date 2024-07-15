@@ -32,7 +32,7 @@ import CartProductItem from "./components/cartProducts/CartProductItem";
 import { ClearButton } from "./components/ClearButton.styleS";
 import {
   AppStyle,
-  AuthDiv,
+  AuthNav,
   CategoryButton,
   CategoryName,
   DivIsMobile,
@@ -166,11 +166,11 @@ function App() {
                 <OffCanvas />
               </DivIsMobile>
               <DivIsNotMobile>
-                <AuthDiv>
+                <AuthNav>
                   <LoginModal />
                   <div className="vr"></div>
                   <SignUpModal />
-                </AuthDiv>
+                </AuthNav>
               </DivIsNotMobile>
             </>
           )}

@@ -31,7 +31,18 @@ export const ProductItemStyled = styled.div`
       " p p . t t t t t t t"
       " p p . d d d d d d d"
       " p p . c c . . . . ."
-      " p p . v . . . . q  b";
+      " p p . v . . . b b b";
+  }
+
+  @media screen and (min-width: 1440px) {
+    width: 1200px;
+    max-height: 400px;
+
+    grid-template-areas:
+      " p p . t t t t t t t"
+      " p p . d d d d d d d"
+      " p p . c c . . . . ."
+      " p p . v . . . . b b";
   }
 `;
 
@@ -47,11 +58,28 @@ export const QuantityButton = styled.button`
   border-radius: 100%;
 `;
 
+export const SpanQuantity = styled.span`
+  grid-area: q;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+`;
+
 export const AddCartButton = styled.button`
   width: 36px;
   height: 36px;
 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   border: 1px solid black;
+`;
+
+export const BottomCardBlock = styled.span`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
 
   @media screen and (min-width: 1024px) {
     grid-area: b;
@@ -117,6 +145,11 @@ export const DescriptionStyled = styled.p`
     align-self: self-start;
     text-align: justify;
   }
+`;
+
+export const Price = styled.p`
+  grid-area: v;
+  text-align: justify;
 `;
 
 export const DeleteUserProduct = styled.button`

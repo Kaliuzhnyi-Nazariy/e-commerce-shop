@@ -21,6 +21,12 @@ export const MenuBtn = styled.button`
   @media screen and (max-width: 767px) {
     width: 140px;
   }
+
+  @media screen and (min-width: 1440px) {
+    width: 75px;
+    height: 75px;
+    font-size: 28px;
+  }
 `;
 
 export const IsMobileDiv = styled.div`

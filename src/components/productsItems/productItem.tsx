@@ -18,11 +18,14 @@ import {
 } from "react";
 import {
   AddCartButton,
+  BottomCardBlock,
   DeleteUserProduct,
   DescriptionStyled,
   ImgStyled,
+  Price,
   ProductItemStyled,
   QuantityButton,
+  SpanQuantity,
   TitleStyled,
   TooltipStyle,
 } from "./ProductItem.style";
@@ -110,33 +113,28 @@ const ProductItem = ({ prop }: Prop) => {
         {prop.category}
       </p>
 
-      <p style={{ gridArea: "v" }}>{prop.price}$</p>
+      <Price>Price: {prop.price}$</Price>
 
-      {/* <span
-        className="d-flex justify-content-between"
-        style={{ width: "100%" }}
-      > */}
-      {/* <span className="d-flex align-items-center gap-2"> */}
-      <span style={{ gridArea: "q", display: "flex" }}>
-        <QuantityButton
-          onClick={() => setCount((prevState) => (prevState += 1))}
-        >
-          +
-        </QuantityButton>
-        <div>{count}</div>
-        <QuantityButton
-          onClick={() => {
-            if (count !== 0) setCount((prevState) => (prevState -= 1));
-          }}
-        >
-          -
-        </QuantityButton>
-      </span>
-      {/* </span> */}
-      <AddCartButton onClick={handleAddToCart} className="ms-auto">
-        <MdAddShoppingCart />
-      </AddCartButton>
-      {/* </span> */}
+      <BottomCardBlock>
+        <SpanQuantity>
+          <QuantityButton
+            onClick={() => setCount((prevState) => (prevState += 1))}
+          >
+            +
+          </QuantityButton>
+          <div>{count}</div>
+          <QuantityButton
+            onClick={() => {
+              if (count !== 0) setCount((prevState) => (prevState -= 1));
+            }}
+          >
+            -
+          </QuantityButton>
+        </SpanQuantity>
+        <AddCartButton onClick={handleAddToCart} className="ms-auto">
+          <MdAddShoppingCart />
+        </AddCartButton>
+      </BottomCardBlock>
       {/* <DeleteUserProduct
         onClick={handleDelete}
         className="position-absolute 

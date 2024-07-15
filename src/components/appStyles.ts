@@ -17,6 +17,10 @@ export const AppStyle = styled.div`
   @media screen and (min-width: 768px) {
     width: 700px;
   }
+
+  @media screen and (min-width: 1440px) {
+    min-width: 1200px;
+  }
 `;
 
 export const StuckStyled = styled(Stack)`
@@ -25,6 +29,10 @@ export const StuckStyled = styled(Stack)`
   @media screen and (min-width: 768px) {
     min-width: 700px;
   }
+
+  @media screen and (min-width: 1440px) {
+    min-width: 1200px;
+  }
 `;
 
 export const StyledImg = styled.img`
@@ -32,6 +40,10 @@ export const StyledImg = styled.img`
 
   @media screen and (min-width: 768px) {
     height: 100px;
+  }
+
+  @media screen and (min-width: 1440px) {
+    height: 175px;
   }
 `;
 
@@ -48,9 +60,19 @@ export const StyledCartDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #fff;
+
+  @media screen and (min-width: 1440px) {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+
+    top: -14px;
+    right: -20px;
+  }
 `;
 
-export const AuthDiv = styled.div`
+export const AuthNav = styled.nav`
   display: flex;
   gap: 6px;
 
@@ -99,6 +121,11 @@ export const ImageCategory = styled.div`
     width: 60px;
     height: 60px;
   }
+
+  @media screen and (min-width: 1440px) {
+    width: 100px;
+    height: 100px;
+  }
 `;
 
 export const MenuButtons = styled.div`
@@ -108,11 +135,21 @@ export const MenuButtons = styled.div`
   @media screen and (min-width: 768px) {
     gap: 16px;
   }
+
+  @media screen and (min-width: 1440px) {
+    gap: 20px;
+  }
 `;
 
 export const MenuButton = styled.button`
   width: 50px;
   height: 50px;
+
+  @media screen and (min-width: 1440px) {
+    width: 75px;
+    height: 75px;
+    font-size: 28px;
+  }
 `;
 
 export const CategoryButton = styled.button`

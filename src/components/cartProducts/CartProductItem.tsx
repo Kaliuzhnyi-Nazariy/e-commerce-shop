@@ -5,9 +5,15 @@ import { IProduct } from "../../typesOrInterfaces/typesOrInterfaces";
 import {
   DescriptionStyled,
   ImgStyled,
+  Price,
+  TitleStyled,
   TooltipStyle,
 } from "../productsItems/ProductItem.style";
-import { DeleteButton, ProductDiv } from "./CartProductItem.style";
+import {
+  DeleteButton,
+  ProductDiv,
+  QuantityField,
+} from "./CartProductItem.style";
 
 type Prop = {
   propMainInfo: IProduct;
@@ -35,10 +41,12 @@ const CartProductItem = ({ propMainInfo, propSecondaryInfo }: Prop) => {
         i
       </TooltipStyle>
       <ImgStyled src={propMainInfo.image} alt={propMainInfo.title} />
-      <p>{propMainInfo.title}</p>
+      <TitleStyled>{propMainInfo.title}</TitleStyled>
       <DescriptionStyled>{propMainInfo.description}</DescriptionStyled>
-      <span>Quantity: {propSecondaryInfo?.quantity ?? "no info"}</span>
-      <span>Price: {propMainInfo.price}</span>
+      <QuantityField>
+        Quantity: {propSecondaryInfo?.quantity ?? "no info"}
+      </QuantityField>
+      <Price>Price: {propMainInfo.price}$</Price>
       <DeleteButton onClick={handleDeleteFromCart}>delete</DeleteButton>
     </ProductDiv>
   );

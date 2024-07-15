@@ -2,6 +2,7 @@ import { useState } from "react";
 import { SignUpForm } from "./SignUpForm";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
+import { OpenButton } from "../login/LoginModal.style";
 
 const style = {
   position: "absolute",
@@ -23,18 +24,13 @@ export const SignUpModal = () => {
   return (
     <>
       <div>
-        <button
+        <OpenButton
           onClick={handleOpen}
           type="button"
           className="btn btn-outline-primary"
-          style={{
-            textTransform: "uppercase",
-            fontWeight: "bold",
-            fontSize: "14px",
-          }}
         >
           sign up
-        </button>
+        </OpenButton>
         <Modal
           open={open}
           onClose={handleClose}
