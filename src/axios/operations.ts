@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { baseCartURL } from "./cartOperations";
+import { baseCartURL } from "./cart/cartOperations";
 import {
   AllProducts,
   Categories,

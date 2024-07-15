@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { selectAllUsers } from "../../../axios/selectors";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import { useState } from "react";
-import { getUserCart } from "../../../axios/cartOperations";
+import { getUserCart } from "../../../axios/cart/cartOperations";
 
 type Prop = {
   onClose: () => void;

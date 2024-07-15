@@ -1,4 +1,4 @@
-import { deleteUserCart } from "../../axios/cartOperations";
+import { deleteUserCart } from "../../axios/cart/cartOperations";
 import { deleteProductFromCart } from "../../axios/operations";
 import { useAppDispatch } from "../../hooks/useDispatch";
 import { IProduct } from "../../typesOrInterfaces/typesOrInterfaces";

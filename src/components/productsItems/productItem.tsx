@@ -10,7 +10,7 @@ import { format } from "date-fns";
 import { ICart, IProduct } from "../../typesOrInterfaces/typesOrInterfaces";
 import { useAppDispatch } from "../../hooks/useDispatch";
 import { MdAddShoppingCart, MdDeleteForever } from "react-icons/md";
-import { addUserCart } from "../../axios/cartOperations";
+import { addUserCart } from "../../axios/cart/cartOperations";
 import { deleteProduct } from "../../axios/operations";
 import {
   // useEffect,
@@ -29,7 +29,7 @@ import {
   TitleStyled,
   TooltipStyle,
 } from "./ProductItem.style";
-import { deleteCartItem } from "../../axios/cartSlice";
+import { deleteCartItem } from "../../axios/cart/cartSlice";
 
 type Prop = {
   prop: IProduct;

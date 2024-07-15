@@ -23,6 +23,7 @@ const validationSchema = Yup.object({
     .positive("Must be greater than 0!")
     .required("Price is required!"),
   description: Yup.string().min(16).required("Description is required!"),
+  image: Yup.string().url().required("Image is required!"),
   category: Yup.string().required("Category is required!"),
 });
 
@@ -35,15 +36,10 @@ export const AddProductForm = ({ onClick, handleClose }: Prop) => {
 
   const checkValues = (values: INewProduct) => {
     if (values.title.length === 0) return;
-    console.log(`values.title checked`);
     if (values.price === 0) return;
-    console.log(`values.price checked`);
     if (values.description.length === 0) return;
-    console.log(`values.description checked`);
     if (values.image.length === 0) return;
-    console.log(`values.image checked`);
     if (values.category.length === 0) return;
-    console.log(`values.category checked`);
 
     dispatch(
       addProduct({

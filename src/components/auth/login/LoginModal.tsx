@@ -3,7 +3,7 @@ import { useState } from "react";
 // import Modal from "react-bootstrap/Modal";
 import { LoginForm } from "./LoginForm";
 import { useAppDispatch } from "../../../hooks/useDispatch";
-import { getAllUsers } from "../../../axios/authOperations";
+import { getAllUsers } from "../../../axios/auth/authOperations";
 
 import Box from "@mui/material/Box";
 // import Button from "@mui/material/Button";

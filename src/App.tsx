@@ -12,10 +12,9 @@ import {
   selectAllProducts,
   selectCartProducts,
   selectCategories,
-  selectIsLoggedIn,
   selectProducts,
 } from "./axios/selectors";
-import { refreshUser } from "./axios/authOperations";
+import { refreshUser } from "./axios/auth/authOperations";
 import { SignUpModal } from "./components/auth/registration/SignUpModal";
 import { LoginModal } from "./components/auth/login/LoginModal";
 import { FaCartShopping } from "react-icons/fa6";
@@ -56,6 +55,7 @@ import {
   IsMobileDiv,
   IsMoreThanMobileDiv,
 } from "./components/BurgerMenu/BurgerMenuStyled";
+import { selectIsLoggedIn } from "./axios/auth/authSelectors";
 
 function App() {
   const dispatch = useAppDispatch();
