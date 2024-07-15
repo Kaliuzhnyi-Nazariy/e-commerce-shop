@@ -37,7 +37,6 @@ const CartProductItem = ({ propMainInfo, propSecondaryInfo }: Prop) => {
       <ImgStyled src={propMainInfo.image} alt={propMainInfo.title} />
       <p>{propMainInfo.title}</p>
       <DescriptionStyled>{propMainInfo.description}</DescriptionStyled>
-
       <span>Quantity: {propSecondaryInfo?.quantity ?? "no info"}</span>
       <span>Price: {propMainInfo.price}</span>
       <DeleteButton onClick={handleDeleteFromCart}>delete</DeleteButton>

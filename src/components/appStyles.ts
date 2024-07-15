@@ -1,9 +1,10 @@
+import { Stack } from "react-bootstrap";
 import styled from "styled-components";
 
 export const AppStyle = styled.div`
   height: 100%;
   width: 280px;
-  margin: 0;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -12,6 +13,26 @@ export const AppStyle = styled.div`
 
   max-width: 100vw;
   overflow-x: hidden;
+
+  @media screen and (min-width: 768px) {
+    width: 700px;
+  }
+`;
+
+export const StuckStyled = styled(Stack)`
+  min-width: 260px;
+
+  @media screen and (min-width: 768px) {
+    min-width: 700px;
+  }
+`;
+
+export const StyledImg = styled.img`
+  height: 50px;
+
+  @media screen and (min-width: 768px) {
+    height: 100px;
+  }
 `;
 
 export const StyledCartDiv = styled.div`
@@ -55,6 +76,14 @@ export const DivIsNotMobile = styled.div`
   }
 `;
 
+export const DivIsNotMobileCategory = styled.div`
+  display: none;
+  @media screen and (min-width: 768px) {
+    display: block;
+    width: 80%;
+  }
+`;
+
 export const ImageCategory = styled.div`
   width: 40px;
   height: 40px;
@@ -65,16 +94,33 @@ export const ImageCategory = styled.div`
   border: 2px solid #ccc;
   border-radius: 100%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  @media screen and (min-width: 768px) {
+    width: 60px;
+    height: 60px;
+  }
 `;
 
 export const MenuButtons = styled.div`
   display: flex;
   gap: 12px;
+
+  @media screen and (min-width: 768px) {
+    gap: 16px;
+  }
+`;
+
+export const MenuButton = styled.button`
+  width: 50px;
+  height: 50px;
 `;
 
 export const CategoryButton = styled.button`
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 export const CategoryName = styled.p`
@@ -82,4 +128,31 @@ export const CategoryName = styled.p`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @media screen and (min-width: 768px) {
+    max-width: 100px;
+    font-size: 20px;
+  }
+`;
+
+export const ProductsField = styled.div`
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  gap: 12px;
+
+  @media screen and (min-width: 768px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+  }
+`;
+
+export const ClearButton = styled.span`
+  margin-top: 12px;
+
+  @media screen and (min-width: 768px) {
+    margin-top: 16px;
+  }
 `;

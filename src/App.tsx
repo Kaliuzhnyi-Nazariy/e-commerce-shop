@@ -37,9 +37,14 @@ import {
   CategoryName,
   DivIsMobile,
   DivIsNotMobile,
+  DivIsNotMobileCategory,
   ImageCategory,
+  MenuButton,
   MenuButtons,
+  ProductsField,
+  StuckStyled,
   StyledCartDiv,
+  StyledImg,
 } from "./components/appStyles";
 import { OffCanvas } from "./components/OffCanvas";
 
@@ -116,9 +121,9 @@ function App() {
 
   return (
     <AppStyle>
-      <Stack direction="horizontal" style={{ maxWidth: "260px" }}>
+      <StuckStyled direction="horizontal">
         <button onClick={handleAllProduct} className="btn">
-          <img src={logoImg} alt="SwiftShopper" style={{ height: "50px" }} />
+          <StyledImg src={logoImg} alt="SwiftShopper" />
         </button>
         <Stack
           className="ms-auto"
@@ -132,10 +137,9 @@ function App() {
               </IsMobileDiv>
               <IsMoreThanMobileDiv>
                 <MenuButtons>
-                  <button
+                  <MenuButton
                     onClick={handleUserCart}
-                    style={{ position: "relative" }}
-                    className="btn btn-outline-dark"
+                    className="btn btn-outline-dark position-relative"
                   >
                     <StyledCartDiv>
                       {cardSelects.length !== 0 ? (
@@ -145,14 +149,14 @@ function App() {
                       )}
                     </StyledCartDiv>
                     <FaCartShopping />
-                  </button>
+                  </MenuButton>
                   <AddProductModal />
-                  <button
+                  <MenuButton
                     onClick={handleLogOut}
                     className="btn btn-outline-dark"
                   >
                     <IoIosLogOut />
-                  </button>
+                  </MenuButton>
                 </MenuButtons>
               </IsMoreThanMobileDiv>
             </>
@@ -171,40 +175,12 @@ function App() {
             </>
           )}
         </Stack>
-      </Stack>
+      </StuckStyled>
       {sortedCartProducts.length === 0 ? (
         <>
-          {/* <div
-            className="d-flex gap-3 justify-content-evenly"
-            style={{ width: "100%" }}
-          >
-            {categories.map((category) => (
-              <CategoryButton
-                onClick={() => {
-                  handleClick(category);
-                  setCategoryPeckied(category);
-                }}
-                className="btn d-flex flex-column align-items-center"
-                key={category}
-              >
-                <ImageCategory />
-                <CategoryName>{category}</CategoryName>
-              </CategoryButton>
-            ))}
-          </div> */}
-          <Swiper
-            // install Swiper modules
-            modules={[Scrollbar, A11y]}
-            spaceBetween={40}
-            slidesPerView={3}
-            // navigation
-            style={{ width: "240px" }} // pagination={{ clickable: true }}
-            scrollbar={{ draggable: true }}
-            // onSwiper={(swiper) => console.log(swiper)}
-            // onSlideChange={() => console.log("slide change")}
-          >
-            {categories.map((category) => (
-              <SwiperSlide>
+          <DivIsNotMobileCategory>
+            <div className="d-flex gap-3 justify-content-evenly">
+              {categories.map((category) => (
                 <CategoryButton
                   onClick={() => {
                     handleClick(category);
@@ -216,34 +192,44 @@ function App() {
                   <ImageCategory />
                   <CategoryName>{category}</CategoryName>
                 </CategoryButton>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-          {/* <DropdownButton
-            key="secondary"
-            id={`dropdown-variants-secondary`}
-            variant="dark"
-            title="Categories"
-          >
-            {categories.map((category) => (
-              <Dropdown.Item
-                key={category}
-                onClick={() => {
-                  handleClick(category);
-                  setCategoryPeckied(category);
-                }}
-              >
-                {category}
-                <Dropdown.Divider />
-              </Dropdown.Item>
-            ))}
-          </DropdownButton> */}
+              ))}
+            </div>
+          </DivIsNotMobileCategory>
+          <DivIsMobile>
+            <Swiper
+              // install Swiper modules
+              modules={[Scrollbar, A11y]}
+              spaceBetween={40}
+              slidesPerView={3}
+              // navigation
+              style={{ width: "240px" }} // pagination={{ clickable: true }}
+              scrollbar={{ draggable: true }}
+              // onSwiper={(swiper) => console.log(swiper)}
+              // onSlideChange={() => console.log("slide change")}
+            >
+              {categories.map((category) => (
+                <SwiperSlide>
+                  <CategoryButton
+                    onClick={() => {
+                      handleClick(category);
+                      setCategoryPeckied(category);
+                    }}
+                    className="btn d-flex flex-column align-items-center"
+                    key={category}
+                  >
+                    <ImageCategory />
+                    <CategoryName>{category}</CategoryName>
+                  </CategoryButton>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </DivIsMobile>
           <h2>{categoryPicked ? categoryPicked : "All product"}</h2>
         </>
       ) : (
         <></>
       )}
-      <div className="d-flex flex-column align-items-center gap-2 h-100">
+      <ProductsField className="d-flex">
         {sortedCartProducts.length === 0 ? (
           products.map((i) => {
             return <ProductItem prop={i} key={i.id} />;
@@ -271,7 +257,7 @@ function App() {
             <ClearButton onClick={handleCleanCart}>Clear</ClearButton>
           </>
         )}
-      </div>
+      </ProductsField>
     </AppStyle>
   );
 }

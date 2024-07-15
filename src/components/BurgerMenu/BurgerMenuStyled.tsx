@@ -15,7 +15,8 @@ export const MenuDiv = styled.div`
 export const MenuBtn = styled.button`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  width: 50px;
 
   @media screen and (max-width: 767px) {
     width: 140px;
