@@ -29,6 +29,10 @@ export const ProductDiv = styled.div`
       " p p . d d d d d d d"
       " p p . v v . . q q e";
   }
+
+  @media screen and (min-width: 1440px) {
+    width: 1200px;
+  }
 `;
 
 export const QuantityField = styled.p`
@@ -45,7 +49,21 @@ export const DeleteButton = styled.button`
   padding: 8px 16px;
   border-radius: 20px;
 
+  text-transform: capitalize;
+
+  transition: all 0.25s;
+
+  &:hover,
+  &:focus {
+    transform: scale(1.1);
+  }
+
   @media screen and (min-width: 1024px) {
     grid-area: e;
+  }
+
+  @media screen and (min-width: 1440px) {
+    padding: 12px 20px;
+    font-size: 16px;
   }
 `;

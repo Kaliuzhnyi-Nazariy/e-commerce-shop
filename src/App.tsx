@@ -14,19 +14,14 @@ import {
   selectCategories,
   selectIsLoggedIn,
   selectProducts,
-  // selectUser,
 } from "./axios/selectors";
 import { refreshUser } from "./axios/authOperations";
-// import { getUserCart, refreshCart } from "./axios/cartOperations";
 import { SignUpModal } from "./components/auth/registration/SignUpModal";
 import { LoginModal } from "./components/auth/login/LoginModal";
 import { FaCartShopping } from "react-icons/fa6";
 import { IoIosLogOut } from "react-icons/io";
 import ProductItem from "./components/productsItems/productItem";
-import {
-  // Dropdown, DropdownButton,
-  Stack,
-} from "react-bootstrap";
+import { Stack } from "react-bootstrap";
 import AddProductModal from "./components/addProduct/AddProductModal";
 import CartProductItem from "./components/cartProducts/CartProductItem";
 import { ClearButton } from "./components/ClearButton.styleS";
@@ -35,6 +30,7 @@ import {
   AuthNav,
   CategoryButton,
   CategoryName,
+  CategoryPicked,
   DivIsMobile,
   DivIsNotMobile,
   DivIsNotMobileCategory,
@@ -125,11 +121,7 @@ function App() {
         <button onClick={handleAllProduct} className="btn">
           <StyledImg src={logoImg} alt="SwiftShopper" />
         </button>
-        <Stack
-          className="ms-auto"
-          direction="horizontal"
-          // gap={3}
-        >
+        <Stack className="ms-auto" direction="horizontal">
           {userIsLoggedIn ? (
             <>
               <IsMobileDiv>
@@ -197,15 +189,11 @@ function App() {
           </DivIsNotMobileCategory>
           <DivIsMobile>
             <Swiper
-              // install Swiper modules
               modules={[Scrollbar, A11y]}
               spaceBetween={40}
               slidesPerView={3}
-              // navigation
-              style={{ width: "240px" }} // pagination={{ clickable: true }}
+              style={{ width: "240px" }}
               scrollbar={{ draggable: true }}
-              // onSwiper={(swiper) => console.log(swiper)}
-              // onSlideChange={() => console.log("slide change")}
             >
               {categories.map((category) => (
                 <SwiperSlide>
@@ -224,7 +212,9 @@ function App() {
               ))}
             </Swiper>
           </DivIsMobile>
-          <h2>{categoryPicked ? categoryPicked : "All product"}</h2>
+          <CategoryPicked>
+            {categoryPicked ? categoryPicked : "All product"}
+          </CategoryPicked>
         </>
       ) : (
         <></>

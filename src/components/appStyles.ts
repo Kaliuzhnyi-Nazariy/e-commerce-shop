@@ -165,11 +165,21 @@ export const CategoryName = styled.p`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-transform: capitalize;
 
   @media screen and (min-width: 768px) {
     max-width: 100px;
     font-size: 20px;
   }
+
+  @media screen and (min-width: 1440px) {
+    max-width: 200px;
+    font-size: 24px;
+  }
+`;
+
+export const CategoryPicked = styled.h2`
+  text-transform: capitalize;
 `;
 
 export const ProductsField = styled.div`

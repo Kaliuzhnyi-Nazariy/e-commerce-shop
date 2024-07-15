@@ -31,7 +31,7 @@ export const ProductItemStyled = styled.div`
       " p p . t t t t t t t"
       " p p . d d d d d d d"
       " p p . c c . . . . ."
-      " p p . v . . . b b b";
+      " p p . v v . . b b b";
   }
 
   @media screen and (min-width: 1440px) {
@@ -42,7 +42,7 @@ export const ProductItemStyled = styled.div`
       " p p . t t t t t t t"
       " p p . d d d d d d d"
       " p p . c c . . . . ."
-      " p p . v . . . . b b";
+      " p p . v v . . . b b";
   }
 `;
 
@@ -108,14 +108,16 @@ export const ImgStyled = styled.img`
   }
 `;
 
-export const TitleStyled = styled.p`
+export const TitleStyled = styled.h3`
   max-width: 200px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 18px;
 
   @media screen and (min-width: 768px) {
     max-width: 260px;
+    font-size: 20px;
   }
 
   @media screen and (min-width: 1024px) {
@@ -124,6 +126,7 @@ export const TitleStyled = styled.p`
     white-space: wrap;
     grid-area: t;
     text-align: justify;
+    font-size: 30px;
   }
 `;
 

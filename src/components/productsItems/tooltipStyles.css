@@ -1,6 +1,7 @@
 [data-tooltip] {
   position: relative;
 }
+
 [data-tooltip]::after {
   content: attr(data-tooltip);
   position: absolute;
@@ -9,17 +10,29 @@
   top: 0;
   background: #050607;
   z-index: 1000;
-
   border-radius: 16px;
-
   color: #fff;
   padding: 0.5em;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
   pointer-events: none;
   opacity: 0;
-  transition: 1s;
+  transition: opacity 1s;
 }
+
 [data-tooltip]:hover::after {
   opacity: 1;
   top: 2em;
+}
+
+/* Media Query */
+@media screen and (min-width: 768px) {
+  [data-tooltip]::after {
+    width: 310px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  [data-tooltip]::after {
+    width: 400px;
+  }
 }
