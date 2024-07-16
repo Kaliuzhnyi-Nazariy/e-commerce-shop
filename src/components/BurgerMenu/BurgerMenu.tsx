@@ -12,6 +12,7 @@ import { IoIosLogOut } from "react-icons/io";
 import { MenuBtn, MenuDiv } from "./BurgerMenuStyled";
 import { selectIsLoggedIn } from "../../axios/auth/authSelectors";
 import { selectProducts } from "../../axios/cart/cartSellectors";
+import toast from "react-hot-toast";
 
 export const BurgerMenu = () => {
   const [show, setShow] = useState(false);
@@ -44,6 +45,18 @@ export const BurgerMenu = () => {
     dispatch({ type: "cleanCreatedByUser" });
     dispatch({ type: "cleanCartProducts" });
     dispatch({ type: "user/logOut" });
+
+    toast.success("We will wait for you!", {
+      style: {
+        border: "1px solid #074187",
+        padding: "16px",
+        color: "#074187",
+      },
+      iconTheme: {
+        primary: "#074187",
+        secondary: "#FFFAEE",
+      },
+    });
   };
 
   return (
