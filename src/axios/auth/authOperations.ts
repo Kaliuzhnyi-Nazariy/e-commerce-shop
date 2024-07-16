@@ -31,7 +31,7 @@ export const loginUser = createAsyncThunk<
   string,
   ILoginUser,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { rejectValue: any }
+  { rejectValue: any; state: RootStateForFunctions }
 >("user/loginUser", async (userInfo): Promise<string> => {
   try {
     const res = await axios.post(

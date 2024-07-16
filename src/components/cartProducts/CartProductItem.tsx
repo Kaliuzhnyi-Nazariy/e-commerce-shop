@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { deleteUserCart } from "../../axios/cart/cartOperations";
 import { deleteProductFromCart } from "../../axios/products/operations";
 import { useAppDispatch } from "../../hooks/useDispatch";
@@ -26,6 +27,7 @@ const CartProductItem = ({ propMainInfo, propSecondaryInfo }: Prop) => {
   const handleDeleteFromCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     dispatch(deleteUserCart(Number(e.currentTarget.closest("div")?.id)));
     dispatch(deleteProductFromCart(Number(e.currentTarget.closest("div")?.id)));
+    toast.success("Deleted from cart!");
   };
 
   return (

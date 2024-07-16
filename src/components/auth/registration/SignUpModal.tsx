@@ -58,7 +58,7 @@ export const SignUpModal = () => {
               </button>
             </div>
             <div id="modal-modal-description">
-              <SignUpForm />
+              <SignUpForm onClose={handleClose} />
             </div>
           </Box>
         </Modal>

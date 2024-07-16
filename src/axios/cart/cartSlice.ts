@@ -79,6 +79,7 @@ const cartSlice = createSlice({
           (product) => product.productId === action.payload.id
         );
         state.cartProducts.splice(deleteIndex, 1);
+        state.isLoading = false;
       })
       .addCase(deleteUserCart.rejected, handleRejected)
       .addCase("cleanProducts", (state) => {
@@ -91,9 +92,12 @@ const cartSlice = createSlice({
           const deleteIndex = state.cartProducts.findIndex(
             (product) => product.productId === action.payload.id
           );
+
           if (deleteIndex) {
             state.cartProducts.splice(deleteIndex, 1);
+            state.isLoading = false;
           }
+          state.isLoading = false;
         }
       );
   },

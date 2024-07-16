@@ -9,8 +9,8 @@ export const selectCartProducts = (state: {
 export const selectIsCreatedByUser = (state: {
   products: { createdByUser: Array<IProduct> };
 }) => state.products.createdByUser;
-export const selectUserIsLoading = (state: {
+export const selectProductIsLoging = (state: {
   products: { isLoading: boolean };
 }) => state.products.isLoading;
-export const selectUserError = (state: { products: { error: string } }) =>
+export const selectProductError = (state: { products: { error: string } }) =>
   state.products.error;

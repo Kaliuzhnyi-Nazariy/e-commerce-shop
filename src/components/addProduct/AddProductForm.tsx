@@ -11,6 +11,7 @@ import { useState } from "react";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import { addProduct } from "../../axios/products/operations";
 import { selectCategories } from "../../axios/categories/categoriesSelectors";
+import toast from "react-hot-toast";
 
 type Prop = {
   onClick: () => void;
@@ -52,6 +53,7 @@ export const AddProductForm = ({ onClick, handleClose }: Prop) => {
     );
 
     onClick();
+    toast.success("Product created  !");
   };
 
   return (

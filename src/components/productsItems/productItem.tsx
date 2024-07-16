@@ -1,18 +1,12 @@
 import { useSelector } from "react-redux";
-import {
-  // selectAllProducts,
-  selectIsCreatedByUser,
-} from "../../axios/products/productSelectors";
+import { selectIsCreatedByUser } from "../../axios/products/productSelectors";
 import { format } from "date-fns";
 import { ICart, IProduct } from "../../typesOrInterfaces/typesOrInterfaces";
 import { useAppDispatch } from "../../hooks/useDispatch";
 import { MdAddShoppingCart, MdDeleteForever } from "react-icons/md";
 import { addUserCart } from "../../axios/cart/cartOperations";
 import { deleteProduct } from "../../axios/products/operations";
-import {
-  // useEffect,
-  useState,
-} from "react";
+import { useState } from "react";
 import {
   AddCartButton,
   BottomCardBlock,
@@ -30,6 +24,7 @@ import {
 import { deleteCartItem } from "../../axios/cart/cartSlice";
 import { selectIsLoggedIn, selectUser } from "../../axios/auth/authSelectors";
 import { selectProducts } from "../../axios/cart/cartSellectors";
+import toast from "react-hot-toast";
 
 type Prop = {
   prop: IProduct;
@@ -42,7 +37,6 @@ const ProductItem = ({ prop }: Prop) => {
   const user = useSelector(selectUser);
   const createdByUser = useSelector(selectIsCreatedByUser);
 
-  // const products = useSelector(selectAllProducts);
   const cardSelects = useSelector(selectProducts);
 
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -54,18 +48,8 @@ const ProductItem = ({ prop }: Prop) => {
         deleteCartItem({ id: Number(e.currentTarget.closest("div")?.id) })
       );
     }
+    toast.success("Product delted successfully!");
   };
-
-  // const checkIsInProducts = () => {
-  //   const allProductsIds = products.map((i) => i.id);
-  //   for (const cartItem of cardSelects) {
-  //     if (!allProductsIds.includes(cartItem.productId)) {
-  //       console.log(cartItem.productId);
-  //       const id = Number(cartItem.productId);
-  //       return dispatch(deleteCartItem({ id }));
-  //     }
-  //   }
-  // };
 
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!userIsLoggedIn) return;
@@ -83,6 +67,7 @@ const ProductItem = ({ prop }: Prop) => {
     };
     dispatch(addUserCart(productInfoClick));
     setCount(0);
+    toast.success("Product added to cart!");
   };
 
   const isProductCreatedByUser = (productId: number) => {
@@ -90,12 +75,7 @@ const ProductItem = ({ prop }: Prop) => {
   };
 
   return (
-    <ProductItemStyled
-      key={prop.id}
-      id={prop.id.toString()}
-      // className="p-3 border rounded w-50 d-flex flex-column align-items-center"
-      // style={{ position: "relative" }}
-    >
+    <ProductItemStyled key={prop.id} id={prop.id.toString()}>
       <TooltipStyle
         className="border rounded-circle position-absolute"
         data-tooltip={prop.description}
@@ -135,14 +115,6 @@ const ProductItem = ({ prop }: Prop) => {
           <MdAddShoppingCart />
         </AddCartButton>
       </BottomCardBlock>
-      {/* <DeleteUserProduct
-        onClick={handleDelete}
-        className="position-absolute 
-           d-flex justify-content-center align-items-center"
-      >
-        <MdDeleteForever />
-      </DeleteUserProduct> */}
-
       {isProductCreatedByUser(prop.id) && (
         <DeleteUserProduct
           onClick={handleDelete}

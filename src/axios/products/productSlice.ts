@@ -91,7 +91,6 @@ const productSlice = createSlice({
             const deleteIndexByUser = state.createdByUser.findIndex(
               (product) => product.id === action.payload.id
             );
-            console.log(deleteIndexByUser);
             state.createdByUser.splice(deleteIndexByUser, 1);
           }
         } else {
@@ -104,7 +103,6 @@ const productSlice = createSlice({
             const deleteIndexByUser = state.createdByUser.findIndex(
               (product) => product.id === action.meta.arg
             );
-            console.log(deleteIndexByUser);
             state.createdByUser.splice(deleteIndexByUser, 1);
           }
         }
@@ -118,6 +116,7 @@ const productSlice = createSlice({
         getExactCategory.fulfilled,
         (state, action: PayloadAction<IProduct[]>) => {
           state.product = action.payload;
+          state.isLoading = false;
         }
       )
       .addCase(getExactCategory.rejected, (state, action) => {
@@ -130,6 +129,7 @@ const productSlice = createSlice({
           (product) => product.id === action.payload.id
         );
         state.cartProduct.splice(deleteIndex, 1);
+        state.isLoading = false;
       })
       .addCase(deleteProductFromCart.rejected, (state, action) => {
         state.isLoading = false;

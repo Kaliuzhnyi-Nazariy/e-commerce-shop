@@ -11,6 +11,8 @@ import { useSelector } from "react-redux";
 import {
   selectAllProducts,
   selectCartProducts,
+  selectProductError,
+  selectProductIsLoging,
 } from "./axios/products/productSelectors";
 import { refreshUser } from "./axios/auth/authOperations";
 import { SignUpModal } from "./components/auth/registration/SignUpModal";
@@ -18,7 +20,7 @@ import { LoginModal } from "./components/auth/login/LoginModal";
 import { FaCartShopping } from "react-icons/fa6";
 import { IoIosLogOut } from "react-icons/io";
 import ProductItem from "./components/productsItems/productItem";
-import { Stack } from "react-bootstrap";
+import { Spinner, Stack } from "react-bootstrap";
 import AddProductModal from "./components/addProduct/AddProductModal";
 import CartProductItem from "./components/cartProducts/CartProductItem";
 import { ClearButton } from "./components/ClearButton.styleS";
@@ -53,11 +55,12 @@ import {
   IsMobileDiv,
   IsMoreThanMobileDiv,
 } from "./components/BurgerMenu/BurgerMenuStyled";
-import { selectIsLoggedIn } from "./axios/auth/authSelectors";
-import { selectProducts } from "./axios/cart/cartSellectors";
+import { selectIsLoggedIn, selectUserError } from "./axios/auth/authSelectors";
+import { selectCartError, selectProducts } from "./axios/cart/cartSellectors";
 import {
   selectCategories,
-  // selectCategoriesIsLoading,
+  selectCategoriesError,
+  selectCategoriesIsLoading,
 } from "./axios/categories/categoriesSelectors";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -69,12 +72,31 @@ function App() {
   const userIsLoggedIn = useSelector(selectIsLoggedIn);
   const cartProducts = useSelector(selectCartProducts);
   const cardSelects = useSelector(selectProducts);
-  // const categoriesLoading = useSelector(selectCategoriesIsLoading);
-  console.log(userIsLoggedIn);
+  const userError = useSelector(selectUserError);
+  const cartError = useSelector(selectCartError);
+  const categoriesError = useSelector(selectCategoriesError);
+  const productsError = useSelector(selectProductError);
+
+  const categoriesLoading = useSelector(selectCategoriesIsLoading);
+  const productsLoading = useSelector(selectProductIsLoging);
   const [categoryPicked, setCategoryPeckied] = useState(null);
-  // if (userIsLoggedIn) {
-  //   toast.success("You are logged in!");
-  // }
+
+  if (userError.length > 0) {
+    toast.error(userError);
+  }
+
+  if (cartError.length > 0) {
+    toast.error(cartError);
+  }
+
+  if (categoriesError.length > 0) {
+    toast.error(categoriesError);
+  }
+
+  if (productsError.length > 0) {
+    toast.error(productsError);
+  }
+
   useEffect(() => {
     dispatch(getCategories());
     dispatch(getAllProducts());
@@ -189,48 +211,54 @@ function App() {
       </StuckStyled>
       {sortedCartProducts.length === 0 ? (
         <>
-          <DivIsNotMobileCategory>
-            <div className="d-flex gap-3 justify-content-evenly">
-              {categories.map((category) => (
-                <CategoryButton
-                  onClick={() => {
-                    handleClick(category);
-                    setCategoryPeckied(category);
-                  }}
-                  className="btn d-flex flex-column align-items-center"
-                  key={category}
+          {categoriesLoading ? (
+            <Spinner animation="border" variant="warning" />
+          ) : (
+            <>
+              <DivIsNotMobileCategory>
+                <div className="d-flex gap-3 justify-content-evenly">
+                  {categories.map((category) => (
+                    <CategoryButton
+                      onClick={() => {
+                        handleClick(category);
+                        setCategoryPeckied(category);
+                      }}
+                      className="btn d-flex flex-column align-items-center"
+                      key={category}
+                    >
+                      <ImageCategory />
+                      <CategoryName>{category}</CategoryName>
+                    </CategoryButton>
+                  ))}
+                </div>
+              </DivIsNotMobileCategory>
+              <DivIsMobile>
+                <Swiper
+                  modules={[Scrollbar, A11y]}
+                  spaceBetween={40}
+                  slidesPerView={3}
+                  style={{ width: "240px" }}
+                  scrollbar={{ draggable: true }}
                 >
-                  <ImageCategory />
-                  <CategoryName>{category}</CategoryName>
-                </CategoryButton>
-              ))}
-            </div>
-          </DivIsNotMobileCategory>
-          <DivIsMobile>
-            <Swiper
-              modules={[Scrollbar, A11y]}
-              spaceBetween={40}
-              slidesPerView={3}
-              style={{ width: "240px" }}
-              scrollbar={{ draggable: true }}
-            >
-              {categories.map((category) => (
-                <SwiperSlide key={category}>
-                  <CategoryButton
-                    onClick={() => {
-                      handleClick(category);
-                      setCategoryPeckied(category);
-                    }}
-                    className="btn d-flex flex-column align-items-center"
-                    key={category}
-                  >
-                    <ImageCategory />
-                    <CategoryName key={category}>{category}</CategoryName>
-                  </CategoryButton>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </DivIsMobile>
+                  {categories.map((category) => (
+                    <SwiperSlide key={category}>
+                      <CategoryButton
+                        onClick={() => {
+                          handleClick(category);
+                          setCategoryPeckied(category);
+                        }}
+                        className="btn d-flex flex-column align-items-center"
+                        key={category}
+                      >
+                        <ImageCategory />
+                        <CategoryName key={category}>{category}</CategoryName>
+                      </CategoryButton>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </DivIsMobile>
+            </>
+          )}
           <CategoryPicked>
             {categoryPicked ? categoryPicked : "All product"}
           </CategoryPicked>
@@ -239,33 +267,41 @@ function App() {
         <></>
       )}
       <>
-        {sortedCartProducts.length === 0 ? (
-          <ProductsField className="d-flex">
-            {products.map((i) => {
-              return <ProductItem prop={i} key={i.id} />;
-            })}
-          </ProductsField>
+        {productsLoading ? (
+          <>
+            <Spinner animation="border" variant="warning" />
+          </>
         ) : (
           <>
-            {cardSelects ? (
+            {sortedCartProducts.length === 0 ? (
               <ProductsField className="d-flex">
-                {sortedCartProducts.map((i) => {
-                  const selectedProduct = sortedCardSelects.find(
-                    (item) => item.productId === i.id
-                  );
-                  return (
-                    <CartProductItem
-                      key={i.id}
-                      propMainInfo={i}
-                      propSecondaryInfo={selectedProduct}
-                    />
-                  );
+                {products.map((i) => {
+                  return <ProductItem prop={i} key={i.id} />;
                 })}
               </ProductsField>
             ) : (
-              <></>
+              <>
+                {cardSelects ? (
+                  <ProductsField className="d-flex">
+                    {sortedCartProducts.map((i) => {
+                      const selectedProduct = sortedCardSelects.find(
+                        (item) => item.productId === i.id
+                      );
+                      return (
+                        <CartProductItem
+                          key={i.id}
+                          propMainInfo={i}
+                          propSecondaryInfo={selectedProduct}
+                        />
+                      );
+                    })}
+                  </ProductsField>
+                ) : (
+                  <></>
+                )}
+                <ClearButton onClick={handleCleanCart}>Clear</ClearButton>
+              </>
             )}
-            <ClearButton onClick={handleCleanCart}>Clear</ClearButton>
           </>
         )}
       </>

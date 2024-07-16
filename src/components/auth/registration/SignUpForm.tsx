@@ -8,11 +8,11 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import { MdEmail } from "react-icons/md";
 import * as Yup from "yup";
 import { useAppDispatch } from "../../../hooks/useDispatch";
-import {
-  createUser,
-  getAllUsers,
-  loginUser,
-} from "../../../axios/auth/authOperations";
+import { createUser, getAllUsers } from "../../../axios/auth/authOperations";
+import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
+import { selectIsLoading } from "../../../axios/auth/authSelectors";
+import { Spinner } from "react-bootstrap";
 
 interface Values {
   email: string;
@@ -57,22 +57,36 @@ const validationSchema = Yup.object({
     .min(7, "Must have 7 numbers"),
 });
 
-export const SignUpForm = () => {
+type Prop = {
+  onClose: () => void;
+};
+
+export const SignUpForm = ({ onClose }: Prop) => {
   const dispatch = useAppDispatch();
 
+  const userIsLoading = useSelector(selectIsLoading);
+
   const checkValues = (values: Values) => {
-    if (values.email.length === 0) return;
-    if (values.username.length === 0) return;
-    if (values.password.length === 0) return;
-    if (values.firstName.length === 0) return;
-    if (values.lastName.length === 0) return;
-    if (values.city.length === 0) return;
-    if (values.street.length === 0) return;
-    if (values.number === 0) return;
-    if (values.zipCode.length === 0) return;
-    if (values.lat.length === 0) return;
-    if (values.long.length === 0) return;
-    if (values.phone.length === 0) return;
+    if (values.email.length === 0)
+      return toast.error("Email field is required!");
+    if (values.username.length === 0)
+      return toast.error("Username field is required!");
+    if (values.password.length === 0)
+      return toast.error("Password field is required!");
+    if (values.firstName.length === 0)
+      return toast.error("First name field is required!");
+    if (values.lastName.length === 0)
+      return toast.error("Last name field is required!");
+    if (values.city.length === 0) return toast.error("City field is required!");
+    if (values.street.length === 0)
+      return toast.error("Street field is required!");
+    if (values.number === 0) return toast.error("Number field is required!");
+    if (values.zipCode.length === 0)
+      return toast.error("Zip-code field is required!");
+    if (values.lat.length === 0) return toast.error("Lat field is required!");
+    if (values.long.length === 0) return toast.error("Long field is required!");
+    if (values.phone.length === 0)
+      return toast.error("Phone field is required!");
 
     dispatch(getAllUsers());
 
@@ -96,11 +110,10 @@ export const SignUpForm = () => {
       })
     );
 
-    dispatch(
-      loginUser({
-        username: values.username,
-        password: values.password,
-      })
+    onClose();
+
+    toast.success(
+      "Account created! Please sign in now! Your account will not be in the list of accounts!x"
     );
   };
 
@@ -380,7 +393,18 @@ export const SignUpForm = () => {
             ) : null}
 
             <div className="d-flex justify-content-center">
-              <button type="submit" className="border rounded btn btn-dark">
+              <button
+                type="submit"
+                className="border rounded btn btn-dark"
+                disabled={userIsLoading}
+              >
+                {userIsLoading ? (
+                  <>
+                    <Spinner animation="border" variant="light" />
+                  </>
+                ) : (
+                  <></>
+                )}
                 Submit
               </button>
             </div>

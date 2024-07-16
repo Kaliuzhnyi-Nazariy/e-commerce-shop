@@ -5,10 +5,14 @@ import { useAppDispatch } from "../../../hooks/useDispatch";
 import { extraLoginUser, loginUser } from "../../../axios/auth/authOperations";
 import { useSelector } from "react-redux";
 
-import { Dropdown, DropdownButton } from "react-bootstrap";
+import { Dropdown, DropdownButton, Spinner } from "react-bootstrap";
 import { useState } from "react";
 import { getUserCart } from "../../../axios/cart/cartOperations";
-import { selectAllUsers } from "../../../axios/auth/authSelectors";
+import {
+  selectAllUsers,
+  selectIsLoading,
+} from "../../../axios/auth/authSelectors";
+import toast from "react-hot-toast";
 
 type Prop = {
   onClose: () => void;
@@ -21,16 +25,20 @@ export const LoginForm = ({ onClose }: Prop) => {
   const [password, setPassword] = useState("");
 
   const users = useSelector(selectAllUsers);
+  const userLoading = useSelector(selectIsLoading);
 
   const checkValues = () => {
-    if (username.length === 0 || password.length === 0) return;
+    if (username.length === 0 || password.length === 0)
+      return toast.error("All fields are required!");
 
     dispatch(loginUser({ username, password }));
     dispatch(extraLoginUser({ username, password }));
 
     const user = users.find((user) => user.username === username);
     if (user) {
+      onClose();
       dispatch(getUserCart(user.id));
+      toast.success("You are logged in!");
     }
   };
 
@@ -64,7 +72,6 @@ export const LoginForm = ({ onClose }: Prop) => {
         }}
         onSubmit={() => {
           checkValues();
-          onClose();
         }}
         enableReinitialize={true}
       >
@@ -112,7 +119,16 @@ export const LoginForm = ({ onClose }: Prop) => {
             ) : null}
 
             <div className="d-flex justify-content-center">
-              <button type="submit" className="border rounded btn btn-dark">
+              <button
+                type="submit"
+                className="border rounded btn btn-dark"
+                disabled={userLoading}
+              >
+                {userLoading ? (
+                  <Spinner animation="border" variant="light" />
+                ) : (
+                  <></>
+                )}
                 Submit
               </button>
             </div>

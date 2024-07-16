@@ -158,6 +158,14 @@ export const CategoryButton = styled.button`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media screen and (min-width: 768px) {
+    width: 150px;
+  }
+
+  @media screen and (min-width: 1024px) {
+    width: 200px;
+  }
 `;
 
 export const CategoryName = styled.p`
