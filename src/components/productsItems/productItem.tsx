@@ -16,6 +16,7 @@ import {
 import {
   AddCartButton,
   BottomCardBlock,
+  CategoryStyled,
   DeleteUserProduct,
   DescriptionStyled,
   ImgStyled,
@@ -108,11 +109,11 @@ const ProductItem = ({ prop }: Prop) => {
 
       <DescriptionStyled>{prop.description}</DescriptionStyled>
 
-      <p style={{ gridArea: "c", alignSelf: "self-end", textAlign: "justify" }}>
-        {prop.category}
-      </p>
+      <CategoryStyled>{prop.category}</CategoryStyled>
 
-      <Price>Price: {prop.price}$</Price>
+      <Price>
+        <b>Price:</b> {prop.price}$
+      </Price>
 
       <BottomCardBlock>
         <SpanQuantity>

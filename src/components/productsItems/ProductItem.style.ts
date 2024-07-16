@@ -150,6 +150,18 @@ export const DescriptionStyled = styled.p`
   }
 `;
 
+export const CategoryStyled = styled.p`
+  color: gray;
+  text-transform: capitalize;
+  font-size: small;
+
+  @media screen and (min-width: 1024px) {
+    grid-area: c;
+    align-self: self-end;
+    text-align: justify;
+  }
+`;
+
 export const Price = styled.p`
   grid-area: v;
   text-align: justify;

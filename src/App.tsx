@@ -59,6 +59,7 @@ import {
   selectCategories,
   // selectCategoriesIsLoading,
 } from "./axios/categories/categoriesSelectors";
+import toast, { Toaster } from "react-hot-toast";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -69,9 +70,11 @@ function App() {
   const cartProducts = useSelector(selectCartProducts);
   const cardSelects = useSelector(selectProducts);
   // const categoriesLoading = useSelector(selectCategoriesIsLoading);
-
+  console.log(userIsLoggedIn);
   const [categoryPicked, setCategoryPeckied] = useState(null);
-
+  // if (userIsLoggedIn) {
+  //   toast.success("You are logged in!");
+  // }
   useEffect(() => {
     dispatch(getCategories());
     dispatch(getAllProducts());
@@ -107,11 +110,23 @@ function App() {
     dispatch({ type: "cleanCreatedByUser" });
     dispatch({ type: "cleanCartProducts" });
     dispatch({ type: "user/logOut" });
+    toast.success("We will wait for you!", {
+      style: {
+        border: "1px solid #074187",
+        padding: "16px",
+        color: "#074187",
+      },
+      iconTheme: {
+        primary: "#074187",
+        secondary: "#FFFAEE",
+      },
+    });
   };
 
   const handleCleanCart = () => {
     dispatch({ type: "cleanCartProducts" });
     dispatch({ type: "cleanProducts" });
+    toast.success("Cart cleaned!");
   };
 
   const sortedCartProducts = [...cartProducts].sort((a, b) => a.id - b.id);
@@ -254,6 +269,7 @@ function App() {
           </>
         )}
       </>
+      <Toaster position="top-right" reverseOrder={false} />
     </AppStyle>
   );
 }
